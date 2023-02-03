@@ -101,7 +101,7 @@
     <ClInclude Include="..\..\..\contrib\zlib\zutil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\zlib_first_include.h">
+    <ClInclude Include="..\..\..\include\zlib_with_tools\zlib_first_include.h">
       <Filter>Header Files\include</Filter>
     </ClInclude>
   </ItemGroup>

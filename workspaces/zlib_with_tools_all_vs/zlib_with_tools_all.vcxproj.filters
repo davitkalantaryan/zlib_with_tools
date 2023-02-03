@@ -16,6 +16,12 @@
     <Filter Include="files">
       <UniqueIdentifier>{17ea9714-5f10-4d93-8a59-67cbc8e01d4c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="files\scripts">
+      <UniqueIdentifier>{f18af43d-66d6-4c52-82a9-4f8573478ea3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="files\scripts\.cicd">
+      <UniqueIdentifier>{2679ed42-8b0d-4b80-8459-fbe1c86fadd2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\utils\entry_zlib_overall.cpp">
@@ -31,6 +37,12 @@
     </None>
     <None Include="..\..\README.md">
       <Filter>files</Filter>
+    </None>
+    <None Include="..\..\scripts\.cicd\windows_prepare_host.bat">
+      <Filter>files\scripts\.cicd</Filter>
+    </None>
+    <None Include="..\..\scripts\.cicd\windows_prepare_repository.bat">
+      <Filter>files\scripts\.cicd</Filter>
     </None>
   </ItemGroup>
 </Project>
