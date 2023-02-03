@@ -13,7 +13,7 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="repo_files">
+    <Filter Include="files">
       <UniqueIdentifier>{17ea9714-5f10-4d93-8a59-67cbc8e01d4c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -24,13 +24,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\.gitignore">
-      <Filter>repo_files</Filter>
+      <Filter>files</Filter>
     </None>
     <None Include="..\..\.gitattributes">
-      <Filter>repo_files</Filter>
+      <Filter>files</Filter>
     </None>
     <None Include="..\..\README.md">
-      <Filter>repo_files</Filter>
+      <Filter>files</Filter>
     </None>
   </ItemGroup>
 </Project>
