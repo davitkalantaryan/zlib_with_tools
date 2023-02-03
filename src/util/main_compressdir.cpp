@@ -73,10 +73,10 @@ int main(int a_argc, char * a_argv[])
 	}
 
 	if(aParser["-if"]){
-		ret = ZlibCompressFolder(aParser["-if"], fpOut, Z_DEFAULT_COMPRESSION,NULL);
+		ret = ZlibCompressFolder(aParser["-if"], fpOut, Z_DEFAULT_COMPRESSION,NULL,NULL);
 	}
 	else if(argc2){ 
-		ret = ZlibCompressFolder(argv2[0], fpOut, Z_DEFAULT_COMPRESSION,NULL);
+		ret = ZlibCompressFolder(argv2[0], fpOut, Z_DEFAULT_COMPRESSION,NULL,NULL);
 	}
 	else {
 		ret = CompressBasedOnConfig(aParser["-cf"], fpOut, Z_DEFAULT_COMPRESSION);

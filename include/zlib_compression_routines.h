@@ -40,7 +40,7 @@ typedef int (*typeCompressCallback)(const void*buffer,int bufLen,void*userData);
 #endif
 
 //typedef TypeIterFunc TypeFilter;  // 0 means skip
-typedef int(*TypeFilter)(const char* dir, const char* file_name, int isDir);  // 1 means skip
+typedef int(*TypeFilter)(void* a_userData, const char* dir, const char* file_name, int isDir);  // 1 means skip
 
 SFileItemList*	ZlibCreateListItemCompress(const char* a_cpcFileName,
 	uint16_t fileNameLen,int a_isDir, const char* a_fullPath);
@@ -61,7 +61,7 @@ int ZlibCompressFileRawEx(
 	int a_nFlushInTheEnd);
 int ZlibCompressFileRaw(FILE * a_source, FILE * a_dest, int a_nCompressionLeel);
 int ZlibCompressFolderEx(const SCompressList* a_list, uint16_t a_headerSize, uint16_t a_numberOfItems, FILE *a_dest, int a_level);
-int ZlibCompressFolder(const char* a_directoryPath, FILE *a_dest, int a_level, TypeFilter a_filter);
+int ZlibCompressFolder(const char* a_directoryPath, FILE *a_dest, int a_level, TypeFilter a_filter, void* a_userData);
 int ZlibCompressDiskRaw(const char* a_driveName, FILE * a_dest, int a_nCompressionLeel);
 
 
