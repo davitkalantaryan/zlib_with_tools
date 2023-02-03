@@ -19,5 +19,6 @@ git submodule update --init --recursive
 
 copy /Y prj\common\common_vs\zlib_srcs.vcxproj.filters prj\core\zlib_vs\zlib.vcxproj.filters
 copy /Y prj\common\common_vs\zlib_srcs.vcxproj.filters prj\core\zlib_st_vs\zlib_st.vcxproj.filters
+copy /Y prj\common\common_vs\zlib_srcs.vcxproj.filters prj\core\zlib_st_dl_vs\zlib_st_dl.vcxproj.filters
 
 endlocal
