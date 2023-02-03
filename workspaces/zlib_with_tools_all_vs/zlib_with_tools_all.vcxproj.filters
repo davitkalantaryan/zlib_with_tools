@@ -19,6 +19,12 @@
     <Filter Include="files\scripts">
       <UniqueIdentifier>{f18af43d-66d6-4c52-82a9-4f8573478ea3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="files\.github">
+      <UniqueIdentifier>{1c7fc06b-86ac-4fbc-a394-6cf0df8ed45b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="files\.github\workflows">
+      <UniqueIdentifier>{1af8a5f4-1011-4120-b883-c686963f7734}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\utils\entry_zlib_overall.cpp">
@@ -43,6 +49,9 @@
     </None>
     <None Include="..\..\scripts\windows_build_all.bat">
       <Filter>files\scripts</Filter>
+    </None>
+    <None Include="..\..\.github\workflows\check_merge_to_master.yml">
+      <Filter>files\.github\workflows</Filter>
     </None>
   </ItemGroup>
 </Project>

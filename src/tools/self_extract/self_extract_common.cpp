@@ -11,8 +11,8 @@
 #include <shellapi.h>
 #else
 #endif
-#include "zlib_compression_routines.h"
-#include "zlib_decompress_routines.h"
+#include "zlib_with_tools/zlib_compression_routines.h"
+#include "zlib_with_tools/zlib_decompress_routines.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>

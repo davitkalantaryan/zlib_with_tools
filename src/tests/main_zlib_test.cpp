@@ -5,8 +5,8 @@
 #pragma comment (lib,"zlib.lib")
 #endif
 
-#include "zlib_decompress_routines.h"
-#include "zlib_compression_routines.h"
+#include "zlib_with_tools/zlib_decompress_routines.h"
+#include "zlib_with_tools/zlib_compression_routines.h"
 
 #include <stdio.h>
 #include <string.h>

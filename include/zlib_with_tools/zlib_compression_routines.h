@@ -7,7 +7,7 @@
 #ifndef __zlib_compression_routines_h__
 #define __zlib_compression_routines_h__
 
-#include <zlib_compress_decompress_common.h>
+#include <zlib_with_tools/zlib_compress_decompress_common.h>
 
 #define		FIND_FILE_SIZE_LATER	-2018
 
