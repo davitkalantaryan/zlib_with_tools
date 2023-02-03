@@ -1,21 +1,14 @@
 
 
-#ifdef _MSC_VER
-#define ZLIB_DLL_EXPORT	__declspec(dllexport)
-#else
-#define ZLIB_DLL_EXPORT
-#endif
+#include <cinternal/internal_header.h>
 
 
+CPPUTILS_BEGIN_C
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
-ZLIB_DLL_EXPORT void DummyFunctionForZLib(void)
+CPPUTILS_DLL_PUBLIC void DummyFunctionForZLib(void)
 {
 }
 
-#ifdef __cplusplus
-}
-#endif
+
+CPPUTILS_END_C
