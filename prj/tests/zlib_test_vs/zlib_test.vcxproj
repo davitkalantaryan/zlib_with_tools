@@ -35,7 +35,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\contrib\directory_iterator\src\core\diriter\directory_iterator_cmn.c" />
     <ClCompile Include="..\..\..\contrib\directory_iterator\src\core\diriter\directory_iterator_win.c" />
     <ClCompile Include="..\..\..\contrib\qtutils\contrib\cpputils\src\core\cpputils_hashtbl.cpp" />
     <ClCompile Include="..\..\..\src\core\zlib_compression_routines.cpp" />
@@ -51,7 +50,7 @@
     <ClInclude Include="..\..\..\include\zlib_with_tools\qt_zlib_compression_routines.hpp" />
     <ClInclude Include="..\..\..\include\zlib_with_tools\qt_zlib_compress_decompress_common.hpp" />
     <ClInclude Include="..\..\..\include\zlib_with_tools\qt_zlib_decompress_routines.hpp" />
-    <ClInclude Include="..\..\..\include\zlib_with_tools\stdlib_zlibandtls.h" />
+    <ClInclude Include="..\..\..\include\zlib_with_tools\stdio_zlibandtls.h" />
     <ClInclude Include="..\..\..\include\zlib_with_tools\string_zlibandtls.h" />
     <ClInclude Include="..\..\..\include\zlib_with_tools\zlib_compression_routines.h" />
     <ClInclude Include="..\..\..\include\zlib_with_tools\zlib_compress_decompress_common.h" />

@@ -2,30 +2,18 @@
 // http://www.zlib.net/zlib_how.html
 
 
-#include <zlib_with_tools/stdlib_zlibandtls.h>
+#include <zlib_with_tools/stdio_zlibandtls.h>
 #include <zlib_with_tools/string_zlibandtls.h>
 #include <cpputils/hash/hash.hpp>
-#include "zlib_with_tools/zlib_decompress_routines.h"
-#include "zlib_with_tools/zlib_compression_routines.h"
-
-#include <stdio.h>
-#include <string.h>
+#include <zlib_with_tools/zlib_decompress_routines.h>
+#include <zlib_with_tools/zlib_compression_routines.h>
 #include <string>
 
-#if defined(MSDOS) || defined(OS2) || defined(_WIN32) || defined(__CYGWIN__)
-#include <conio.h>
-#include <WinSock2.h>
-#include <WS2tcpip.h>
-#include <Windows.h>
-#  define SET_BINARY_MODE(file) _setmode(_fileno(file), O_BINARY)
-#else
-#  define SET_BINARY_MODE(file)
-#endif
 
 #ifdef _MSC_VER
 #pragma comment (lib,"zlib.lib")
+#include <conio.h>
 #endif
-
 
 
 static int CompressBasedOnConfig(const char* a_configFileName, FILE *a_dest, int a_level);

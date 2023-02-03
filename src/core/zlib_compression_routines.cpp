@@ -6,8 +6,7 @@
 // http://www.zlib.net/zlib_how.html
 
 #include <zlib_with_tools/zlib_compression_routines.h>
-#include <zlib_with_tools/stdlib_zlibandtls.h>
-#include <directory_iterator/directory_iterator.h>
+#include <zlib_with_tools/stdio_zlibandtls.h>
 #include <zlib.h>
 #include <memory>
 #include <string.h>
@@ -15,7 +14,6 @@
 #include <stdint.h>
 #include <sys/stat.h>
 
-#define DIR_ITER_SKIP		-1
 
 CPPUTILS_BEGIN_C
 
@@ -94,7 +92,8 @@ ZLIBANDTLS_EXPORT int ZlibCompressFileRawEx(
 		ret = ZlibCompressBufferToFile(a_strm, flush,a_out,a_outBufferSize,a_dest);
 
 	} while (!isFileof);
-	if(a_nFlushInTheEnd){assert(ret == Z_STREAM_END);}        /* stream will be complete */
+	
+	CPPUTILS_DO_DEBUG_EXP(if(a_nFlushInTheEnd){assert(ret == Z_STREAM_END);})        /* stream will be complete */
 	
 	return Z_OK;
 }
@@ -142,8 +141,14 @@ ZLIBANDTLS_EXPORT int ZlibCompressFolderEx(const SCompressList* a_list, uint16_t
 	z_stream strm;
 	int nReturn = -1;
 	uint16_t unLenFromItem;
-	unsigned char in[DEF_CHUNK_SIZE];
-	unsigned char out[DEF_CHUNK_SIZE];
+	
+	unsigned char* in = (unsigned char*)malloc(DEF_CHUNK_SIZE);
+	if (!in) { return -1; }
+	::std::unique_ptr<unsigned char, decltype(&::free) > in_up(in, &::free);
+
+	unsigned char* out = (unsigned char*)malloc(DEF_CHUNK_SIZE);
+	if (!out) { return -1; }
+	::std::unique_ptr<unsigned char, decltype(&::free) > out_up(out, &::free);
 
 	/* allocate deflate state */
 	strm.zalloc = Z_NULL;
@@ -196,7 +201,7 @@ returnPoint:
 }
 
 
-static int FilterFuncDefault(void*,const char*, const char*, int) { return 0; }
+static int FilterFuncDefault(const char*, void*, const DirIterFileData*) { return 0; }
 
 
 int ZlibCompressFolder(const char* a_directoryPath, FILE *a_dest, int a_level, TypeFilter a_filter, void* a_userData)
@@ -229,11 +234,12 @@ int ZlibCompressFolder(const char* a_directoryPath, FILE *a_dest, int a_level, T
 
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////// */
-SFileItemList*	ZlibCreateListItemCompress(const char* a_cpcFileName,uint16_t a_strLen, int a_isDir, const char* a_fullPath)
+ZLIBANDTLS_EXPORT SFileItemList* ZlibCreateListItemCompress(
+	const char* a_cpcFileName,
+	uint16_t a_strLen, int a_isDir, const char* CPPUTILS_ARG_NONULL a_fullPath)
 {
-	SFileItemList * pItem=NULL;
+	SFileItemList * pItem=CPPUTILS_NULL;
 	struct stat fStat;
-	uint32_t fileSize;
 	uint16_t strLenPlus1= a_strLen+1,strLenPlus1Normalized;
 
 	pItem = (SFileItemList*)malloc(sizeof(SFileItemList));
@@ -241,7 +247,7 @@ SFileItemList*	ZlibCreateListItemCompress(const char* a_cpcFileName,uint16_t a_s
 	pItem->file = NULL;
 	pItem->next = NULL;
 	
-	strLenPlus1Normalized = ((strLenPlus1 %8)==0)?strLenPlus1 :(((strLenPlus1 /8)+1)*8);
+	strLenPlus1Normalized = ((strLenPlus1 / 8) + 1) * 8;
 	pItem->item = (SFileItem*)malloc(sizeof(SFileItem) + strLenPlus1Normalized);
 	if (!pItem->item) { free(pItem); return NULL; }
 
@@ -250,21 +256,22 @@ SFileItemList*	ZlibCreateListItemCompress(const char* a_cpcFileName,uint16_t a_s
 	memcpy(ITEM_NAME(pItem->item), a_cpcFileName, a_strLen);
 	*(ITEM_NAME(pItem->item)+ a_strLen)=0;
 
-	if (!a_isDir) {
-		fileSize = FIND_FILE_SIZE_LATER;
-		if(a_fullPath){
-			pItem->file = fopen_zlibandtls(a_fullPath, "rb");
-			if (!pItem->file) {  goto finishPoint; }
-			if (fstat(fileno_zlibandtls(pItem->file), &fStat)) { goto finishPoint; }
-			fileSize = (uint32_t)fStat.st_size;
-		}
+	if (a_isDir) {
+		pItem->item->fileSize = 0;
 	}
-	else { fileSize = 0; }
-
-finishPoint:
-	pItem->item->fileSize = fileSize;
+	else {
+		pItem->file = fopen_zlibandtls(a_fullPath, "rb");
+		if (!pItem->file) { goto errorPoint; }
+		if (fstat(fileno_zlibandtls(pItem->file), &fStat)) { goto errorPoint; }
+		pItem->item->fileSize = (uint32_t)fStat.st_size;
+	}
 
 	return pItem;
+
+errorPoint:
+	free(pItem->item);
+	free(pItem); 
+	return NULL;
 }
 
 
@@ -273,12 +280,11 @@ static int DirectoryIterator(const char* a_dir, void* a_pUd, const DirIterFileDa
 	const char* cpcFileName;
 	SUserDataForDirCompress* pUserData = (SUserDataForDirCompress*)a_pUd;
 	SFileItemList* pItem = NULL;
-	int nReturn = -1;
 	uint16_t strLen;
 	char vcStrFilePath[ZLIBANDTLS_MAX_PATH];
 
-	if ((*pUserData->funcFilter)(pUserData->userData, a_dir, a_pFileData->pFileName, a_pFileData->isDir)) {
-		return DIR_ITER_SKIP;
+	if ((*pUserData->funcFilter)(a_dir,pUserData->userData, a_pFileData)) {
+		return 0;
 	}
 
 	snprintf_zlibandtls(vcStrFilePath, ZLIBANDTLS_MAX_PATH, "%s\\%s", a_dir, a_pFileData->pFileName);
@@ -286,7 +292,7 @@ static int DirectoryIterator(const char* a_dir, void* a_pUd, const DirIterFileDa
 	strLen = (uint16_t)strlen(cpcFileName);
 
 	pItem=ZlibCreateListItemCompress(cpcFileName,strLen, a_pFileData->isDir,vcStrFilePath);
-	if(!pItem){nReturn= -ENOMEM;goto returnPoint;}
+	if(!pItem){return ENOMEM;}
 	pItem->item->folderNum = pUserData->lastFolderNum;
 
 	if(pUserData->list.last){ pUserData->list.last->next=pItem;}
@@ -297,15 +303,7 @@ static int DirectoryIterator(const char* a_dir, void* a_pUd, const DirIterFileDa
 	pUserData->headerSize += LEN_FROM_ITEM(pItem->item);
 	if(a_pFileData->isDir){++pUserData->lastFolderNum;}
 	
-	nReturn = 0;
-returnPoint:
-
-	if(nReturn<0){
-		if(pItem->file){fclose(pItem->file);}
-		if(pItem->item){free(pItem->item);}
-	}
-
-	return nReturn;
+	return 0;
 }
 
 

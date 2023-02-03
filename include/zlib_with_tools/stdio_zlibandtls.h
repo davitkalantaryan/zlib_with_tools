@@ -1,15 +1,15 @@
 //
-// file:			stdlib_zltls.h
-// path:			include/zlib_with_tools/stdlib_zltls.h
+// file:			stdio_zltls.h
+// path:			include/zlib_with_tools/stdio_zltls.h
 // created on:		2023 Feb 03
 // created by:		Davit Kalantaryan (davit.kalantaryan@desy.de)
 //
 
-#ifndef ZLIB_WITH_TOOLS_INCLUDE_ZLIB_WITH_TOOLS_STDLIB_ZLIBANDTLS_H
-#define ZLIB_WITH_TOOLS_INCLUDE_ZLIB_WITH_TOOLS_STDLIB_ZLIBANDTLS_H
+#ifndef ZLIB_WITH_TOOLS_INCLUDE_ZLIB_WITH_TOOLS_STDIO_ZLIBANDTLS_H
+#define ZLIB_WITH_TOOLS_INCLUDE_ZLIB_WITH_TOOLS_STDIO_ZLIBANDTLS_H
 
 #include <zlib_with_tools/export_symbols.h>
-#include <stdlib.h>
+#include <stdio.h>
 
 
 #ifdef _MSC_VER
@@ -35,4 +35,4 @@
 #endif
 
 
-#endif  // #ifndef ZLIB_WITH_TOOLS_INCLUDE_ZLIB_WITH_TOOLS_STDLIB_ZLIBANDTLS_H
+#endif  // #ifndef ZLIB_WITH_TOOLS_INCLUDE_ZLIB_WITH_TOOLS_STDIO_ZLIBANDTLS_H

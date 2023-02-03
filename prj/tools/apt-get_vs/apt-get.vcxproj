@@ -335,18 +335,10 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\util\create_process_windows.cpp" />
-    <ClCompile Include="..\..\..\src\util\main_apt-get.cpp" />
-    <ClCompile Include="..\..\..\src\util\zlib_compress_decompress_common.cpp" />
-    <ClCompile Include="..\..\..\src\util\zlib_decompress_routines.cpp" />
-    <ClCompile Include="..\..\..\src\util\zlib_decompress_routines_version1.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="..\..\..\conffiles\__install.steps" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\common\util\installer_common.h" />
-    <ClInclude Include="..\..\..\include\create_process_functionalities.h" />
+    <ClCompile Include="..\..\..\src\tools\main_apt-get.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

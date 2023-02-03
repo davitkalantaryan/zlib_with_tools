@@ -1,31 +1,24 @@
 
 // http://www.zlib.net/zlib_how.html
 
+
+#include <zlib_with_tools/zlib_compression_routines.h>
+#include <zlib_with_tools/stdio_zlibandtls.h>
+#include <zlib_with_tools/string_zlibandtls.h>
+#include <zlib_with_tools/common/util/common_argument_parser.hpp>
+#include <cpputils/hash/hash.hpp>
+#include <iostream>
+
 #ifdef _MSC_VER
 #pragma comment (lib,"zlib.lib")
-#endif
-
-#include "zlib_compression_routines.h"
-
-#include <iostream>
-#include <stdio.h>
-#include <string.h>
-#include <util/common_hashtbl.hpp>
-#include <util/common_argument_parser.hpp>
-
-#if defined(MSDOS) || defined(OS2) || defined(_WIN32) || defined(__CYGWIN__)
+#if defined(_WIN32) && !defined(_M_ARM)
 #include <conio.h>
-#include <Windows.h>
-#  define SET_BINARY_MODE(file) _setmode(_fileno(file), O_BINARY)
-#else
-#  define SET_BINARY_MODE(file)
+#endif
 #endif
 
-#if defined(_MSC_VER) & (_MSC_VER>1400)
-#pragma warning (disable:4996)
-#endif
 
-static void PrintHelp();
+
+static void PrintHelp(void);
 static int CompressBasedOnConfig(const char* a_configFileName, FILE *a_dest, int a_level);
 
 /* compress or decompress from stdin to stdout */
@@ -66,7 +59,7 @@ int main(int a_argc, char * a_argv[])
 		goto returnPoint;
 	}
 
-	fpOut = fopen(aParser["-of"], "wb");
+	fpOut = fopen_zlibandtls(aParser["-of"], "wb");
 	if (!fpOut) { 
 		fprintf(stderr, "Unable to open output file %s\n", aParser["-of"]);
 		goto returnPoint; 
@@ -99,7 +92,7 @@ returnPoint:
 }
 
 
-static void PrintHelp()
+static void PrintHelp(void)
 {
 }
 
@@ -150,15 +143,16 @@ static int PrepareListFromFile(SCompressList* a_list,uint16_t* a_pHeaderSize, ui
 	
 	char *pcFilePath, *pcTargetPath, *pcTemp, *pcFileName, *pcSubDirs, *pcNext;
 	SFileItemList* pItem;
-	FILE* fpFile = fopen(a_configFileName, "r");
-	common::HashTbl<bool> aHashDirs;
+	FILE* fpFile = fopen_zlibandtls(a_configFileName, "r");
+	//common::HashTbl<bool> aHashDirs;
+	::cpputils::hash::Set<::std::string> aHashDirs;
 	size_t unIndexOff;
 	size_t unFilePathLen, unTargetPathLen;
+	size_t unHash;
 	int nReturn = -1;
 	uint16_t fileNameLen;
 	char vcLine[scunLINE_LEN_MIN1 +1];
 	char vcOriginal;
-	bool bFindResult;
 
 	Init_SCompressList(a_list);
 	*a_pHeaderSize = 0;
@@ -191,7 +185,7 @@ static int PrepareListFromFile(SCompressList* a_list,uint16_t* a_pHeaderSize, ui
 				if(pcFileName){++pcFileName;}
 				else{pcFileName=pcFilePath;}
 			}
-			strcpy(&pcTargetPath[unTargetPathLen-1], pcFileName);
+			strcpy_zlibandtls(&pcTargetPath[unTargetPathLen-1], pcFileName);
 			unTargetPathLen = strlen(pcTargetPath);
 		}
 		else{
@@ -208,7 +202,7 @@ static int PrepareListFromFile(SCompressList* a_list,uint16_t* a_pHeaderSize, ui
 			//fileNameLen = (uint16_t)strlen(pcSubDirs);
 			//if(!aHashDirs.FindEntry(pcSubDirs,fileNameLen,&bFindResult)){
 			fileNameLen = (uint16_t)strlen(pcTargetPath);
-			if (!aHashDirs.FindEntry(pcTargetPath, fileNameLen, &bFindResult)) {
+			if (!aHashDirs.find(pcTargetPath,&unHash)) {
 				//pItem=ZlibCreateListItemCompress(pcSubDirs, fileNameLen,1,NULL);
 				pItem = ZlibCreateListItemCompress(pcTargetPath, fileNameLen, 1, NULL);
 				if(!pItem){goto returnPoint;}
@@ -216,7 +210,7 @@ static int PrepareListFromFile(SCompressList* a_list,uint16_t* a_pHeaderSize, ui
 				++(*a_numberOfItems);
 				if(a_list->last){a_list->last->next=pItem;a_list->last=pItem;}
 				else {a_list->first=a_list->last=pItem;}
-				aHashDirs.AddEntry(pcSubDirs, fileNameLen,true);
+				aHashDirs.AddEntryWithKnownHashMv(::std::string(pcSubDirs), unHash);
 			}
 			*pcTemp = vcOriginal;
 			

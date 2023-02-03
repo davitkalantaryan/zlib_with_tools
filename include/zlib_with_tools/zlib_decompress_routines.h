@@ -28,10 +28,12 @@ ZLIBANDTLS_EXPORT int ZlibDecompressBufferToCallback(
 	z_stream* a_strm,
 	void* a_out, int a_outBufferSize,
 	typeDecompressCallback a_clbk, void* a_userData);
+
 ZLIBANDTLS_EXPORT int ZlibDecompressBufferToFile(
 	z_stream* a_strm,
 	void* a_out, int a_outBufferSize,
 	FILE *a_dest);
+
 ZLIBANDTLS_EXPORT int ZlibDecompressFile(FILE *source, FILE *dest);
 ZLIBANDTLS_EXPORT int ZlibDecompressFolder(FILE *a_source, const char* a_outDirectoryPath);
 

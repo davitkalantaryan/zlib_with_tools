@@ -13,7 +13,7 @@
 
 //#include "stdafx.h"
 #ifdef __cplusplus
-#include "common_argument_parser.hpp"
+#include <zlib_with_tools/common/util/common_argument_parser.hpp>
 
 #if defined(_MSC_VER) & (_MSC_VER>1400)
 #pragma warning (disable:4996)

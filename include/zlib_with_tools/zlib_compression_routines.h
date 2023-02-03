@@ -9,8 +9,7 @@
 
 #include <zlib_with_tools/export_symbols.h>
 #include <zlib_with_tools/zlib_compress_decompress_common.h>
-
-#define		FIND_FILE_SIZE_LATER	-2018
+#include <directory_iterator/directory_iterator.h>
 
 
 CPPUTILS_BEGIN_C
@@ -31,12 +30,12 @@ typedef int (*typeCompressCallback)(const void*buffer,int bufLen,void*userData);
 #define typeCompressCallback_defined
 #endif
 
-//typedef TypeIterFunc TypeFilter;  // 0 means skip
-typedef int(*TypeFilter)(void* a_userData, const char* dir, const char* file_name, int isDir);  // 1 means skip
+typedef TypeDirIterFunc TypeFilter;  // return non 0 means skip
+//typedef int(*TypeFilter)(void* a_userData, const char* dir, const char* file_name, int isDir);  // 1 means skip
 
 ZLIBANDTLS_EXPORT SFileItemList*	ZlibCreateListItemCompress(
 	const char* a_cpcFileName,
-	uint16_t fileNameLen,int a_isDir, const char* a_fullPath);
+	uint16_t fileNameLen,int a_isDir, const char* CPPUTILS_ARG_NONULL a_fullPath);
 
 ZLIBANDTLS_EXPORT int ZlibCompressBufferToCallback(
 	z_stream* a_strm, int a_flush,

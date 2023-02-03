@@ -7,7 +7,7 @@
 // https://github.com/pbatard/rufus/blob/master/src/drive.c
 //
 
-#include <zlib_with_tools/stdlib_zlibandtls.h>
+#include <zlib_with_tools/stdio_zlibandtls.h>
 #include <zlib_with_tools/string_zlibandtls.h>
 #include <zlib_with_tools/zlib_decompress_routines.h>
 #include <zlib.h>
@@ -346,7 +346,18 @@ static int CallbackForDecompressToFile(const void*a_buffer, int a_bufLen, void*a
 }
 
 
-static int PrepareDirIfNeeded(char* a_cpcFilePath,int a_nIsDir);
+static inline int PrepareDirIfNeeded(const char* a_cpcFilePath)
+{
+	int nRetDir = -1;
+
+	nRetDir = _mkdir(a_cpcFilePath);
+	if (nRetDir < 0) {
+		if (errno == ENOENT) { return -3; }
+		else { nRetDir = 0; }
+	}
+
+	return nRetDir;
+}
 
 
 static int CallbackForDecompressToFolder(const void*a_buffer, int a_bufLen, void*a_userData)
@@ -416,15 +427,14 @@ static int CallbackForDecompressToFolder(const void*a_buffer, int a_bufLen, void
 
 	while (pUserData->current) {
 		if (pUserData->current->item->fileSize == 0) {  // this is a directory
-			snprintf_zlibandtls(vcDirectoryName, MAX_PATH, "%s\\%s", pUserData->dirName, ITEM_NAME(pUserData->current->item));
-			nRetDir=PrepareDirIfNeeded(vcDirectoryName,1);
+			snprintf_zlibandtls(vcDirectoryName, MAX_PATH, "%s/%s", pUserData->dirName, ITEM_NAME(pUserData->current->item));
+			nRetDir=PrepareDirIfNeeded(vcDirectoryName);
 			if ((nRetDir < 0) /*&& (errno == ENOENT)*/) { return -2; }
 
 		}
 		else if ((pUserData->readOnCurrentFile + a_bufLen) > pUserData->current->item->fileSize) {
 			if (!pUserData->currentFile) {
-				snprintf_zlibandtls(vcFileName, MAX_PATH, "%s\\%s", pUserData->dirName, ITEM_NAME(pUserData->current->item));
-				//PrepareDirIfNeeded(vcFileName, 0);
+				snprintf_zlibandtls(vcFileName, MAX_PATH, "%s/%s", pUserData->dirName, ITEM_NAME(pUserData->current->item));
 				pUserData->currentFile = fopen_zlibandtls(vcFileName, "wb");
 				if (!pUserData->currentFile) { return -3; }
 				pUserData->readOnCurrentFile = 0;
@@ -444,8 +454,7 @@ static int CallbackForDecompressToFolder(const void*a_buffer, int a_bufLen, void
 		}
 		else {
 			if (!pUserData->currentFile) {
-				snprintf_zlibandtls(vcFileName, MAX_PATH, "%s\\%s", pUserData->dirName, ITEM_NAME(pUserData->current->item));
-				//PrepareDirIfNeeded(vcFileName,0);
+				snprintf_zlibandtls(vcFileName, MAX_PATH, "%s/%s", pUserData->dirName, ITEM_NAME(pUserData->current->item));
 				pUserData->currentFile = fopen_zlibandtls(vcFileName, "wb");
 				if (!pUserData->currentFile) { return -3; }
 				pUserData->readOnCurrentFile = 0;
@@ -460,22 +469,6 @@ static int CallbackForDecompressToFolder(const void*a_buffer, int a_bufLen, void
 	}  // while(pUserData->current){
 
 	return 0;
-}
-
-
-static int PrepareDirIfNeeded(char* a_cpcFilePath,int a_nIsDir)
-{
-	int nRetDir = -1;
-
-	if (a_nIsDir) {
-		nRetDir=_mkdir(a_cpcFilePath);
-		if (nRetDir < 0) {
-			if (errno == ENOENT) { return -3; }
-			else { nRetDir = 0; }
-		}
-	}
-
-	return nRetDir;
 }
 
 

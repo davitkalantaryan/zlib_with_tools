@@ -15,8 +15,8 @@
 
 #define SIZE_OF_MAIN_HEADER			32  // B
 
-#define LAST_STRING_IN_THE_FILE		"End"
-#define LAST_STRING_IN_THE_FILE_LEN	4
+#define LAST_STRING_IN_THE_FILE		"EndEndE"
+#define LAST_STRING_IN_THE_FILE_LEN	8
 
 #define DEF_CHUNK_SIZE				16384
 
