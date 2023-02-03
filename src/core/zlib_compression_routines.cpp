@@ -6,15 +6,16 @@
 // http://www.zlib.net/zlib_how.html
 
 #include <zlib_with_tools/zlib_compression_routines.h>
+#include <zlib_with_tools/stdlib_zlibandtls.h>
+#include <directory_iterator/directory_iterator.h>
 #include <zlib.h>
 #include <memory>
-#include <stdio.h>
 #include <string.h>
 #include <assert.h>
 #include <stdint.h>
 #include <sys/stat.h>
 
-
+#define DIR_ITER_SKIP		-1
 
 CPPUTILS_BEGIN_C
 
@@ -29,7 +30,7 @@ typedef struct SUserDataForDirCompress{
 }SUserDataForDirCompress;
 
 static int CallbackForCompressToFile(const void*a_buffer, int a_bufLen, void*a_userData);
-static int DirectoryIterator(const char* a_dir, const FIND_DATAA* a_file_info, void* a_user, int a_isDir);
+static int DirectoryIterator(const char* a_sourceDirectory, void* a_pUd, const DirIterFileData* a_pData);
 
 
 ZLIBANDTLS_EXPORT int ZlibCompressBufferToCallback(
@@ -84,7 +85,7 @@ ZLIBANDTLS_EXPORT int ZlibCompressFileRawEx(
 
 	/* compress until end of file */
 	do {
-		a_strm->avail_in = fread(a_in, 1, a_inBufferSize, a_source);
+		a_strm->avail_in = (uInt)fread(a_in, 1, a_inBufferSize, a_source);
 		if (ferror(a_source)) {return Z_ERRNO;}
 		isFileof = feof(a_source);
 		flush = (a_nFlushInTheEnd&&isFileof) ? Z_FINISH : Z_NO_FLUSH;
@@ -203,21 +204,16 @@ int ZlibCompressFolder(const char* a_directoryPath, FILE *a_dest, int a_level, T
 	SFileItemList *pItem,*pItemNext;
 	SUserDataForDirCompress aData;
 	int nReturn;
-	int nSubDirs = 1;
 
 	memset(&aData, 0, sizeof(SUserDataForDirCompress));
 
 	aData.offsetToTakeRoot = (uint16_t)strlen(a_directoryPath)+1;
 	aData.funcFilter = a_filter ? a_filter : &FilterFuncDefault;
 	aData.userData = a_userData;
-	nReturn=IterateOverDirectoryFiles(a_directoryPath, &DirectoryIterator, &aData, &nSubDirs);
-
-	if(nReturn){goto returnPoint;}
+	IterateOverDirectoryFilesNoRecurse(a_directoryPath, &DirectoryIterator, &aData);
 
 	aData.headerSize += sizeof(SCompressDecompressHeader);
 	nReturn = ZlibCompressFolderEx(&aData.list, aData.headerSize, aData.numberOfItems, a_dest, a_level);
-
-returnPoint:
 
 	pItem = aData.list.first;
 	while(pItem){
@@ -257,9 +253,9 @@ SFileItemList*	ZlibCreateListItemCompress(const char* a_cpcFileName,uint16_t a_s
 	if (!a_isDir) {
 		fileSize = FIND_FILE_SIZE_LATER;
 		if(a_fullPath){
-			pItem->file = fopen(a_fullPath, "rb");
+			pItem->file = fopen_zlibandtls(a_fullPath, "rb");
 			if (!pItem->file) {  goto finishPoint; }
-			if (fstat(fileno(pItem->file), &fStat)) { goto finishPoint; }
+			if (fstat(fileno_zlibandtls(pItem->file), &fStat)) { goto finishPoint; }
 			fileSize = (uint32_t)fStat.st_size;
 		}
 	}
@@ -272,34 +268,34 @@ finishPoint:
 }
 
 
-static int DirectoryIterator(const char* a_dir, const FIND_DATAA* a_file_info, void* a_user, int a_isDir)
+static int DirectoryIterator(const char* a_dir, void* a_pUd, const DirIterFileData* a_pFileData)
 {
 	const char* cpcFileName;
-	SUserDataForDirCompress* pData = (SUserDataForDirCompress*)a_user;
+	SUserDataForDirCompress* pUserData = (SUserDataForDirCompress*)a_pUd;
 	SFileItemList* pItem = NULL;
 	int nReturn = -1;
 	uint16_t strLen;
-	char vcStrFilePath[MAX_PATH];
+	char vcStrFilePath[ZLIBANDTLS_MAX_PATH];
 
-	if ((*pData->funcFilter)(pData->userData, a_dir, a_file_info->cFileName, a_isDir)) {
+	if ((*pUserData->funcFilter)(pUserData->userData, a_dir, a_pFileData->pFileName, a_pFileData->isDir)) {
 		return DIR_ITER_SKIP;
 	}
 
-	_snprintf(vcStrFilePath,MAX_PATH, "%s\\%s", a_dir, a_file_info->cFileName);
-	cpcFileName = vcStrFilePath + pData->offsetToTakeRoot;
+	snprintf_zlibandtls(vcStrFilePath, ZLIBANDTLS_MAX_PATH, "%s\\%s", a_dir, a_pFileData->pFileName);
+	cpcFileName = vcStrFilePath + pUserData->offsetToTakeRoot;
 	strLen = (uint16_t)strlen(cpcFileName);
 
-	pItem=ZlibCreateListItemCompress(cpcFileName,strLen,a_isDir,vcStrFilePath);
+	pItem=ZlibCreateListItemCompress(cpcFileName,strLen, a_pFileData->isDir,vcStrFilePath);
 	if(!pItem){nReturn= -ENOMEM;goto returnPoint;}
-	pItem->item->folderNum = pData->lastFolderNum;
+	pItem->item->folderNum = pUserData->lastFolderNum;
 
-	if(pData->list.last){pData->list.last->next=pItem;}
-	else /*if(!pData->first)*/{ pData->list.first = pItem;}
-	pData->list.last = pItem;
+	if(pUserData->list.last){ pUserData->list.last->next=pItem;}
+	else /*if(!pData->first)*/{ pUserData->list.first = pItem;}
+	pUserData->list.last = pItem;
 
-	++pData->numberOfItems;
-	pData->headerSize += LEN_FROM_ITEM(pItem->item);
-	if(a_isDir){++pData->lastFolderNum;}
+	++pUserData->numberOfItems;
+	pUserData->headerSize += LEN_FROM_ITEM(pItem->item);
+	if(a_pFileData->isDir){++pUserData->lastFolderNum;}
 	
 	nReturn = 0;
 returnPoint:
