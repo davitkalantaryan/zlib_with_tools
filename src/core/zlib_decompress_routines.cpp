@@ -90,7 +90,7 @@ ZLIBANDTLS_EXPORT int ZlibDecompressFileToCallback(
 
 	/* decompress until deflate stream ends or end of file */
 	do {
-		a_strm->avail_in = fread(a_in, 1, a_inBufferSize, a_source);
+		a_strm->avail_in = (uInt)fread(a_in, 1, a_inBufferSize, a_source);
 		if (ferror(a_source)) {return Z_ERRNO; }
 		if (a_strm->avail_in == 0){break;}
 		a_strm->next_in = (Bytef*)a_in;
@@ -135,7 +135,7 @@ ZLIBANDTLS_EXPORT int ZlibDecompressFile(FILE *a_source, FILE *a_dest)
 
 	unsigned char*  out = (unsigned char*)malloc(DEF_CHUNK_SIZE);
 	if (!out) { return -1; }
-	::std::unique_ptr<unsigned char, decltype(&::free) > in_up(out, &::free);
+	::std::unique_ptr<unsigned char, decltype(&::free) > out_up(out, &::free);
 
 	/* allocate inflate state */
 	strm.zalloc = Z_NULL;
@@ -150,7 +150,7 @@ ZLIBANDTLS_EXPORT int ZlibDecompressFile(FILE *a_source, FILE *a_dest)
 	/* decompress until deflate stream ends or end of file */
 	do {
 
-		strm.avail_in = fread(in, 1, DEF_CHUNK_SIZE, a_source);
+		strm.avail_in = (uInt)fread(in, 1, DEF_CHUNK_SIZE, a_source);
 		if (ferror(a_source)) {
 			(void)inflateEnd(&strm);
 			return Z_ERRNO;
@@ -194,7 +194,7 @@ returnPoint:
 }
 
 
-int ZlibDecompressFolder(FILE *a_source, const char* a_outDirectoryPath)
+ZLIBANDTLS_EXPORT int ZlibDecompressFolder(FILE *a_source, const char* a_outDirectoryPath)
 {
 	SFileItemList *pItem,*pItemNext;
 	SUserDataForClbk aData;
@@ -208,7 +208,7 @@ int ZlibDecompressFolder(FILE *a_source, const char* a_outDirectoryPath)
 
 	unsigned char* out = (unsigned char*)malloc(DEF_CHUNK_SIZE);
 	if (!out) { return -1; }
-	::std::unique_ptr<unsigned char, decltype(&::free) > in_up(out, &::free);
+	::std::unique_ptr<unsigned char, decltype(&::free) > out_up(out, &::free);
 
 	memset(&aData, 0, sizeof(SUserDataForClbk));
 	aData.dirName = a_outDirectoryPath;
@@ -246,7 +246,7 @@ returnPoint:
 
 #ifdef ZLIB_DECOMPRESS_FROM_WEB
 
-int ZlibDecompressWebToCallback(
+ZLIBANDTLS_EXPORT int ZlibDecompressWebToCallback(
 	z_stream* a_strm,
 	HINTERNET a_source,
 	void* a_in, int a_inBufferSize,
@@ -273,7 +273,7 @@ int ZlibDecompressWebToCallback(
 }
 
 
-int ZlibDecompressFromWeb(const char *a_cpcUrl, const char* a_outDirectoryPath)
+ZLIBANDTLS_EXPORT int ZlibDecompressFromWeb(const char *a_cpcUrl, const char* a_outDirectoryPath)
 {
 	HINTERNET	hSession = NULL, hURL = NULL;
 	SFileItemList *pItem,*pItemNext;
@@ -416,16 +416,16 @@ static int CallbackForDecompressToFolder(const void*a_buffer, int a_bufLen, void
 
 	while (pUserData->current) {
 		if (pUserData->current->item->fileSize == 0) {  // this is a directory
-			_snprintf(vcDirectoryName, MAX_PATH, "%s\\%s", pUserData->dirName, ITEM_NAME(pUserData->current->item));
+			snprintf_zlibandtls(vcDirectoryName, MAX_PATH, "%s\\%s", pUserData->dirName, ITEM_NAME(pUserData->current->item));
 			nRetDir=PrepareDirIfNeeded(vcDirectoryName,1);
 			if ((nRetDir < 0) /*&& (errno == ENOENT)*/) { return -2; }
 
 		}
 		else if ((pUserData->readOnCurrentFile + a_bufLen) > pUserData->current->item->fileSize) {
 			if (!pUserData->currentFile) {
-				_snprintf(vcFileName, MAX_PATH, "%s\\%s", pUserData->dirName, ITEM_NAME(pUserData->current->item));
+				snprintf_zlibandtls(vcFileName, MAX_PATH, "%s\\%s", pUserData->dirName, ITEM_NAME(pUserData->current->item));
 				//PrepareDirIfNeeded(vcFileName, 0);
-				pUserData->currentFile = fopen(vcFileName, "wb");
+				pUserData->currentFile = fopen_zlibandtls(vcFileName, "wb");
 				if (!pUserData->currentFile) { return -3; }
 				pUserData->readOnCurrentFile = 0;
 			}
@@ -444,9 +444,9 @@ static int CallbackForDecompressToFolder(const void*a_buffer, int a_bufLen, void
 		}
 		else {
 			if (!pUserData->currentFile) {
-				_snprintf(vcFileName, MAX_PATH, "%s\\%s", pUserData->dirName, ITEM_NAME(pUserData->current->item));
+				snprintf_zlibandtls(vcFileName, MAX_PATH, "%s\\%s", pUserData->dirName, ITEM_NAME(pUserData->current->item));
 				//PrepareDirIfNeeded(vcFileName,0);
-				pUserData->currentFile = fopen(vcFileName, "wb");
+				pUserData->currentFile = fopen_zlibandtls(vcFileName, "wb");
 				if (!pUserData->currentFile) { return -3; }
 				pUserData->readOnCurrentFile = 0;
 			}

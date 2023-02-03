@@ -5,38 +5,20 @@
 
 // http://www.zlib.net/zlib_how.html
 
+#include <zlib_with_tools/zlib_compression_routines.h>
+#include <zlib.h>
+#include <memory>
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
-#include "zlib.h"
-#include "common/util/directory_iterator.h"
 #include <stdint.h>
 #include <sys/stat.h>
-#include "zlib_compression_routines.h"
-
-#if defined(MSDOS) || defined(OS2) || defined(_WIN32) || defined(__CYGWIN__)
-#  include <fcntl.h>
-#  include <io.h>
-#include <Windows.h>
-#  define SET_BINARY_MODE(file) _setmode(_fileno(file), O_BINARY)
-#else
-#  define SET_BINARY_MODE(file)
-#endif
-
-#if defined(_MSC_VER) & (_MSC_VER>1400)
-#pragma warning (disable:4996)
-#ifdef _WIN64
-#pragma warning (disable:4267)  // '=': conversion from 'size_t' to 'uInt', possible loss of data
-#endif
-#endif
 
 
-#ifdef __cplusplus
-extern "C"{
-#endif
 
-typedef struct SUserDataForDirCompress
-{
+CPPUTILS_BEGIN_C
+
+typedef struct SUserDataForDirCompress{
 	TypeFilter		funcFilter;
 	void*			userData;
 	SCompressList	list;
@@ -50,7 +32,7 @@ static int CallbackForCompressToFile(const void*a_buffer, int a_bufLen, void*a_u
 static int DirectoryIterator(const char* a_dir, const FIND_DATAA* a_file_info, void* a_user, int a_isDir);
 
 
-int ZlibCompressBufferToCallback(
+ZLIBANDTLS_EXPORT int ZlibCompressBufferToCallback(
 	z_stream* a_strm, int a_flush,
 	void* a_out, int a_outBufferSize,
 	typeCompressCallback a_clbk,void* a_userData)
@@ -76,7 +58,7 @@ int ZlibCompressBufferToCallback(
 }
 
 
-int ZlibCompressBufferToFile(
+ZLIBANDTLS_EXPORT int ZlibCompressBufferToFile(
 	z_stream* a_strm, int a_flush,
 	void* a_out, int a_outBufferSize,
 	FILE *a_dest)
@@ -91,7 +73,7 @@ allocated for processing, Z_STREAM_ERROR if an invalid compression
 level is supplied, Z_VERSION_ERROR if the version of zlib.h and the
 version of the library linked do not match, or Z_ERRNO if there is
 an error reading or writing the files. */
-int ZlibCompressFileRawEx(
+ZLIBANDTLS_EXPORT int ZlibCompressFileRawEx(
 	z_stream* a_strm,
 	FILE * a_source, FILE * a_dest,
 	void* a_in, int a_inBufferSize,
@@ -124,12 +106,18 @@ allocated for processing, Z_STREAM_ERROR if an invalid compression
 level is supplied, Z_VERSION_ERROR if the version of zlib.h and the
 version of the library linked do not match, or Z_ERRNO if there is
 an error reading or writing the files. */
-int ZlibCompressFileRaw(FILE * a_source, FILE * a_dest,int a_nCompressionLeel)
+ZLIBANDTLS_EXPORT int ZlibCompressFileRaw(FILE * a_source, FILE * a_dest,int a_nCompressionLeel)
 {
 	z_stream strm;
 	int nReturn =Z_OK;
-	unsigned char in[DEF_CHUNK_SIZE];
-	unsigned char out[DEF_CHUNK_SIZE];
+	
+	unsigned char* in = (unsigned char*)malloc(DEF_CHUNK_SIZE);
+	if (!in) { return -1; }
+	::std::unique_ptr<unsigned char, decltype(&::free) > in_up(in, &::free);
+
+	unsigned char* out = (unsigned char*)malloc(DEF_CHUNK_SIZE);
+	if (!out) { return -1; }
+	::std::unique_ptr<unsigned char, decltype(&::free) > out_up(out, &::free);
 
 	/* allocate deflate state */
 	strm.zalloc = Z_NULL;
@@ -145,7 +133,7 @@ int ZlibCompressFileRaw(FILE * a_source, FILE * a_dest,int a_nCompressionLeel)
 }
 
 
-int ZlibCompressFolderEx(const SCompressList* a_list, uint16_t a_headerSize, uint16_t a_numberOfItems, FILE *a_dest, int a_level)
+ZLIBANDTLS_EXPORT int ZlibCompressFolderEx(const SCompressList* a_list, uint16_t a_headerSize, uint16_t a_numberOfItems, FILE *a_dest, int a_level)
 {
 	uint8_t *pCurrent2;
 	SCompressDecompressHeader *pHeader2 = NULL;
@@ -337,7 +325,4 @@ static int CallbackForCompressToFile(const void*a_buffer, int a_bufLen, void*a_u
 }
 
 
-#ifdef __cplusplus
-}
-#endif
-
+CPPUTILS_END_C

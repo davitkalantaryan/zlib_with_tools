@@ -2,16 +2,14 @@
 // zlib_compress_decompress_common.cpp
 // 2018 Feb 12
 
-#include "zlib_compress_decompress_common.h"
+#include <zlib_with_tools/zlib_compress_decompress_common.h>
 #include <stdlib.h>
 #include <search.h>
 #include <memory.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+CPPUTILS_BEGIN_C
 
-SCompressDecompressHeader* ZlibCreateCompressDecompressHeader(uint32_t a_headerSize, uint32_t a_typeOfCompressedContent,uint32_t a_numberOfItems)
+ZLIBANDTLS_EXPORT SCompressDecompressHeader* ZlibCreateCompressDecompressHeader(uint32_t a_headerSize, uint32_t a_typeOfCompressedContent,uint32_t a_numberOfItems)
 {
 	SCompressDecompressHeader* pCompressDecompressHeader = (SCompressDecompressHeader*)malloc(a_headerSize);
 	if (!pCompressDecompressHeader) { return pCompressDecompressHeader; }
@@ -23,7 +21,7 @@ SCompressDecompressHeader* ZlibCreateCompressDecompressHeader(uint32_t a_headerS
 }
 
 
-SCompressDecompressHeader* ZlibCreateAndCopyComprDecomprHeader(const SCompressDecompressHeader* a_orgin, int a_nAll)
+ZLIBANDTLS_EXPORT SCompressDecompressHeader* ZlibCreateAndCopyComprDecomprHeader(const SCompressDecompressHeader* a_orgin, int a_nAll)
 {
 	SCompressDecompressHeader* pCompressDecompressHeader = (SCompressDecompressHeader*)malloc(a_orgin->wholeHeaderSizeInBytes);
 	size_t unSize = a_nAll ? a_orgin->wholeHeaderSizeInBytes : sizeof(SCompressDecompressHeader);
@@ -34,12 +32,10 @@ SCompressDecompressHeader* ZlibCreateAndCopyComprDecomprHeader(const SCompressDe
 }
 
 
-void DestroyCompressDecompressHeader(SCompressDecompressHeader* a_header)
+ZLIBANDTLS_EXPORT void DestroyCompressDecompressHeader(SCompressDecompressHeader* a_header)
 {
 	free(a_header);
 }
 
 
-#ifdef __cplusplus
-}
-#endif
+CPPUTILS_END_C

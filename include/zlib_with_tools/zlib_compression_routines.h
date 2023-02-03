@@ -4,27 +4,19 @@
 // to include ->  #include "zlib_compression_routines.h"
 // 2018 Feb 12
 
-#ifndef __zlib_compression_routines_h__
-#define __zlib_compression_routines_h__
+#ifndef ZLIB_WITH_TOOLS_INCLUDE_ZLIB_WITH_TOOLS_ZLIB_COMPRESSION_ROUTINES_H
+#define ZLIB_WITH_TOOLS_INCLUDE_ZLIB_WITH_TOOLS_ZLIB_COMPRESSION_ROUTINES_H
 
+#include <zlib_with_tools/export_symbols.h>
 #include <zlib_with_tools/zlib_compress_decompress_common.h>
 
 #define		FIND_FILE_SIZE_LATER	-2018
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+CPPUTILS_BEGIN_C
 
-#ifdef _WIN32
-#include <WinSock2.h>
-#include <WS2tcpip.h>
-#include <Windows.h>
-#else
-#endif
 
-typedef struct SFileItemList
-{
+typedef struct SFileItemList{
 	SFileItem*		item;
 	SFileItemList*	next;
 	FILE*			file;
@@ -42,33 +34,35 @@ typedef int (*typeCompressCallback)(const void*buffer,int bufLen,void*userData);
 //typedef TypeIterFunc TypeFilter;  // 0 means skip
 typedef int(*TypeFilter)(void* a_userData, const char* dir, const char* file_name, int isDir);  // 1 means skip
 
-SFileItemList*	ZlibCreateListItemCompress(const char* a_cpcFileName,
+ZLIBANDTLS_EXPORT SFileItemList*	ZlibCreateListItemCompress(
+	const char* a_cpcFileName,
 	uint16_t fileNameLen,int a_isDir, const char* a_fullPath);
 
-int ZlibCompressBufferToCallback(
+ZLIBANDTLS_EXPORT int ZlibCompressBufferToCallback(
 	z_stream* a_strm, int a_flush,
 	void* a_out, int a_outBufferSize,
 	typeCompressCallback a_clbk, void* a_userData);
-int ZlibCompressBufferToFile(
+
+ZLIBANDTLS_EXPORT int ZlibCompressBufferToFile(
 	z_stream* a_strm, int a_flush,
 	void* a_out, int a_outBufferSize,
 	FILE *a_dest);
-int ZlibCompressFileRawEx(
+
+ZLIBANDTLS_EXPORT int ZlibCompressFileRawEx(
 	z_stream* a_strm,
 	FILE * a_source, FILE * a_dest,
 	void* a_in, int a_inBufferSize,
 	void* a_out, int a_outBufferSize,
 	int a_nFlushInTheEnd);
-int ZlibCompressFileRaw(FILE * a_source, FILE * a_dest, int a_nCompressionLeel);
-int ZlibCompressFolderEx(const SCompressList* a_list, uint16_t a_headerSize, uint16_t a_numberOfItems, FILE *a_dest, int a_level);
-int ZlibCompressFolder(const char* a_directoryPath, FILE *a_dest, int a_level, TypeFilter a_filter, void* a_userData);
-int ZlibCompressDiskRaw(const char* a_driveName, FILE * a_dest, int a_nCompressionLeel);
+
+ZLIBANDTLS_EXPORT int ZlibCompressFileRaw(FILE * a_source, FILE * a_dest, int a_nCompressionLeel);
+ZLIBANDTLS_EXPORT int ZlibCompressFolderEx(const SCompressList* a_list, uint16_t a_headerSize, uint16_t a_numberOfItems, FILE *a_dest, int a_level);
+ZLIBANDTLS_EXPORT int ZlibCompressFolder(const char* a_directoryPath, FILE *a_dest, int a_level, TypeFilter a_filter, void* a_userData);
+ZLIBANDTLS_EXPORT int ZlibCompressDiskRaw(const char* a_driveName, FILE * a_dest, int a_nCompressionLeel);
 
 
-#ifdef __cplusplus
-}
-#endif
+CPPUTILS_END_C
 
 
 
-#endif  // #ifndef __zlib_compression_routines_h__
+#endif  // #ifndef ZLIB_WITH_TOOLS_INCLUDE_ZLIB_WITH_TOOLS_ZLIB_COMPRESSION_ROUTINES_H

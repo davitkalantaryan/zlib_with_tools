@@ -36,6 +36,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\contrib\qtutils\contrib\cpputils\src\core\cpputils_hashtbl.cpp" />
+    <ClCompile Include="..\..\..\src\core\zlib_compression_routines.cpp" />
+    <ClCompile Include="..\..\..\src\core\zlib_compress_decompress_common.cpp" />
     <ClCompile Include="..\..\..\src\core\zlib_decompress_routines.cpp" />
     <ClCompile Include="..\..\..\src\tests\main_zlib_test.cpp" />
   </ItemGroup>

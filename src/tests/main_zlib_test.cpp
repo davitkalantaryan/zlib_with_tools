@@ -22,6 +22,10 @@
 #  define SET_BINARY_MODE(file)
 #endif
 
+#ifdef _MSC_VER
+#pragma comment (lib,"zlib.lib")
+#endif
+
 
 
 static int CompressBasedOnConfig(const char* a_configFileName, FILE *a_dest, int a_level);
