@@ -34,6 +34,24 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\tests\main_zlib_test.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\common\util\common_argument_parser.hpp" />
+    <ClInclude Include="..\..\..\include\zlib_with_tools\common\util\common_argument_parser.impl.hpp" />
+    <ClInclude Include="..\..\..\include\zlib_with_tools\common\util\installer_common.h" />
+    <ClInclude Include="..\..\..\include\zlib_with_tools\export_symbols.h" />
+    <ClInclude Include="..\..\..\include\zlib_with_tools\qt_zlib_compression_routines.hpp" />
+    <ClInclude Include="..\..\..\include\zlib_with_tools\qt_zlib_compress_decompress_common.hpp" />
+    <ClInclude Include="..\..\..\include\zlib_with_tools\qt_zlib_decompress_routines.hpp" />
+    <ClInclude Include="..\..\..\include\zlib_with_tools\stdlib_zlibandtls.h" />
+    <ClInclude Include="..\..\..\include\zlib_with_tools\string_zlibandtls.h" />
+    <ClInclude Include="..\..\..\include\zlib_with_tools\zlib_compression_routines.h" />
+    <ClInclude Include="..\..\..\include\zlib_with_tools\zlib_compress_decompress_common.h" />
+    <ClInclude Include="..\..\..\include\zlib_with_tools\zlib_decompress_routines.h" />
+    <ClInclude Include="..\..\..\include\zlib_with_tools\zlib_first_include.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{686D2D4B-1062-4E5B-9A94-EE44A9EC7D67}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -169,7 +187,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\common;..\..\..\contrib\zlib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -188,7 +206,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\common;..\..\..\contrib\zlib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -207,7 +225,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\common;..\..\..\contrib\zlib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -226,7 +244,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\common;..\..\..\contrib\zlib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -247,7 +265,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\common;..\..\..\contrib\zlib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -270,7 +288,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\common;..\..\..\contrib\zlib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -293,7 +311,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\common;..\..\..\contrib\zlib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -316,7 +334,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\common;..\..\..\contrib\zlib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -330,31 +348,6 @@
       <Command />
     </PreBuildEvent>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\src\tests\main_zlib_test.cpp" />
-    <ClCompile Include="..\..\..\src\util\directory_iterator_win.cpp" />
-    <ClCompile Include="..\..\..\src\util\zlib_compression_routines.cpp" />
-    <ClCompile Include="..\..\..\src\util\zlib_compress_decompress_common.cpp" />
-    <ClCompile Include="..\..\..\src\util\zlib_decompress_routines.cpp" />
-    <ClCompile Include="..\..\..\src\util\zlib_decompress_routines_version1.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\include\common\util\common_hashtbl.hpp" />
-    <ClInclude Include="..\..\..\include\common\util\common_hashtbl.impl.hpp" />
-    <ClInclude Include="..\..\..\include\common\util\directory_iterator.h" />
-    <ClInclude Include="..\..\..\include\zlib_compression_routines.h" />
-    <ClInclude Include="..\..\..\include\zlib_compress_decompress_common.h" />
-    <ClInclude Include="..\..\..\include\zlib_decompress_routines.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

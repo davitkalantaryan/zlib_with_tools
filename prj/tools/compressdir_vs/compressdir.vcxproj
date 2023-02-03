@@ -323,18 +323,8 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\src\tools\main_compressdir.cpp" />
     <ClCompile Include="..\..\..\src\utils\common_argument_parser.cpp" />
-    <ClCompile Include="..\..\..\src\util\directory_iterator_win.cpp" />
-    <ClCompile Include="..\..\..\src\util\main_compressdir.cpp" />
-    <ClCompile Include="..\..\..\src\util\zlib_compression_routines.cpp" />
-    <ClCompile Include="..\..\..\src\util\zlib_compress_decompress_common.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\include\common\util\common_argument_parser.hpp" />
-    <ClInclude Include="..\..\..\include\common\util\common_argument_parser.impl.hpp" />
-    <ClInclude Include="..\..\..\include\common\util\common_hashtbl.hpp" />
-    <ClInclude Include="..\..\..\include\common\util\common_hashtbl.impl.hpp" />
-    <ClInclude Include="..\..\..\include\common\util\directory_iterator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\conffiles\udoocs_arm.zcdc" />
