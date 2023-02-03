@@ -90,3 +90,6 @@ prj/tests/googletest_mult/Makefile.googletest_getter
 /package/config/*.png
 /package/config/*.ico
 /package/config/*.icns
+
+/prj/core/zlib_st_vs/zlib_st.vcxproj.filters
+/prj/core/zlib_vs/zlib.vcxproj.filters
