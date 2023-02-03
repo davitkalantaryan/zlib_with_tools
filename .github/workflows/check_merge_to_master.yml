@@ -66,12 +66,9 @@ jobs:
             - name: Setup developer command prompt
               uses: ilammy/msvc-dev-cmd@v1
 
-            - name: Compiling library
-              run: cmd /C msbuild_all.bat  "arm,arm64,x64,x86"  "debug,release"  build
-              #working-directory: core
-
             - name: Developer host preparation
               run: cmd /C .\scripts\windows_prepare_host.bat
+              #working-directory: core
 
             - name: Repository preparation
               run: cmd /C .\scripts\windows_prepare_repository.bat
