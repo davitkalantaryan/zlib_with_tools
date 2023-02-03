@@ -7,48 +7,31 @@
 // https://github.com/pbatard/rufus/blob/master/src/drive.c
 //
 
-#include <stdio.h>
-#include <string.h>
+#include <zlib_with_tools/stdlib_zlibandtls.h>
+#include <zlib_with_tools/string_zlibandtls.h>
+#include <zlib_with_tools/zlib_decompress_routines.h>
+#include <zlib.h>
+#include <memory>
 #include <assert.h>
-#include "zlib.h"
-#include "common/util/directory_iterator.h"
 #include <stdint.h>
 #include <sys/stat.h>
-#include "zlib_decompress_routines.h"
 #include <direct.h>
+#include <stdlib.h>
 
-#if defined(MSDOS) || defined(OS2) || defined(_WIN32) || defined(__CYGWIN__)
-#  include <fcntl.h>
-#  include <io.h>
-#include <WinSock2.h>
-#include <WS2tcpip.h>
-#include <Windows.h>
-#include <WinInet.h>
-#  define SET_BINARY_MODE(file) _setmode(_fileno(file), O_BINARY)
-#else
-#  define SET_BINARY_MODE(file)
-#endif
 
 #define		END_OF_FILE		2018
-#if defined(_MSC_VER) & (_MSC_VER>1400)
-#pragma warning (disable:4996)
-#ifdef _WIN64
-#pragma warning (disable:4267)  // '=': conversion from 'size_t' to 'uInt', possible loss of data
-#endif
-#endif
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
-typedef struct SFileItemList
-{
+CPPUTILS_BEGIN_C
+
+
+typedef struct SFileItemList{
 	SFileItem*		item;
 	SFileItemList*	next;
 }SFileItemList;
 
-typedef struct SUserDataForClbk
-{
+
+typedef struct SUserDataForClbk{
 	SCompressDecompressHeader	headerBase;
 	SCompressDecompressHeader*	headerPtr;
 	FILE*						currentFile;
@@ -63,7 +46,7 @@ static int CallbackForDecompressToFile(const void*a_buffer, int a_bufLen, void*a
 static int CallbackForDecompressToFolder(const void*a_buffer, int a_bufLen, void*a_userData);
 
 
-int ZlibDecompressBufferToCallback(
+ZLIBANDTLS_EXPORT int ZlibDecompressBufferToCallback(
 	z_stream* a_strm,
 	void* a_out, int a_outBufferSize,
 	typeDecompressCallback a_clbk,void* a_userData)
@@ -96,7 +79,7 @@ int ZlibDecompressBufferToCallback(
 }
 
 
-int ZlibDecompressFileToCallback(
+ZLIBANDTLS_EXPORT int ZlibDecompressFileToCallback(
 	z_stream* a_strm,
 	FILE* a_source,
 	void* a_in, int a_inBufferSize,
@@ -122,7 +105,7 @@ int ZlibDecompressFileToCallback(
 }
 
 
-int ZlibDecompressBufferToFile(
+ZLIBANDTLS_EXPORT int ZlibDecompressBufferToFile(
 	z_stream* a_strm,
 	void* a_out, int a_outBufferSize,
 	FILE *a_dest)
@@ -139,14 +122,20 @@ allocated for processing, Z_DATA_ERROR if the deflate data is
 invalid or incomplete, Z_VERSION_ERROR if the version of zlib.h and
 the version of the library linked do not match, or Z_ERRNO if there
 is an error reading or writing the files. */
-int ZlibDecompressFile(FILE *a_source, FILE *a_dest)
+ZLIBANDTLS_EXPORT int ZlibDecompressFile(FILE *a_source, FILE *a_dest)
 {
 	int ret;
 	int nZstrInited = 0;
 	unsigned have;
 	z_stream strm;
-	unsigned char in[DEF_CHUNK_SIZE];
-	unsigned char out[DEF_CHUNK_SIZE];
+	
+	unsigned char* in = (unsigned char*)malloc(DEF_CHUNK_SIZE);
+	if (!in) { return -1; }
+	::std::unique_ptr<unsigned char, decltype(&::free) > in_up(in,&::free);
+
+	unsigned char*  out = (unsigned char*)malloc(DEF_CHUNK_SIZE);
+	if (!out) { return -1; }
+	::std::unique_ptr<unsigned char, decltype(&::free) > in_up(out, &::free);
 
 	/* allocate inflate state */
 	strm.zalloc = Z_NULL;
@@ -211,8 +200,15 @@ int ZlibDecompressFolder(FILE *a_source, const char* a_outDirectoryPath)
 	SUserDataForClbk aData;
 	z_stream strm;
 	int nReturn, nInited=0;
-	unsigned char in[DEF_CHUNK_SIZE];
-	unsigned char out[DEF_CHUNK_SIZE];
+	
+	
+	unsigned char* in = (unsigned char*)malloc(DEF_CHUNK_SIZE);
+	if (!in) { return -1; }
+	::std::unique_ptr<unsigned char, decltype(&::free) > in_up(in, &::free);
+
+	unsigned char* out = (unsigned char*)malloc(DEF_CHUNK_SIZE);
+	if (!out) { return -1; }
+	::std::unique_ptr<unsigned char, decltype(&::free) > in_up(out, &::free);
 
 	memset(&aData, 0, sizeof(SUserDataForClbk));
 	aData.dirName = a_outDirectoryPath;
@@ -483,6 +479,4 @@ static int PrepareDirIfNeeded(char* a_cpcFilePath,int a_nIsDir)
 }
 
 
-#ifdef __cplusplus
-}
-#endif
+CPPUTILS_END_C

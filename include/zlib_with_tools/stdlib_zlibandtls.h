@@ -19,4 +19,15 @@
 #define fopen_zlibandtls					fopen
 #endif
 
+#if defined(MSDOS) || defined(OS2) || defined(_WIN32) || defined(__CYGWIN__)
+#include <fcntl.h>
+#include <io.h>
+#include <WinSock2.h>
+#include <WS2tcpip.h>
+#include <Windows.h>
+#  define ZLIBANDTLS_SET_BINARY_MODE(file) _setmode(_fileno(file), O_BINARY)
+#else
+#  define ZLIBANDTLS_SET_BINARY_MODE(file)
+#endif
+
 #endif  // #ifndef ZLIB_WITH_TOOLS_INCLUDE_ZLIB_WITH_TOOLS_STDLIB_ZLIBANDTLS_H
