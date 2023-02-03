@@ -19,6 +19,9 @@
     <Filter Include="def_files">
       <UniqueIdentifier>{75c65861-4d5c-4087-b861-31e7b4f40ae3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\include\zlib_with_tools">
+      <UniqueIdentifier>{77f71953-1b70-4101-a165-a67719ed0fa9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\contrib\zlib\adler32.c">
@@ -101,8 +104,8 @@
     <ClInclude Include="..\..\..\contrib\zlib\zutil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\zlib_first_include.h">
-      <Filter>Header Files\include</Filter>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\zlib_first_include.h">
+      <Filter>Header Files\include\zlib_with_tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
