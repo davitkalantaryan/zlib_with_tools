@@ -175,6 +175,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies />
     </Link>
     <PreBuildEvent>
       <Command />
@@ -193,6 +194,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies />
     </Link>
     <PreBuildEvent>
       <Command />
@@ -211,6 +213,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies />
     </Link>
     <PreBuildEvent>
       <Command />
@@ -229,6 +232,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies />
     </Link>
     <PreBuildEvent>
       <Command />
@@ -251,6 +255,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies />
     </Link>
     <PreBuildEvent>
       <Command />
@@ -273,6 +278,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies />
     </Link>
     <PreBuildEvent>
       <Command />
@@ -295,6 +301,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies />
     </Link>
     <PreBuildEvent>
       <Command />
@@ -317,6 +324,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies />
     </Link>
     <PreBuildEvent>
       <Command />

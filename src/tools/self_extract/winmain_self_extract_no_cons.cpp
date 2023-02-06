@@ -15,6 +15,10 @@
 #define OUT_FILE_NAME_01	"__out.exe"
 #define OUT_FOLDER_NAME_01	"out_dir"
 
+#ifdef _MSC_VER
+#pragma comment (lib,"zlib.lib")
+#endif
+
 #ifdef _DEBUG
 #define MAX_EXE_SIZE	2097152
 #else
@@ -25,13 +29,13 @@
 
 static const char* s_cpcExeName = nullptr;
 
-static int FilterFunction(const char*, const char* a_cpcFileName, int) 
+static int FilterFunction(const char*, void*, const DirIterFileData* a_data)
 {
-	if ((a_cpcFileName[0] == '_')&& (a_cpcFileName[1] == '_')) {
+	if ((a_data->pFileName[0] == '_')&& (a_data->pFileName[1] == '_')) {
 		return 1;
 	}
 
-	if (strcmp(s_cpcExeName, a_cpcFileName) == 0) {
+	if (strcmp(s_cpcExeName, a_data->pFileName) == 0) {
 		return 1;
 	}
 
@@ -180,7 +184,7 @@ int main(int a_argc, char* a_argv[])
 			*pcDelimer = 0;
 		}
 
-		nReturn = ZlibCompressFolder(vcExePathThenDir, fpOut, Z_DEFAULT_COMPRESSION,&FilterFunction);
+		nReturn = ZlibCompressFolder(vcExePathThenDir, fpOut, Z_DEFAULT_COMPRESSION,&FilterFunction,CPPUTILS_NULL);
 	}
 	
 returnPoint:
