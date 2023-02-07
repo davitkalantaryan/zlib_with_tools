@@ -1,14 +1,10 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "zlib_decompress_routines.h"
-#include "installer_common.h"
+#include <zlib_with_tools/zlib_decompress_routines.h>
+#include <zlib_with_tools/common/util/installer_common.h>
 #include <malloc.h>
-#ifdef _WIN32
-//#include <Windows.h>
-#else
-#endif
-#include "create_process_functionalities.h"
+//#include "create_process_functionalities.h"
 
 #define REMOTE_URI_MIN1		1023
 #define TEMPORARY_DIR		"C:\\.dsi-tmp"

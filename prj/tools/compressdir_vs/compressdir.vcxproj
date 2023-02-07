@@ -169,12 +169,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\common\util;..\..\..\include\common;..\..\..\contrib\zlib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies />
     </Link>
     <PreBuildEvent>
       <Command />
@@ -187,12 +188,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\common\util;..\..\..\include\common;..\..\..\contrib\zlib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies />
     </Link>
     <PreBuildEvent>
       <Command />
@@ -205,12 +207,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\common\util;..\..\..\include\common;..\..\..\contrib\zlib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies />
     </Link>
     <PreBuildEvent>
       <Command />
@@ -223,12 +226,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\common\util;..\..\..\include\common;..\..\..\contrib\zlib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies />
     </Link>
     <PreBuildEvent>
       <Command />
@@ -243,7 +247,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\common\util;..\..\..\include\common;..\..\..\contrib\zlib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -251,6 +255,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies />
     </Link>
     <PreBuildEvent>
       <Command />
@@ -265,7 +270,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\common\util;..\..\..\include\common;..\..\..\contrib\zlib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -273,6 +278,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies />
     </Link>
     <PreBuildEvent>
       <Command />
@@ -287,7 +293,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\common\util;..\..\..\include\common;..\..\..\contrib\zlib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -295,6 +301,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies />
     </Link>
     <PreBuildEvent>
       <Command />
@@ -309,7 +316,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\common\util;..\..\..\include\common;..\..\..\contrib\zlib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -317,24 +324,19 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies />
     </Link>
     <PreBuildEvent>
       <Command />
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\contrib\directory_iterator\src\core\diriter\directory_iterator_win.c" />
+    <ClCompile Include="..\..\..\contrib\qtutils\contrib\cpputils\src\core\cpputils_hashtbl.cpp" />
+    <ClCompile Include="..\..\..\src\core\zlib_compression_routines.cpp" />
+    <ClCompile Include="..\..\..\src\core\zlib_compress_decompress_common.cpp" />
+    <ClCompile Include="..\..\..\src\tools\main_compressdir.cpp" />
     <ClCompile Include="..\..\..\src\utils\common_argument_parser.cpp" />
-    <ClCompile Include="..\..\..\src\util\directory_iterator_win.cpp" />
-    <ClCompile Include="..\..\..\src\util\main_compressdir.cpp" />
-    <ClCompile Include="..\..\..\src\util\zlib_compression_routines.cpp" />
-    <ClCompile Include="..\..\..\src\util\zlib_compress_decompress_common.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\include\common\util\common_argument_parser.hpp" />
-    <ClInclude Include="..\..\..\include\common\util\common_argument_parser.impl.hpp" />
-    <ClInclude Include="..\..\..\include\common\util\common_hashtbl.hpp" />
-    <ClInclude Include="..\..\..\include\common\util\common_hashtbl.impl.hpp" />
-    <ClInclude Include="..\..\..\include\common\util\directory_iterator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\conffiles\udoocs_arm.zcdc" />

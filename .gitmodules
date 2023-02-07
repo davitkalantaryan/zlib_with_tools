@@ -4,3 +4,6 @@
 [submodule "contrib/qtutils"]
 	path = contrib/qtutils
 	url = https://github.com/davitkalantaryan/qtutils.git
+[submodule "contrib/directory_iterator"]
+	path = contrib/directory_iterator
+	url = https://github.com/davitkalantaryan/directory_iterator.git
