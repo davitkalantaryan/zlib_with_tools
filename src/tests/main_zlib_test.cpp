@@ -9,6 +9,7 @@
 #include <zlib_with_tools/zlib_compression_routines.h>
 #include <string>
 
+#define ZLIBWT_MAX_PATH     1024
 
 #ifdef _MSC_VER
 #pragma comment (lib,"zlib.lib")
@@ -139,7 +140,7 @@ returnPoint:
 
 static int PrepareListFromFile(SCompressList* a_list,uint16_t* a_pHeaderSize, uint16_t* a_numberOfItems, const char* a_configFileName)
 {	
-	static const size_t scunLINE_LEN_MIN1 = 4 * MAX_PATH - 1;
+    static const size_t scunLINE_LEN_MIN1 = 4 * ZLIBWT_MAX_PATH - 1;
 	static const char svcTermStr[] = {' ','\t'};
 	static const char svcTermStr2[] = { ' ','\t','\n' };
 	
