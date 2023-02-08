@@ -2,6 +2,13 @@
 // http://www.zlib.net/zlib_how.html
 
 
+int main()
+{
+    return 0;
+}
+
+#if 0
+
 #include <zlib_with_tools/stdio_zlibandtls.h>
 #include <zlib_with_tools/string_zlibandtls.h>
 #include <cpputils/hash/hash.hpp>
@@ -277,3 +284,6 @@ void zerr(int ret)
 	}
 }
 #endif
+
+
+#endif  //  #if 0
