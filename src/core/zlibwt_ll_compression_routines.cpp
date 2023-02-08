@@ -59,7 +59,7 @@ ZLIBANDTLS_EXPORT int ZlibWtCompressBufferToCallback(
     ZlibWtTypeCompressCallback a_clbk)
 {
     int retZlib;
-    //char* pcOutToSend = CPPUTILS_STATIC_CAST(char*,a_bufferForCompressedData);
+
     a_compressSession->z_str.next_in = CPPUTILS_STATIC_CAST(const Bytef*,a_uncompressedInputData);
     a_compressSession->z_str.avail_in = CPPUTILS_STATIC_CAST(uInt,a_sizeForUncompressedInputData);
 
