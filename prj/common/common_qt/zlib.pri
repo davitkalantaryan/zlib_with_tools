@@ -9,9 +9,9 @@ message("file:  zlib.pri  ")
 #include($${PWD}/../../common/common_qt/sys_common.pri)
 
 
-win32:  QMAKE_CFLAGS += /FI"zlib_first_include.h"
+win32:  QMAKE_CFLAGS += /FI"zlib_with_tools/zlib_first_include.h"
 else {
-	QMAKE_CFLAGS += -include"zlib_first_include.h"
+        QMAKE_CFLAGS += -include"zlib_with_tools/zlib_first_include.h"
 	QMAKE_CFLAGS += -Wimplicit-fallthrough=0
 }
 
@@ -36,4 +36,4 @@ SOURCES		+=	\
 	$${PWD}/../../../contrib/zlib/zutil.c			
 
 HEADERS		+=	\
-	$${PWD}/../../../include/zlib_first_include.h
+        $${PWD}/../../../include/zlib_with_tools/zlib_first_include.h
