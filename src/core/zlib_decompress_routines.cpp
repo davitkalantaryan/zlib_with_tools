@@ -15,11 +15,19 @@
 #include <assert.h>
 #include <stdint.h>
 #include <sys/stat.h>
-#include <direct.h>
 #include <stdlib.h>
+
+#ifdef _WIN32
+#include <direct.h>
+#define zlibwt_mkdir(_pathname, _mode)      _mkdir(_pathname)
+#else
+#include <sys/types.h>
+#define zlibwt_mkdir                        mkdir
+#endif
 
 
 #define		END_OF_FILE		2018
+#define ZLIBWT_MAX_PATH     1024
 
 
 CPPUTILS_BEGIN_C
@@ -64,7 +72,9 @@ ZLIBANDTLS_EXPORT int ZlibDecompressBufferToCallback(
 		switch (retInf) {
 		case Z_NEED_DICT:
 			retInf = Z_DATA_ERROR;     /* and fall through */
+            CPPUTILS_FALLTHROUGH
 		case Z_DATA_ERROR:
+            CPPUTILS_FALLTHROUGH
 		case Z_MEM_ERROR:
 			//(void)inflateEnd(&strm);
 			return retInf;
@@ -170,6 +180,7 @@ ZLIBANDTLS_EXPORT int ZlibDecompressFile(FILE *a_source, FILE *a_dest)
 			switch (ret) {
 			case Z_NEED_DICT:
 				ret = Z_DATA_ERROR;     /* and fall through */
+                CPPUTILS_FALLTHROUGH
 			case Z_DATA_ERROR:
 			case Z_MEM_ERROR:
 				(void)inflateEnd(&strm);
@@ -223,7 +234,7 @@ ZLIBANDTLS_EXPORT int ZlibDecompressFolder(FILE *a_source, const char* a_outDire
 	if (nReturn != Z_OK){return nReturn;}
 	nInited = 1;
 
-	nReturn = _mkdir(a_outDirectoryPath);
+    nReturn = zlibwt_mkdir(a_outDirectoryPath,0x777);
 	if ((nReturn<0) && (errno == ENOENT)) { goto returnPoint; }
 
 	nReturn=ZlibDecompressFileToCallback(&strm,a_source,in,DEF_CHUNK_SIZE,out,DEF_CHUNK_SIZE,CallbackForDecompressToFolder,&aData);
@@ -338,7 +349,7 @@ static int CallbackForDecompressToFile(const void*a_buffer, int a_bufLen, void*a
 {
 	FILE* fpOutFile = (FILE*)a_userData;
 
-	if (fwrite(a_buffer, 1, a_bufLen, fpOutFile) != a_bufLen || ferror(fpOutFile)) {
+    if (((int)fwrite(a_buffer, 1, a_bufLen, fpOutFile)) != a_bufLen || ferror(fpOutFile)) {
 		return Z_ERRNO;
 	}
 
@@ -350,7 +361,7 @@ static inline int PrepareDirIfNeeded(const char* a_cpcFilePath)
 {
 	int nRetDir = -1;
 
-	nRetDir = _mkdir(a_cpcFilePath);
+    nRetDir = zlibwt_mkdir(a_cpcFilePath,0x777);
 	if (nRetDir < 0) {
 		if (errno == ENOENT) { return -3; }
 		else { nRetDir = 0; }
@@ -366,8 +377,8 @@ static int CallbackForDecompressToFolder(const void*a_buffer, int a_bufLen, void
 	uint32_t unCpy;
 	SUserDataForClbk* pUserData = (SUserDataForClbk*)a_userData;
 	int nRetDir;
-	char vcDirectoryName[MAX_PATH];
-	char vcFileName[MAX_PATH];
+    char vcDirectoryName[ZLIBWT_MAX_PATH];
+    char vcFileName[ZLIBWT_MAX_PATH];
 
 	if(pUserData->alreadyRead<sizeof(SCompressDecompressHeader)){
 		if((a_bufLen + pUserData->alreadyRead)>sizeof(SCompressDecompressHeader) ){
@@ -427,14 +438,14 @@ static int CallbackForDecompressToFolder(const void*a_buffer, int a_bufLen, void
 
 	while (pUserData->current) {
 		if (pUserData->current->item->fileSize == 0) {  // this is a directory
-			snprintf_zlibandtls(vcDirectoryName, MAX_PATH, "%s/%s", pUserData->dirName, ITEM_NAME(pUserData->current->item));
+            snprintf_zlibandtls(vcDirectoryName, ZLIBWT_MAX_PATH, "%s/%s", pUserData->dirName, ITEM_NAME(pUserData->current->item));
 			nRetDir=PrepareDirIfNeeded(vcDirectoryName);
 			if ((nRetDir < 0) /*&& (errno == ENOENT)*/) { return -2; }
 
 		}
 		else if ((pUserData->readOnCurrentFile + a_bufLen) > pUserData->current->item->fileSize) {
 			if (!pUserData->currentFile) {
-				snprintf_zlibandtls(vcFileName, MAX_PATH, "%s/%s", pUserData->dirName, ITEM_NAME(pUserData->current->item));
+                snprintf_zlibandtls(vcFileName, ZLIBWT_MAX_PATH, "%s/%s", pUserData->dirName, ITEM_NAME(pUserData->current->item));
 				pUserData->currentFile = fopen_zlibandtls(vcFileName, "wb");
 				if (!pUserData->currentFile) { return -3; }
 				pUserData->readOnCurrentFile = 0;
@@ -454,12 +465,12 @@ static int CallbackForDecompressToFolder(const void*a_buffer, int a_bufLen, void
 		}
 		else {
 			if (!pUserData->currentFile) {
-				snprintf_zlibandtls(vcFileName, MAX_PATH, "%s/%s", pUserData->dirName, ITEM_NAME(pUserData->current->item));
+                snprintf_zlibandtls(vcFileName, ZLIBWT_MAX_PATH, "%s/%s", pUserData->dirName, ITEM_NAME(pUserData->current->item));
 				pUserData->currentFile = fopen_zlibandtls(vcFileName, "wb");
 				if (!pUserData->currentFile) { return -3; }
 				pUserData->readOnCurrentFile = 0;
 			}
-			if (fwrite(a_buffer, 1, a_bufLen, pUserData->currentFile) != a_bufLen) { fclose(pUserData->currentFile); pUserData->currentFile = NULL; return -4; }
+            if (((int)fwrite(a_buffer, 1, a_bufLen, pUserData->currentFile)) != a_bufLen) { fclose(pUserData->currentFile); pUserData->currentFile = NULL; return -4; }
 			pUserData->readOnCurrentFile += a_bufLen;
 			return 0;
 		}

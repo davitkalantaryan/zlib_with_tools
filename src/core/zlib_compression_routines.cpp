@@ -79,7 +79,7 @@ ZLIBANDTLS_EXPORT int ZlibCompressFileRawEx(
 	void* a_out, int a_outBufferSize,
 	int a_nFlushInTheEnd)
 {
-	int ret=Z_OK, flush, isFileof=0;
+    int ret, flush, isFileof=0;
 
 	/* compress until end of file */
 	do {
@@ -90,6 +90,7 @@ ZLIBANDTLS_EXPORT int ZlibCompressFileRawEx(
 		a_strm->next_in = (Bytef*)a_in;
 
 		ret = ZlibCompressBufferToFile(a_strm, flush,a_out,a_outBufferSize,a_dest);
+        if(ret){return ret;}
 
 	} while (!isFileof);
 	
@@ -311,7 +312,7 @@ static int CallbackForCompressToFile(const void*a_buffer, int a_bufLen, void*a_u
 {
 	FILE* fpOutFile = (FILE*)a_userData;
 
-	if (fwrite(a_buffer,1, a_bufLen,fpOutFile) != a_bufLen || ferror(fpOutFile)) {
+    if (((int)fwrite(a_buffer,1, a_bufLen,fpOutFile)) != a_bufLen || ferror(fpOutFile)) {
 		return Z_ERRNO;
 	}
 
