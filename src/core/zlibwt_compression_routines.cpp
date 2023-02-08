@@ -5,17 +5,78 @@
 
 // http://www.zlib.net/zlib_how.html
 
-#include <zlib_with_tools/zlib_compression_routines.h>
-#include <zlib_with_tools/stdio_zlibandtls.h>
-#include <zlib.h>
-#include <memory>
-#include <string.h>
-#include <assert.h>
-#include <stdint.h>
-#include <sys/stat.h>
+#include <zlib_with_tools/zlibwt_compression_routines.h>
+#include <zlib_with_tools/zlibwt_ll_compression_routines.h>
+//#include <zlib_with_tools/stdio_zlibandtls.h>
+//#include <zlib.h>
+//#include <memory>
+//#include <string.h>
+//#include <assert.h>
+//#include <stdint.h>
+//#include <sys/stat.h>
 
 
 CPPUTILS_BEGIN_C
+
+struct CPPUTILS_DLL_PRIVATE SDirectoryCompressData{
+    uint64_t                    hasNotAnyFile;
+    void*                       userData;
+    ZlibWtTypeCompressCallback  clbk;
+    TypeDirIterFunc             filter;
+    size_t                      reserved01;
+};
+
+static void ZlibWtFolderCompressCallbackStatic(const void* buffer, size_t bufLen, void* userData);
+static int  ZlibWtFolderCompressDirIterCallbackStatic(const char*,void*, const DirIterFileData*);
+
+// if a_filter returns non zero, then file is skipped, if returns DIRITER_EXIT_ALL(=387), then compression stopped
+ZLIBANDTLS_EXPORT int ZlibWtCompressDirectoryEx(const char* a_directoryPath, ZlibWtTypeCompressCallback a_clbk, TypeDirIterFunc a_filter, void* a_userData,int a_compressionLevel)
+{
+    ZlibWtCompressSessionPtr pSession;
+    struct SDirectoryCompressData aUserData;
+
+    aUserData.hasNotAnyFile = 1;
+    aUserData.userData = a_userData;
+    aUserData.clbk = a_clbk;
+    aUserData.filter = a_filter;
+    pSession = ZlibWtCreateTypedCompressSession(CompressedContentDirectory,&ZlibWtFolderCompressCallbackStatic,&aUserData,a_compressionLevel);
+    if(!pSession){return 1;}
+
+    IterateOverDirectoryFilesRecurse(a_directoryPath,&ZlibWtFolderCompressDirIterCallbackStatic,&aUserData);
+    if(aUserData.hasNotAnyFile){
+        ZlibWtDestroyCompressSession(pSession);
+        // ZLIBWT_MAKE_WARNING("Unable to ");
+        return 2;
+    }
+
+    return 0;
+}
+
+
+static void ZlibWtFolderCompressCallbackStatic(const void* a_buffer, size_t a_bufLen, void* a_userData)
+{
+    struct SDirectoryCompressData* pUserData = CPPUTILS_STATIC_CAST(struct SDirectoryCompressData*,a_userData);
+    (*(pUserData->clbk))(a_buffer,a_bufLen,pUserData->userData);
+}
+
+
+static int ZlibWtFolderCompressDirIterCallbackStatic(const char* a_sourceDirectory,void* a_userData, const DirIterFileData* a_pFileData)
+{
+    struct SDirectoryCompressData* pUserData = CPPUTILS_STATIC_CAST(struct SDirectoryCompressData*,a_userData);
+    const int nFilterResult = (*(pUserData->filter))(a_sourceDirectory,pUserData->userData,a_pFileData);
+    if(nFilterResult){
+        // we skip this file, in case if return is equal to `DIRITER_EXIT_ALL` (=387) iteration will be stopped at all
+        return nFilterResult;
+    }
+
+    pUserData->hasNotAnyFile = 0;
+    // todo: Make compression of the file
+
+    return 0;
+}
+
+
+#if 0
 
 typedef struct SUserDataForDirCompress{
 	TypeFilter		funcFilter;
@@ -318,6 +379,9 @@ static int CallbackForCompressToFile(const void*a_buffer, int a_bufLen, void*a_u
 
 	return 0;
 }
+
+
+#endif
 
 
 CPPUTILS_END_C

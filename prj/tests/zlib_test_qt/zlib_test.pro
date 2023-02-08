@@ -17,12 +17,14 @@ DEFINES += ZLIB_CONST
 INCLUDEPATH += $${PWD}/../../../contrib/qtutils/contrib/cpputils/include
 INCLUDEPATH += $${PWD}/../../../contrib/qtutils/contrib/cpputils/contrib/cinternal/include
 INCLUDEPATH += $${PWD}/../../../contrib/directory_iterator/include
+INCLUDEPATH += $${PWD}/../../../src/include
 
 
 SOURCES		+=	\
 	\
         $${PWD}/../../../src/tests/main_zlib_test.cpp                                               \
         $${PWD}/../../../src/core/zlibwt_ll_compression_routines.cpp                                \
+        $${PWD}/../../../src/core/zlibwt_compression_routines.cpp                                   \
         $${PWD}/../../../contrib/qtutils/contrib/cpputils/src/core/cpputils_hashtbl.cpp             \
         $${PWD}/../../../contrib/directory_iterator/src/core/diriter/directory_iterator_unix.c
 

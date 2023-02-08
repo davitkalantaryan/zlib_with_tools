@@ -15,22 +15,18 @@
 CPPUTILS_BEGIN_C
 
 
-enum CPPUTILS_DLL_PRIVATE TypeOfCompressedContent0000{
-	CompressedContentNone = 0,
-	CompressedContentDirectory = 1,
-	CompressedContentFile = 2
-};
-
-
-// padding is 8
+// size=32 B, padding=8 B
 struct CPPUTILS_DLL_PRIVATE SFileItem0000{
-	uint64_t fileSize : 48;
-	uint64_t fileNameLenNorm : 12;
-	uint64_t isDir : 1;
-	uint64_t reserved01 : 3;
+    uint64_t fileSize;
+    uint32_t fileNameLenNorm;
+    uint32_t mode;
+    uint8_t  isDir;
+    uint8_t  reserved01[7];
+    uint64_t reserved02[8];
 };
 
 
+// size=64 B, padding=8 B
 struct CPPUTILS_DLL_PRIVATE SCompressDecompressHeader0000{
 	uint32_t version;
 	uint32_t typeOfCompressedContent;

@@ -8,13 +8,16 @@
 #define ZLIB_WITH_TOOLS_INCLUDE_ZLIB_WITH_TOOLS_ZLIB_COMPRESSION_ROUTINES_H
 
 #include <zlib_with_tools/export_symbols.h>
-#include <zlib_with_tools/zlib_compress_decompress_common.h>
+#include <zlib_with_tools/zlibwt_compression_data.h>
 #include <directory_iterator/directory_iterator.h>
 
 
 CPPUTILS_BEGIN_C
 
+// if a_filter returns non zero, then file is skipped, if returns DIRITER_EXIT_ALL(=387), then compression stopped
+ZLIBANDTLS_EXPORT int ZlibWtCompressDirectoryEx(const char* a_directoryPath,ZlibWtTypeCompressCallback a_clbk, TypeDirIterFunc a_filter, void* a_userData,int a_compressionLevel);
 
+#if 0
 typedef struct SFileItemList{
 	SFileItem*		item;
 	SFileItemList*	next;
@@ -58,6 +61,8 @@ ZLIBANDTLS_EXPORT int ZlibCompressFileRaw(FILE * a_source, FILE * a_dest, int a_
 ZLIBANDTLS_EXPORT int ZlibCompressFolderEx(const SCompressList* a_list, uint16_t a_headerSize, uint16_t a_numberOfItems, FILE *a_dest, int a_level);
 ZLIBANDTLS_EXPORT int ZlibCompressFolder(const char* a_directoryPath, FILE *a_dest, int a_level, TypeFilter a_filter, void* a_userData);
 ZLIBANDTLS_EXPORT int ZlibCompressDiskRaw(const char* a_driveName, FILE * a_dest, int a_nCompressionLeel);
+
+#endif
 
 
 CPPUTILS_END_C

@@ -15,7 +15,8 @@
 CPPUTILS_BEGIN_C
 
 
-typedef enum TypeOfCompressedContent0000 TypeOfCompressedContent;
+#define ZLIBWT_MAKE_WARNING(...)
+
 typedef struct SFileItem0000 SFileItem;
 typedef struct SCompressDecompressHeader0000 SCompressDecompressHeader;
 

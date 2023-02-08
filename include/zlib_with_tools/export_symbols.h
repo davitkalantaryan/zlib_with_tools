@@ -10,6 +10,7 @@
 
 #include <cinternal/internal_header.h>
 
+#define ZLIBWT_VERSION      0
 
 #ifndef ZLIBANDTLS_EXPORT
 #if defined(ZLIBANDTLS_COMPILING_SHARED_LIB)
