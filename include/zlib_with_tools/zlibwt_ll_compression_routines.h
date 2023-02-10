@@ -20,17 +20,26 @@ CPPUTILS_BEGIN_C
 struct ZlibWtCompressSession;
 typedef struct ZlibWtCompressSession* ZlibWtCompressSessionPtr;
 
-ZLIBANDTLS_LL_EXPORT ZlibWtCompressSessionPtr ZlibWtCreateCompressSessionRaw(ZlibWtTypeCompressCallback a_clbk,void* userData, int a_compressionLevel); // this will be declared as depricated
-ZLIBANDTLS_LL_EXPORT ZlibWtCompressSessionPtr ZlibWtCreateTypedCompressSession(enum TypeOfCompressedContent a_type, ZlibWtTypeCompressCallback a_clbk,void* userData, int a_compressionLevel);
+ZLIBANDTLS_LL_EXPORT ZlibWtCompressSessionPtr ZlibWtCreateTypedCompressSession(
+	enum TypeOfCompressedContent a_type,
+	int a_compressionLevel,
+	ZlibWtTypeCompressCallback a_clbk,
+	void* userData,
+	void* a_bufferForCompressedData,
+	size_t a_sizeForBufferForCompressedData);
+
 ZLIBANDTLS_LL_EXPORT void ZlibWtDestroyCompressSession(ZlibWtCompressSessionPtr a_session);
 
 ZLIBANDTLS_LL_EXPORT int ZlibWtCompressBufferToCallback(
 	ZlibWtCompressSessionPtr a_compressSession, 
 	int a_flush,
 	const void* a_uncompressedInputData,
-	size_t a_sizeForUncompressedInputData,
-	void* a_bufferForCompressedData, 
-    size_t a_sizeForBufferForCompressedData);
+	size_t a_sizeForUncompressedInputData);
+
+ZLIBANDTLS_LL_EXPORT void ZlibWtSetBufferForCompressSession(
+	ZlibWtCompressSessionPtr a_compressSession,
+	void* a_bufferForCompressedData,
+	size_t a_sizeForBufferForCompressedData);
 
 CPPUTILS_END_C
 

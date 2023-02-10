@@ -11,6 +11,9 @@
 #include <zlib_with_tools/export_symbols.h>
 #include <stdint.h>
 
+#define ZLIBWT_DIR_CONTENT_FILE         0 
+#define ZLIBWT_DIR_CONTENT_DIR_START    1
+#define ZLIBWT_DIR_CONTENT_DIR_END      2
 
 CPPUTILS_BEGIN_C
 
@@ -18,11 +21,13 @@ CPPUTILS_BEGIN_C
 // size=32 B, padding=8 B
 struct CPPUTILS_DLL_PRIVATE SFileItem0000{
     uint64_t fileSize;
+    uint64_t fileSizeNorm;
+    uint32_t fileNameLen;
     uint32_t fileNameLenNorm;
     uint32_t mode;
-    uint8_t  isDir;
-    uint8_t  reserved01[7];
-    uint64_t reserved02[8];
+    uint8_t  contentType;
+    uint8_t  reserved01[3];
+    uint8_t  reserved02[8];
 };
 
 
@@ -30,7 +35,8 @@ struct CPPUTILS_DLL_PRIVATE SFileItem0000{
 struct CPPUTILS_DLL_PRIVATE SCompressDecompressHeader0000{
 	uint32_t version;
 	uint32_t typeOfCompressedContent;
-	uint32_t vReserved[14];
+    uint32_t hasMode;
+	uint32_t vReserved[13];
 };
 
 

@@ -14,8 +14,11 @@
 
 CPPUTILS_BEGIN_C
 
+#define ZLIBWT_DEF_CHUNK_SIZE		4096
 
 #define ZLIBWT_MAKE_WARNING(...)
+#define ZLIBWT_NORM_LEN(_len)		((((_len)>>3)+1)<<3)
+//#define ZLIBWT_NORM_LEN(_len)		((((_len)/8)+1)*8)
 
 typedef struct SFileItem0000 SFileItem;
 typedef struct SCompressDecompressHeader0000 SCompressDecompressHeader;

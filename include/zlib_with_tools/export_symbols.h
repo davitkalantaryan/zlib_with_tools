@@ -37,5 +37,9 @@
 #endif
 #endif
 
+#ifndef ZLIB_CONST
+#define ZLIB_CONST
+#endif
+
 
 #endif  // #ifndef ZLIB_WITH_TOOLS_INCLUDE_ZLIB_WITH_TOOLS_EXPORT_SYMBOLS_H

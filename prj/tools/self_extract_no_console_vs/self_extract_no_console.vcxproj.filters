@@ -24,9 +24,6 @@
     <ClCompile Include="..\..\..\src\core\zlib_compress_decompress_common.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\zlib_compression_routines.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\core\zlib_decompress_routines.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
