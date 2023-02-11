@@ -38,9 +38,11 @@
     <ClCompile Include="..\..\..\contrib\directory_iterator\src\core\diriter\directory_iterator_win.c" />
     <ClCompile Include="..\..\..\contrib\qtutils\contrib\cpputils\src\core\cpputils_hashtbl.cpp" />
     <ClCompile Include="..\..\..\src\core\zlibwt_compression_routines.cpp" />
+    <ClCompile Include="..\..\..\src\core\zlibwt_decompress_routines.cpp" />
+    <ClCompile Include="..\..\..\src\core\zlibwt_decompress_routines_version_0000.cpp" />
     <ClCompile Include="..\..\..\src\core\zlibwt_ll_compression_routines.cpp" />
+    <ClCompile Include="..\..\..\src\core\zlibwt_ll_decompress_routines.cpp" />
     <ClCompile Include="..\..\..\src\core\zlib_compress_decompress_common.cpp" />
-    <ClCompile Include="..\..\..\src\core\zlib_decompress_routines.cpp" />
     <ClCompile Include="..\..\..\src\tests\main_zlib_test.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -53,11 +55,15 @@
     <ClInclude Include="..\..\..\include\zlib_with_tools\stdio_zlibandtls.h" />
     <ClInclude Include="..\..\..\include\zlib_with_tools\string_zlibandtls.h" />
     <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_compression_routines.h" />
+    <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_compress_decompress_common.h" />
+    <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_decompress_data.h" />
+    <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_decompress_routines.h" />
     <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_ll_compression_routines.h" />
-    <ClInclude Include="..\..\..\include\zlib_with_tools\zlib_decompress_routines.h" />
+    <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_ll_decompress_routines.h" />
     <ClInclude Include="..\..\..\include\zlib_with_tools\zlib_first_include.h" />
     <ClInclude Include="..\..\..\src\include\private\zlib_with_tools\zlibwt_compress_decompress_common.h" />
     <ClInclude Include="..\..\..\src\include\private\zlib_with_tools\zlibwt_compress_decompress_common_version_0000.h" />
+    <ClInclude Include="..\..\..\src\include\private\zlib_with_tools\zlibwt_decompress_data.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{686D2D4B-1062-4E5B-9A94-EE44A9EC7D67}</ProjectGuid>

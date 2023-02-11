@@ -14,14 +14,23 @@
 
 CPPUTILS_BEGIN_C
 
+#define ZLIBWT_MAIN_HEADER_SIZE		128  // this value will never change
 #define ZLIBWT_DEF_CHUNK_SIZE		4096
 
 #define ZLIBWT_MAKE_WARNING(...)
 #define ZLIBWT_NORM_LEN(_len)		((((_len)>>3)+1)<<3)
 //#define ZLIBWT_NORM_LEN(_len)		((((_len)/8)+1)*8)
 
-typedef struct SFileItem0000 SFileItem;
-typedef struct SCompressDecompressHeader0000 SCompressDecompressHeader;
+struct CPPUTILS_DLL_PRIVATE SCompressDecompressHeaderUsed {
+	uint32_t version;
+	uint32_t typeOfCompressedContent;
+};
+
+// size=128 B, padding=8 B
+struct CPPUTILS_DLL_PRIVATE SCompressDecompressHeader {
+	struct SCompressDecompressHeaderUsed	used;
+	uint32_t reserved01[(ZLIBWT_MAIN_HEADER_SIZE - sizeof(struct SCompressDecompressHeaderUsed))/sizeof(uint32_t)];
+};
 
 
 CPPUTILS_END_C

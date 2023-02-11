@@ -41,5 +41,15 @@
 #define ZLIB_CONST
 #endif
 
+#if defined(_MSC_VER) && !defined(_CPPUNWIND)
+#define ZLIBWT_TRY			__try
+#define ZLIBWT_CATCH()		__except (EXCEPTION_EXECUTE_HANDLER)
+#define ZLIBWT_THROW		throw
+#else
+#define ZLIBWT_TRY			try
+#define ZLIBWT_CATCH()		catch(...)
+#define ZLIBWT_THROW		throw
+#endif
+
 
 #endif  // #ifndef ZLIB_WITH_TOOLS_INCLUDE_ZLIB_WITH_TOOLS_EXPORT_SYMBOLS_H

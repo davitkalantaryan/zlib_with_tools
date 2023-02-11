@@ -12,7 +12,6 @@
 #include <zlib_with_tools/zlibwt_compress_decompress_common.h>
 #include <zlib_with_tools/zlibwt_compression_data.h>
 #include <directory_iterator/directory_iterator.h>
-#include <stddef.h>
 
 
 CPPUTILS_BEGIN_C
@@ -40,6 +39,11 @@ ZLIBANDTLS_LL_EXPORT void ZlibWtSetBufferForCompressSession(
 	ZlibWtCompressSessionPtr a_compressSession,
 	void* a_bufferForCompressedData,
 	size_t a_sizeForBufferForCompressedData);
+
+ZLIBANDTLS_LL_EXPORT void ZlibWtSetCallbackForCompressSession(
+	ZlibWtCompressSessionPtr a_compressSession,
+	ZlibWtTypeCompressCallback a_clbk,
+	void* userData);
 
 CPPUTILS_END_C
 

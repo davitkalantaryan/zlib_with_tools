@@ -45,9 +45,6 @@
     <ClCompile Include="..\..\..\contrib\qtutils\contrib\cpputils\src\core\cpputils_hashtbl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\zlib_decompress_routines.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\core\zlib_compress_decompress_common.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -60,6 +57,15 @@
     <ClCompile Include="..\..\..\src\core\zlibwt_compression_routines.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\core\zlibwt_decompress_routines_version_0000.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\zlibwt_decompress_routines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\zlibwt_ll_decompress_routines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\zlib_with_tools\qt_zlib_compress_decompress_common.hpp">
@@ -69,9 +75,6 @@
       <Filter>Header Files\include\zlib_with_tools</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\zlib_with_tools\qt_zlib_decompress_routines.hpp">
-      <Filter>Header Files\include\zlib_with_tools</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\zlib_with_tools\zlib_decompress_routines.h">
       <Filter>Header Files\include\zlib_with_tools</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\zlib_with_tools\zlib_first_include.h">
@@ -102,6 +105,21 @@
       <Filter>Header Files\include\zlib_with_tools</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_ll_compression_routines.h">
+      <Filter>Header Files\include\zlib_with_tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_ll_decompress_routines.h">
+      <Filter>Header Files\include\zlib_with_tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_decompress_data.h">
+      <Filter>Header Files\include\zlib_with_tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_compress_decompress_common.h">
+      <Filter>Header Files\include\zlib_with_tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\include\private\zlib_with_tools\zlibwt_decompress_data.h">
+      <Filter>Header Files\src\include\private\zlib_with_tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_decompress_routines.h">
       <Filter>Header Files\include\zlib_with_tools</Filter>
     </ClInclude>
   </ItemGroup>

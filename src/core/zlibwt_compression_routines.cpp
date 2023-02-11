@@ -1,28 +1,25 @@
-
-// zlib_compression_routines.cpp
-// 2017 Feb 12
-
-
+//
+// file:			zlibwt_compression_routines.cpp
+// path:			src/core/zlibwt_compression_routines.cpp
+// created on:		2023 Feb 09
+// created by:		Davit Kalantaryan (davit.kalantaryan@desy.de)
+//
 // http://www.zlib.net/zlib_how.html
+//
 
 #include <zlib_with_tools/zlibwt_compression_routines.h>
 #include <zlib_with_tools/zlibwt_ll_compression_routines.h>
 #include <zlib_with_tools/stdio_zlibandtls.h>
 #include <private/zlib_with_tools/zlibwt_compress_decompress_common.h>
+#include <cpputils/endian.h>
 #include <assert.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-//#include <zlib_with_tools/stdio_zlibandtls.h>
-//#include <zlib.h>
-//#include <memory>
-//#include <string.h>
-//#include <assert.h>
-//#include <stdint.h>
-
 
 
 CPPUTILS_BEGIN_C
+
 
 struct CPPUTILS_DLL_PRIVATE SDirectoryCompressData{
     uint32_t                    hasNotAnyFile;
@@ -121,9 +118,11 @@ static int ZlibWtFolderCompressDirIterCallbackStatic(const char* a_sourceDirecto
 	static const char svcDummyBuffer[8] = { 0,0,0,0,0,0,0,0 };
 	struct stat fStat;
 	size_t dummyLen;
+	uint32_t fileNameLen, fileNameLenNorm;
+	uint64_t fileSize, fileSizeNorm;
 	int nFilterResult;
 	char  vcStrFilePath[ZLIBWT_MAX_PATH];
-	SFileItem aItem;
+	struct SFileItem aItem;
     struct SDirectoryCompressData* pUserData = CPPUTILS_STATIC_CAST(struct SDirectoryCompressData*, a_userData);
 
 	if (pUserData->fl.all) {
@@ -141,26 +140,29 @@ static int ZlibWtFolderCompressDirIterCallbackStatic(const char* a_sourceDirecto
 
     pUserData->hasNotAnyFile = 0;
 
-	aItem.fileNameLen = CPPUTILS_STATIC_CAST(uint32_t,strlen(a_pFileData->pFileName));
-	aItem.fileNameLenNorm = ZLIBWT_NORM_LEN(aItem.fileNameLen);
+	fileNameLen = CPPUTILS_STATIC_CAST(uint32_t,strlen(a_pFileData->pFileName));
+	fileNameLenNorm = ZLIBWT_NORM_LEN(fileNameLen);
+
+	aItem.fileNameLen = htole32(fileNameLen);
+	aItem.fileNameLenNorm = htole32(fileNameLenNorm);
 	
 	snprintf_di(vcStrFilePath, ZLIBWT_MAX_PATH_MIN1, "%s/%s", a_sourceDirectory, a_pFileData->pFileName);
 
 	if (a_pFileData->isDir) {
 		stat(vcStrFilePath, &fStat);
 		aItem.contentType = ZLIBWT_DIR_CONTENT_DIR_START;
-		aItem.mode = CPPUTILS_STATIC_CAST(uint64_t, fStat.st_mode);
-		ZlibWtCompressBufferToCallback(pUserData->pSession, 0, &aItem, sizeof(SFileItem));
+		aItem.mode = htole32(CPPUTILS_STATIC_CAST(uint32_t, fStat.st_mode));
+		ZlibWtCompressBufferToCallback(pUserData->pSession, 0, &aItem, sizeof(struct SFileItem));
 		
 		// write file name
-		ZlibWtCompressBufferToCallback(pUserData->pSession, 0, a_pFileData->pFileName, CPPUTILS_STATIC_CAST(size_t, aItem.fileNameLen));
-		dummyLen = CPPUTILS_STATIC_CAST(size_t, aItem.fileNameLenNorm - aItem.fileNameLen);
+		ZlibWtCompressBufferToCallback(pUserData->pSession, 0, a_pFileData->pFileName, CPPUTILS_STATIC_CAST(size_t, fileNameLen));
+		dummyLen = CPPUTILS_STATIC_CAST(size_t, fileNameLenNorm - fileNameLen);
 		assert(dummyLen < 8);
 		ZlibWtCompressBufferToCallback(pUserData->pSession, 0, svcDummyBuffer, dummyLen);
 
 		IterateOverDirectoryFilesNoRecurse(vcStrFilePath, &ZlibWtFolderCompressDirIterCallbackStatic, a_userData);
 		aItem.contentType = ZLIBWT_DIR_CONTENT_DIR_END;
-		ZlibWtCompressBufferToCallback(pUserData->pSession, 1, &aItem, sizeof(SFileItem));
+		ZlibWtCompressBufferToCallback(pUserData->pSession, 1, &aItem, sizeof(struct SFileItem));
 	}
 	else {
 		FILE* pFile = fopen_zlibandtls(vcStrFilePath, "rb");
@@ -175,14 +177,16 @@ static int ZlibWtFolderCompressDirIterCallbackStatic(const char* a_sourceDirecto
 		}
 
 		aItem.contentType = ZLIBWT_DIR_CONTENT_FILE;
-		aItem.mode = CPPUTILS_STATIC_CAST(uint64_t, fStat.st_mode);
-		aItem.fileSize = CPPUTILS_STATIC_CAST(uint64_t,fStat.st_size);
-		aItem.fileSizeNorm = ZLIBWT_NORM_LEN(aItem.fileSize);
-		ZlibWtCompressBufferToCallback(pUserData->pSession, 1, &aItem, sizeof(SFileItem));
+		aItem.mode = htole32(CPPUTILS_STATIC_CAST(uint64_t, fStat.st_mode));
+		fileSize = CPPUTILS_STATIC_CAST(uint64_t,fStat.st_size);
+		fileSizeNorm = ZLIBWT_NORM_LEN(fileSize);
+		aItem.fileSize = htole64(fileSize);
+		aItem.fileSizeNorm = htole64(fileSizeNorm);
+		ZlibWtCompressBufferToCallback(pUserData->pSession, 1, &aItem, sizeof(struct SFileItem));
 
 		// write file name
-		ZlibWtCompressBufferToCallback(pUserData->pSession, 0, a_pFileData->pFileName, CPPUTILS_STATIC_CAST(size_t, aItem.fileNameLen));
-		dummyLen = CPPUTILS_STATIC_CAST(size_t, aItem.fileNameLenNorm - aItem.fileNameLen);
+		ZlibWtCompressBufferToCallback(pUserData->pSession, 0, a_pFileData->pFileName, CPPUTILS_STATIC_CAST(size_t, fileNameLen));
+		dummyLen = CPPUTILS_STATIC_CAST(size_t, fileNameLenNorm - fileNameLen);
 		assert(dummyLen < 8);
 		ZlibWtCompressBufferToCallback(pUserData->pSession, 0, svcDummyBuffer, dummyLen);
 
@@ -192,7 +196,7 @@ static int ZlibWtFolderCompressDirIterCallbackStatic(const char* a_sourceDirecto
 			return DIRITER_EXIT_ALL;
 		}
 
-		dummyLen = CPPUTILS_STATIC_CAST(size_t, aItem.fileSizeNorm - aItem.fileSize);
+		dummyLen = CPPUTILS_STATIC_CAST(size_t, fileSizeNorm - fileSize);
 		assert(dummyLen <8);
 		ZlibWtCompressBufferToCallback(pUserData->pSession, 0, svcDummyBuffer, dummyLen);
 
