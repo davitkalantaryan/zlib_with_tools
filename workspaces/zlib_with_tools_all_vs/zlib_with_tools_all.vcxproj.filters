@@ -25,6 +25,9 @@
     <Filter Include="files\.github\workflows">
       <UniqueIdentifier>{1af8a5f4-1011-4120-b883-c686963f7734}</UniqueIdentifier>
     </Filter>
+    <Filter Include="files\docs">
+      <UniqueIdentifier>{d798cec5-a6f5-4c37-9742-aca2ec0367a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\utils\entry_zlib_overall.cpp">
@@ -53,5 +56,10 @@
     <None Include="..\..\.github\workflows\check_merge_to_master.yml">
       <Filter>files\.github\workflows</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\docs\notes_2023.02.12.txt">
+      <Filter>files\docs</Filter>
+    </Text>
   </ItemGroup>
 </Project>

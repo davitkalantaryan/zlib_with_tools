@@ -311,6 +311,9 @@
     <None Include="..\..\scripts\windows_prepare_host.bat" />
     <None Include="..\..\scripts\windows_prepare_repository.bat" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\docs\notes_2023.02.12.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

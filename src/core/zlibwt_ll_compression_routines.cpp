@@ -67,8 +67,10 @@ ZLIBANDTLS_LL_EXPORT ZlibWtCompressSessionPtr ZlibWtCreateTypedCompressSession(
 
 ZLIBANDTLS_LL_EXPORT void ZlibWtDestroyCompressSession(ZlibWtCompressSessionPtr a_session)
 {
-    CPPUTILS_STATIC_CAST(void,deflate(&(a_session->z_str), Z_FULL_FLUSH));
-    CPPUTILS_STATIC_CAST(void,deflate(&(a_session->z_str), Z_FINISH));
+    // todo:
+    //CPPUTILS_STATIC_CAST(void, deflate(&(a_session->z_str), 1));
+    //CPPUTILS_STATIC_CAST(void,deflate(&(a_session->z_str), Z_FULL_FLUSH));
+    //CPPUTILS_STATIC_CAST(void,deflate(&(a_session->z_str), Z_FINISH));
     CPPUTILS_STATIC_CAST(void,deflateEnd(&(a_session->z_str)));
     free(a_session);
 }
@@ -82,17 +84,22 @@ ZLIBANDTLS_LL_EXPORT int ZlibWtCompressBufferToCallback(
 {
     int retZlib;
 
+    // todo:
+    (void)a_flush;
+
     a_session->z_str.next_in = CPPUTILS_STATIC_CAST(const Bytef*,a_uncompressedInputData);
     a_session->z_str.avail_in = CPPUTILS_STATIC_CAST(uInt,a_sizeForUncompressedInputData);
 
     while(a_session->z_str.avail_in>0){
         a_session->z_str.avail_out = a_session->sizeForBufferForCompressedData;
         a_session->z_str.next_out = a_session->bufferForCompressedData;
-        retZlib = deflate(&(a_session->z_str), a_flush);
+        // todo:
+        //retZlib = deflate(&(a_session->z_str), a_flush);
+        //a_flush = Z_NO_FLUSH;
+        retZlib = deflate(&(a_session->z_str), 1);
         if(retZlib==Z_STREAM_ERROR){return Z_STREAM_ERROR;}
         (*(a_session->clbk))(a_session->bufferForCompressedData,
             CPPUTILS_STATIC_CAST(size_t, a_session->sizeForBufferForCompressedData - a_session->z_str.avail_out), a_session->userData);
-        a_flush = Z_NO_FLUSH;
     }
 
     return 0;
