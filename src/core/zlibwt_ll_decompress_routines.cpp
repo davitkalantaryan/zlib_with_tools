@@ -44,6 +44,8 @@ ZLIBANDTLS_LL_EXPORT ZlibWtLLDecompressSessionPtr ZlibWtCreateLLDecompressSessio
 
 ZLIBANDTLS_LL_EXPORT void ZlibWtDestroyLLDecompressSession(ZlibWtLLDecompressSessionPtr a_session)
 {
+    CPPUTILS_STATIC_CAST(void,inflate(&(a_session->z_str), Z_FULL_FLUSH)); // this returns error, but doesn't matter
+    CPPUTILS_STATIC_CAST(void,inflate(&(a_session->z_str), Z_FINISH));  // this returns error, but doesn't matter
     CPPUTILS_STATIC_CAST(void,inflateEnd(&(a_session->z_str)));
     free(a_session);
 }
@@ -90,9 +92,7 @@ ZLIBANDTLS_LL_EXPORT int ZlibWtLLDecompressBufferToCallback(
     while (a_session->z_str.avail_in > 0) {
         a_session->z_str.avail_out = CPPUTILS_STATIC_CAST(uInt, a_session->sizeForBufferForDecompressedData);
         a_session->z_str.next_out = CPPUTILS_STATIC_CAST(Bytef*, a_session->bufferForDecompressedData);
-        // todo:
-        //retZlib = inflate(&(a_session->z_str), a_flush);
-        retZlib = inflate(&(a_session->z_str), 1);
+        retZlib = inflate(&(a_session->z_str), a_flush);
         if (retZlib != Z_OK) { return retZlib; }
         (*(a_session->clbk))(a_session->bufferForDecompressedData,
             CPPUTILS_STATIC_CAST(size_t, a_session->sizeForBufferForDecompressedData - a_session->z_str.avail_out), a_session->userData);
@@ -115,9 +115,7 @@ ZLIBANDTLS_LL_EXPORT int ZlibWtLLDecompressBufferToCallbackNoTouchOut(
     a_session->z_str.avail_in = CPPUTILS_STATIC_CAST(uInt, a_sizeForCompressedInputData);
 
     while ((a_session->z_str.avail_in > 0)&&(a_session->z_str.avail_out>0)) {
-        // todo:
-        //retZlib = inflate(&(a_session->z_str), a_flush);
-        retZlib = inflate(&(a_session->z_str), 1);
+        retZlib = inflate(&(a_session->z_str), a_flush);
         if (retZlib != Z_OK) { return retZlib; }
         (*(a_session->clbk))(a_session->bufferForDecompressedData,
             CPPUTILS_STATIC_CAST(size_t, a_session->sizeForBufferForDecompressedData - a_session->z_str.avail_out), a_session->userData);
@@ -135,9 +133,7 @@ ZLIBANDTLS_LL_EXPORT int ZlibWtLLDecompressBufferToCallbackReadOldIn(ZlibWtLLDec
     while (a_session->z_str.avail_in > 0) {
         a_session->z_str.avail_out = CPPUTILS_STATIC_CAST(uInt, a_session->sizeForBufferForDecompressedData);
         a_session->z_str.next_out = CPPUTILS_STATIC_CAST(Bytef*, a_session->bufferForDecompressedData);
-        // todo:
-        //retZlib = inflate(&(a_session->z_str), a_flush);
-        retZlib = inflate(&(a_session->z_str), 1);
+        retZlib = inflate(&(a_session->z_str), a_flush);
         if (retZlib != Z_OK) { return retZlib; }
         (*(a_session->clbk))(a_session->bufferForDecompressedData,
             CPPUTILS_STATIC_CAST(size_t, a_session->sizeForBufferForDecompressedData - a_session->z_str.avail_out), a_session->userData);
