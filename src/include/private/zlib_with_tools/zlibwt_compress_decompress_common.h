@@ -15,7 +15,7 @@
 CPPUTILS_BEGIN_C
 
 #define ZLIBWT_MAIN_HEADER_SIZE		128  // this value will never change
-#define ZLIBWT_DEF_CHUNK_SIZE		4096
+#define ZLIBWT_DEF_CHUNK_SIZE		524288
 
 #define ZLIBWT_MAKE_WARNING(...)
 #define ZLIBWT_NORM_LEN(_len)		((((_len)>>3)+1)<<3)

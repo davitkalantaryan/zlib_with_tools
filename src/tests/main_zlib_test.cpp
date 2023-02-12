@@ -2,288 +2,120 @@
 // http://www.zlib.net/zlib_how.html
 
 
-int main()
-{
-    return 0;
-}
-
-#if 0
-
+#include <zlib_with_tools/zlibwt_compression_routines.h>
+#include <zlib_with_tools/zlibwt_decompress_routines.h>
 #include <zlib_with_tools/stdio_zlibandtls.h>
-#include <zlib_with_tools/string_zlibandtls.h>
-#include <cpputils/hash/hash.hpp>
-#include <zlib_with_tools/zlib_decompress_routines.h>
-#include <zlib_with_tools/zlib_compression_routines.h>
-#include <string>
-
-#define ZLIBWT_MAX_PATH     1024
+#include <zlib.h>
+#include <iostream>
+#include <stdio.h>
 
 #ifdef _MSC_VER
 #pragma comment (lib,"zlib.lib")
 #include <conio.h>
 #endif
 
+static void FileCompressCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
+static void ZlibWtDecompressCallbackExample(const void* a_buffer, size_t a_bufLen, void* a_userData, const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData);
 
-static int CompressBasedOnConfig(const char* a_configFileName, FILE *a_dest, int a_level);
+// a -> compress file
+// b -> decompress
 
-/* compress or decompress from stdin to stdout */
-int main(int argc, char **argv)
+int main(int a_argc, char* a_argv[])
 {
-
-#if 0
-	int nSubDirs = 0;
-	if(argc<2){
+	if (a_argc < 3) {
+		::std::cerr << "Function and file should be provided\n";
 		return 1;
 	}
 
-	IterateOverDirectoryFiles(argv[1], DirectoryIterator, NULL, &nSubDirs);
+	int nReturn = 1;
+	const char* cpcFileNameIn = a_argv[2];
+	const char* cpcFileNameOut = "out.zlib";
 
-	return 0;
-
-#endif
-
-
-
-	FILE *fpIn=NULL, *fpOut=NULL;
-	int ret=1;
-
-	if(argc<4){
-		fprintf(stderr,"Provide the mode (c,d) and the input and output files names!\n");
-		goto returnPoint;
+	if (a_argc > 3) {
+		cpcFileNameOut = a_argv[3];
 	}
 
-	
 
-	if(strcmp("cf",argv[1])==0){
-		fpOut = fopen_zlibandtls(argv[3], "wb");
-		if (!fpOut) { goto returnPoint; }
-		fpIn = fopen_zlibandtls(argv[2],"rb");
-		if (!fpIn) { goto returnPoint; }
-		ret = ZlibCompressFileRaw(fpIn,fpOut,Z_DEFAULT_COMPRESSION);
-	}
-	else if (strcmp("df", argv[1]) == 0){
-		fpOut = fopen_zlibandtls(argv[3], "wb");
-		if (!fpOut) { goto returnPoint; }
-		fpIn = fopen_zlibandtls(argv[2],"rb");
-		if (!fpIn) { goto returnPoint; }
-		ret = ZlibDecompressFile(fpIn,fpOut);
-	}
-	else if (strcmp("cd", argv[1]) == 0) {
-		fpOut = fopen_zlibandtls(argv[3], "wb");
-		if (!fpOut) { goto returnPoint; }
-		ret = ZlibCompressFolder(argv[2], fpOut, Z_DEFAULT_COMPRESSION,NULL,NULL);
-	}
-	else if (strcmp("dd", argv[1]) == 0) {
-		fpIn = fopen_zlibandtls(argv[2], "rb");
-		if (!fpIn) { goto returnPoint; }
-		ret=ZlibDecompressFolder(fpIn,argv[3]);
-	}
-	else if(strcmp("cbf", argv[1]) == 0){
-		fpOut = fopen_zlibandtls(argv[3], "wb");
-		if (!fpOut) { goto returnPoint; }
-		ret = CompressBasedOnConfig(argv[2], fpOut, Z_DEFAULT_COMPRESSION);
-	}
-	else{
-		fprintf(stderr,"wrong option!\n");
-		goto returnPoint;
-	}
+	switch (a_argv[1][0]) {
+	case 'a': {
+		FILE* fpFileIn = fopen_zlibandtls(cpcFileNameIn, "rb");
+		if (!fpFileIn) {
+			::std::cerr << "Unable to open the file with the name \"" << cpcFileNameIn << "\"\n";
+			return 1;
+		}
+		FILE* fpFileOut = fopen_zlibandtls(cpcFileNameOut, "wb");
+		if (!fpFileOut) {
+			fclose(fpFileIn);
+			::std::cerr << "Unable to open the file with the name \"" << cpcFileNameOut << "\"\n";
+			return 1;
+		}
+		nReturn = ZlibWtCompressFileEx(fpFileIn, Z_BEST_COMPRESSION, &FileCompressCallback, fpFileOut);
+		fclose(fpFileOut);
+		fclose(fpFileIn);
+	}break;
+	case 'b': {
+		FILE* fpFileIn = fopen_zlibandtls(cpcFileNameIn, "rb");
+		if (!fpFileIn) {
+			::std::cerr << "Unable to open the file with the name \"" << cpcFileNameIn << "\"\n";
+			return 1;
+		}
+		FILE* fpFileOut = fopen_zlibandtls(cpcFileNameOut, "wb");
+		if (!fpFileOut) {
+			fclose(fpFileIn);
+			::std::cerr << "Unable to open the file with the name \"" << cpcFileNameOut << "\"\n";
+			return 1;
+		}
 
-	ret = 0;
-returnPoint:
+		char vcBufferOut[4096];
+		ZlibWtDecompressSessionPtr pSession = ZlibWtCreateDecompressSession(&ZlibWtDecompressCallbackExample, fpFileOut, vcBufferOut, 4096);
+		if (!pSession) {
+			fclose(fpFileOut);
+			fclose(fpFileIn);
+			::std::cerr << "Unable to create decompress session \n";
+			return 1;
+		}
 
-	if (fpIn) { fclose(fpIn); }
-	if (fpOut) { fclose(fpOut); }
+		char vcBufferIn[4096];
+		int isFileof;
+		int nIndex = 0;
+		size_t freadRet;
 
-	printf("return=%d\n",ret);
-	//if ((ret != Z_OK)&&(ret!=0))zerr(ret);
-
-#if defined(_WIN32) & !defined(_M_ARM)
-	printf("Press any key to exit!"); fflush(stdout);
-	_getch();
-	printf("\n");
-#endif
-
-	return ret;
-}
-
-
-
-static int PrepareListFromFile(
-	SCompressList* a_list, uint16_t* a_pHeaderSize, uint16_t* a_numberOfItems,const char* a_configFileName);
-
-
-static int CompressBasedOnConfig(const char* a_configFileName, FILE *a_dest, int a_level)
-{
-	SFileItemList *pItem, *pItemTemp;
-	SCompressList aList;
-	int nReturn = -1;
-	uint16_t headerSize, numberOfItems;
-
-	if(PrepareListFromFile(&aList,&headerSize,&numberOfItems,a_configFileName)){
-		goto returnPoint;
-	}
-
-	headerSize += sizeof(SCompressDecompressHeader);
-	nReturn=ZlibCompressFolderEx(&aList,headerSize,numberOfItems,a_dest,a_level);
-
-returnPoint:
-
-	pItem = aList.first;
-
-	while(pItem){
-		pItemTemp = pItem->next;
-		if(pItem->file){fclose(pItem->file);}
-		if(pItem->item){free(pItem->item);}
-		free(pItem);
-		pItem = pItemTemp->next;
-	}
-
-	return nReturn;
-
-	//GetPrintProcessorDirectory()
-
-}
-
-
-static int PrepareListFromFile(SCompressList* a_list,uint16_t* a_pHeaderSize, uint16_t* a_numberOfItems, const char* a_configFileName)
-{	
-    static const size_t scunLINE_LEN_MIN1 = 4 * ZLIBWT_MAX_PATH - 1;
-	static const char svcTermStr[] = {' ','\t'};
-	static const char svcTermStr2[] = { ' ','\t','\n' };
-	
-	char *pcFilePath, *pcTargetPath, *pcTemp, *pcFileName, *pcSubDirs, *pcNext;
-	SFileItemList* pItem;
-	FILE* fpFile = fopen_zlibandtls(a_configFileName, "r");
-	//common::HashTbl<bool> aHashDirs;
-	::cpputils::hash::Set<::std::string> aHashDirs;
-	size_t unIndexOff;
-	size_t unFilePathLen, unTargetPathLen;
-	size_t unHash;
-	int nReturn = -1;
-	uint16_t fileNameLen;
-	char vcLine[scunLINE_LEN_MIN1 +1];
-	char vcOriginal;
-
-	Init_SCompressList(a_list);
-	*a_pHeaderSize = 0;
-	*a_numberOfItems = 0;
-
-	if(!fpFile){goto returnPoint;}
-
-	while (fgets(vcLine, scunLINE_LEN_MIN1, fpFile) != NULL){
-		if (vcLine[0] == '#') continue;
-		
-		unIndexOff=strspn(vcLine, svcTermStr);  // skip all tabs and spaces
-		if((vcLine[unIndexOff]=='\n')||(vcLine[unIndexOff]==0)){continue;}
-		pcFilePath = vcLine + unIndexOff;
-		
-		unFilePathLen=strcspn(pcFilePath,svcTermStr);  // find next tab or space
-		if((pcFilePath[unIndexOff]=='\n')||(pcFilePath[unIndexOff]==0)){continue;}
-		pcTemp = pcFilePath + unFilePathLen;
-		*pcTemp++ = 0;
-
-		unIndexOff=strspn(pcTemp, svcTermStr); // skip all tabs and spaces
-		if((pcTemp[unIndexOff]=='\n')||(pcTemp[unIndexOff]==0)){continue;}
-		pcTargetPath = pcTemp + unIndexOff;
-
-		unTargetPathLen = strcspn(pcTargetPath, svcTermStr2);  // find next tab or space
-		if(pcTargetPath[unTargetPathLen-1]=='.'){
-			pcFileName = strrchr(pcFilePath, '/');
-			if(pcFileName){++pcFileName;}
-			else{
-				pcFileName = strrchr(pcFilePath, '\\');
-				if(pcFileName){++pcFileName;}
-				else{pcFileName=pcFilePath;}
+		do {
+			freadRet = fread(vcBufferIn, 1, 4096, fpFileIn);
+			if (ferror(fpFileIn)) {
+				ZlibWtDestroyDecompressSession(pSession);
+				fclose(fpFileOut);
+				fclose(fpFileIn);
+				return 1;
 			}
-			strcpy_zlibandtls(&pcTargetPath[unTargetPathLen-1], pcFileName);
-			unTargetPathLen = strlen(pcTargetPath);
-		}
-		else{
-			pcTargetPath[unTargetPathLen] = 0;
-		}
+			ZlibWtDecompressBufferToCallback(pSession, ((++nIndex) & 0x10) >> 4, vcBufferIn, freadRet);
+			isFileof = feof(fpFileIn);
+		} while (!isFileof);
 
-		pcTemp = strchr(pcTargetPath, '/');
-		if (pcTemp) { vcOriginal = '/'; }
-		else{ pcTemp = strchr(pcTargetPath, '\\');if(pcTemp){vcOriginal = '\\';} }
-		pcSubDirs = pcTargetPath;
-
-		while(pcTemp){
-			*pcTemp = 0;
-			//fileNameLen = (uint16_t)strlen(pcSubDirs);
-			//if(!aHashDirs.FindEntry(pcSubDirs,fileNameLen,&bFindResult)){
-			fileNameLen = (uint16_t)strlen(pcTargetPath);
-			//if (!aHashDirs.FindEntry(pcTargetPath, fileNameLen, &bFindResult)) {
-			if (!aHashDirs.find(pcTargetPath,&unHash)) {
-				pItem=ZlibCreateListItemCompress(pcSubDirs, fileNameLen,1,NULL);
-				if(!pItem){goto returnPoint;}
-				*a_pHeaderSize += LEN_FROM_ITEM(pItem->item);
-				++(*a_numberOfItems);
-				if(a_list->last){a_list->last->next=pItem;a_list->last=pItem;}
-				else {a_list->first=a_list->last=pItem;}
-				aHashDirs.AddEntryWithKnownHashMv(::std::string(pcSubDirs), unHash);
-			}
-			*pcTemp = vcOriginal;
-			
-			pcNext = pcTemp + 1;
-			pcTemp = strchr(pcNext, '/');
-			if (pcTemp) { vcOriginal = '/'; }
-			else { pcTemp = strchr(pcNext, '\\'); if (pcTemp) { vcOriginal = '\\'; } }
-			pcSubDirs = pcNext;
-		}
-
-		pItem=ZlibCreateListItemCompress(pcTargetPath, (uint16_t)unTargetPathLen,0, pcFilePath);
-		if (!pItem) { goto returnPoint; }
-		*a_pHeaderSize += LEN_FROM_ITEM(pItem->item);
-		++(*a_numberOfItems);
-		if (a_list->last) { a_list->last->next = pItem; a_list->last = pItem; }
-		else { a_list->first = a_list->last = pItem; }
-
-	}  // while (fgets(vcLine, scunLINE_LEN_MIN1, fpFile) != NULL){
-
-	nReturn = 0;
-returnPoint:
-
-	if(fpFile){fclose(fpFile);}
-
-	return nReturn;
-}
-
-
-
-
-
-
-
-
-
-
-
-#if 0
-/* report a zlib or i/o error */
-void zerr(int ret)
-{
-	fputs("zpipe: ", stderr);
-	switch (ret) {
-	case Z_ERRNO:
-		if (ferror(stdin))
-			fputs("error reading stdin\n", stderr);
-		if (ferror(stdout))
-			fputs("error writing stdout\n", stderr);
-		break;
-	case Z_STREAM_ERROR:
-		fputs("invalid compression level\n", stderr);
-		break;
-	case Z_DATA_ERROR:
-		fputs("invalid or incomplete deflate data\n", stderr);
-		break;
-	case Z_MEM_ERROR:
-		fputs("out of memory\n", stderr);
-		break;
-	case Z_VERSION_ERROR:
-		fputs("zlib version mismatch!\n", stderr);
+		ZlibWtDestroyDecompressSession(pSession);
+		fclose(fpFileOut);
+		fclose(fpFileIn);
+	}break;
+	default:
+		::std::cerr << "Wrong function is provided\n";
+		return 1;
 	}
+
+    return nReturn;
 }
-#endif
 
 
-#endif  //  #if 0
+static void FileCompressCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
+{
+	FILE* fpFileOut = (FILE*)a_userData;
+	fwrite(a_buffer, 1, a_bufLen, fpFileOut);
+}
+
+
+static void ZlibWtDecompressCallbackExample(const void* a_buffer, size_t a_bufLen, void* a_userData, const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData)
+{
+	(void)a_pFileData;
+	(void)a_pExtraData;
+	FILE* fpFileOut = (FILE*)a_userData;
+	fwrite(a_buffer, 1, a_bufLen, fpFileOut);
+}

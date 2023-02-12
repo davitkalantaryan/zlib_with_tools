@@ -35,24 +35,26 @@ struct CPPUTILS_DLL_PRIVATE SDirectoryCompressData{
     ZlibWtTypeCompressCallback  clbk;
     TypeDirIterFunc             filter;
 	ZlibWtCompressSessionPtr    pSession;
+	char*						pcBufferIn;
+	size_t						reserved01;
 };
 
 static void ZlibWtFolderCompressCallbackStatic(const void* buffer, size_t bufLen, void* userData);
 static int  ZlibWtFolderCompressDirIterCallbackStatic(const char*,void*, const DirIterFileData*);
 
 
-static inline int DecompressSingleFile(FILE* a_pFile, ZlibWtCompressSessionPtr a_pSession)
+static inline int CompressSingleFile(FILE* a_pFile, ZlibWtCompressSessionPtr a_pSession, char* a_pcBuffer, size_t a_bufferSize)
 {
 	int isFileof;
 	size_t freadRet;
-	char vcBuffer[ZLIBWT_DEF_CHUNK_SIZE];
+	int nIndex = 0;
 
 	do {
-		freadRet = fread(vcBuffer, 1, ZLIBWT_DEF_CHUNK_SIZE, a_pFile);
+		freadRet = fread(a_pcBuffer, 1, a_bufferSize, a_pFile);
 		if (ferror(a_pFile)) {
 			return 1;
 		}
-		ZlibWtCompressBufferToCallback(a_pSession, 0, vcBuffer, freadRet);
+		ZlibWtCompressBufferToCallback(a_pSession, ((++nIndex)&0x10)>>4, a_pcBuffer, freadRet);
 		isFileof = feof(a_pFile);
 	} while (!isFileof);
 
@@ -67,11 +69,17 @@ ZLIBANDTLS_EXPORT int ZlibWtCompressFileEx(
 	void* a_userData)
 {
 	int nRet;
-	char vcBuffer[ZLIBWT_DEF_CHUNK_SIZE];
-	ZlibWtCompressSessionPtr pSession = ZlibWtCreateTypedCompressSession(CompressedContentDirectory, a_compressionLevel,
-		&ZlibWtFolderCompressCallbackStatic, a_userData, vcBuffer, ZLIBWT_DEF_CHUNK_SIZE);
-	nRet = DecompressSingleFile(a_pFile, pSession);
+	char* pcBufferOut;
+	char* pcBufferIn = (char*)malloc(ZLIBWT_DEF_CHUNK_SIZE);
+	if (!pcBufferIn) { return 1; }
+	pcBufferOut = (char*)malloc(ZLIBWT_DEF_CHUNK_SIZE);
+	if (!pcBufferOut) { free(pcBufferIn);  return 1; }
+	ZlibWtCompressSessionPtr pSession = ZlibWtCreateTypedCompressSession(CompressedContentFile, a_compressionLevel,
+		a_clbk, a_userData, pcBufferOut, ZLIBWT_DEF_CHUNK_SIZE);
+	nRet = CompressSingleFile(a_pFile, pSession, pcBufferIn, ZLIBWT_DEF_CHUNK_SIZE);
 	ZlibWtDestroyCompressSession(pSession);
+	free(pcBufferOut);
+	free(pcBufferIn);
 	return nRet;
 }
 
@@ -84,8 +92,12 @@ ZLIBANDTLS_EXPORT int ZlibWtCompressDirectoryEx(
 	ZlibWtTypeCompressCallback a_clbk, TypeDirIterFunc a_filter, 
 	void* a_userData)
 {
-	char vcBuffer[ZLIBWT_DEF_CHUNK_SIZE];
-    struct SDirectoryCompressData aUserData;
+	struct SDirectoryCompressData aUserData;
+	char* pcBufferOut = (char*)malloc(ZLIBWT_DEF_CHUNK_SIZE);
+	if (!pcBufferOut) { return 1; }
+
+	aUserData.pcBufferIn = (char*)malloc(ZLIBWT_DEF_CHUNK_SIZE);
+	if (!(aUserData.pcBufferIn)) { free(pcBufferOut); return 1; }
 
     aUserData.hasNotAnyFile = 1;
 	aUserData.fl.all = 0;
@@ -93,7 +105,7 @@ ZLIBANDTLS_EXPORT int ZlibWtCompressDirectoryEx(
     aUserData.clbk = a_clbk;
     aUserData.filter = a_filter;
 	aUserData.pSession = ZlibWtCreateTypedCompressSession(CompressedContentDirectory, a_compressionLevel,
-		&ZlibWtFolderCompressCallbackStatic,&aUserData,vcBuffer, ZLIBWT_DEF_CHUNK_SIZE);
+		&ZlibWtFolderCompressCallbackStatic,&aUserData, pcBufferOut, ZLIBWT_DEF_CHUNK_SIZE);
     if(!(aUserData.pSession)){return 1;}
 
 	IterateOverDirectoryFilesNoRecurse(a_directoryPath,&ZlibWtFolderCompressDirIterCallbackStatic,&aUserData);
@@ -102,6 +114,8 @@ ZLIBANDTLS_EXPORT int ZlibWtCompressDirectoryEx(
         // ZLIBWT_MAKE_WARNING("Unable to ");
     }
 
+	free(aUserData.pcBufferIn);
+	free(pcBufferOut);
     return aUserData.fl.b.hasError ? 2 : 0;
 }
 
@@ -190,7 +204,7 @@ static int ZlibWtFolderCompressDirIterCallbackStatic(const char* a_sourceDirecto
 		assert(dummyLen < 8);
 		ZlibWtCompressBufferToCallback(pUserData->pSession, 0, svcDummyBuffer, dummyLen);
 
-		if (DecompressSingleFile(pFile, pUserData->pSession)) {
+		if (CompressSingleFile(pFile, pUserData->pSession, pUserData->pcBufferIn, ZLIBWT_DEF_CHUNK_SIZE)) {
 			fclose(pFile);
 			pUserData->fl.b.hasError = 1;
 			return DIRITER_EXIT_ALL;

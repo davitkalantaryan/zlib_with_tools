@@ -86,7 +86,9 @@ ZLIBANDTLS_LL_EXPORT int ZlibWtCompressBufferToCallback(
     while(a_session->z_str.avail_in>0){
         a_session->z_str.avail_out = a_session->sizeForBufferForCompressedData;
         a_session->z_str.next_out = a_session->bufferForCompressedData;
-        retZlib = deflate(&(a_session->z_str), a_flush);
+        // todo:
+        //retZlib = deflate(&(a_session->z_str), a_flush);
+        retZlib = deflate(&(a_session->z_str), 1);
         if(retZlib==Z_STREAM_ERROR){return Z_STREAM_ERROR;}
         (*(a_session->clbk))(a_session->bufferForCompressedData,
             CPPUTILS_STATIC_CAST(size_t, a_session->sizeForBufferForCompressedData - a_session->z_str.avail_out), a_session->userData);

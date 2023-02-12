@@ -42,7 +42,6 @@
     <ClCompile Include="..\..\..\src\core\zlibwt_decompress_routines_version_0000.cpp" />
     <ClCompile Include="..\..\..\src\core\zlibwt_ll_compression_routines.cpp" />
     <ClCompile Include="..\..\..\src\core\zlibwt_ll_decompress_routines.cpp" />
-    <ClCompile Include="..\..\..\src\core\zlib_compress_decompress_common.cpp" />
     <ClCompile Include="..\..\..\src\tests\main_zlib_test.cpp" />
   </ItemGroup>
   <ItemGroup>

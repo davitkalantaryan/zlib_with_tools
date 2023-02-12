@@ -1,0 +1,7 @@
+
+ Possible command line arguments for the zlib_test app
+ 
+ 1. a D:\photos\aaa.JPG D:\photos\mov.zip
+ 2. b D:\photos\mov.zip D:\photos\out.jpg
+ 3. a D:\photos\IMG_0238.MOV D:\photos\mov2.zlib
+ 4. b D:\photos\mov2.zlib D:\photos\out4.mov
