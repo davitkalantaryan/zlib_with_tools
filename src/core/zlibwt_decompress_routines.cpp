@@ -35,6 +35,7 @@ static void ZlibWtDecompressCallbackStatHeader(const void* a_buffer, size_t a_bu
     if (pSessionLL->z_str.total_out >= ZLIBWT_MAIN_HEADER_SIZE) {
         ZlibWtTypeLLDecompressCallback clbk;
         pSession->isInited = 1;
+        pSession->hasError = 0;
         pSession->header.used.version = le32toh(pSession->header.used.version);
         pSession->header.used.typeOfCompressedContent = le32toh(pSession->header.used.typeOfCompressedContent);
 
@@ -56,12 +57,22 @@ static void ZlibWtDecompressCallbackStatHeader(const void* a_buffer, size_t a_bu
 
 #ifdef __INTELLISENSE__
 
+typedef void (*ZlibWtTypeLLDecompressCallback)(const void* buffer, size_t bufLen, void* userData);
+
+typedef ZlibWtTypeLLDecompressCallback ZlibWtTypeDecompressFileAndBlobCallback;
+
+typedef ZlibWtTypeLLDecompressCallback ZlibWtTypeDecompressDirFileAndBlobReadCallback;
+typedef void (*ZlibWtTypeDecompressDirFileOrDirStartCallback)(const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData, void* userData);
+typedef void (*ZlibWtTypeDecompressDirFileOrDirEndCallback)(void* userData);
+
+
 struct SZlibWtDecompressDirCallbacks {
-    ZlibWtTypeDecompressFileAndBlobCallback	singleBlobRead;
-    ZlibWtTypeFileStartDecompressCallback	dirFileStart;
-    ZlibWtTypeDecompressFileAndBlobCallback	dirFileRead;
-    ZlibWtTypeFileEndDecompressCallback		dirFileEnd;
-    size_t									reserved01[4];
+    ZlibWtTypeDecompressFileAndBlobCallback			singleBlobRead;
+    ZlibWtTypeDecompressDirFileOrDirStartCallback	dirDirOrFileStart;
+    ZlibWtTypeDecompressDirFileAndBlobReadCallback	dirFileRead;
+    ZlibWtTypeDecompressDirFileOrDirEndCallback		dirFileEnd;
+    ZlibWtTypeDecompressDirFileOrDirEndCallback		dirDirEnd;
+    size_t											reserved01[3];
 };
 
 #endif
@@ -81,11 +92,13 @@ ZLIBANDTLS_EXPORT ZlibWtDecompressSessionPtr ZlibWtCreateDecompressSession(
     ZlibWtSetCallbackForLLDecompressSession(pSessionLL, &ZlibWtDecompressCallbackStatHeader, pSession);
     ZlibWtSetBufferForLLDecompressSession(pSessionLL, &(pSession->header), sizeof(struct SCompressDecompressHeader));
     //pSession->clbk = a_clbk;
-    //memcpy(&(pSession->clbks), &a_clbks, sizeof(struct SZlibWtDecompressDirCallbacks));
-    pSession->clbks.singleBlobRead = a_clbks->singleBlobRead;
-    pSession->clbks.dirFileStart = a_clbks->dirFileStart;
-    pSession->clbks.dirFileRead = a_clbks->dirFileRead;
-    pSession->clbks.dirFileEnd = a_clbks->dirFileEnd;
+    memcpy(&(pSession->clbks), a_clbks, sizeof(struct SZlibWtDecompressDirCallbacks));
+    //pSession->clbks.singleBlobRead = a_clbks->singleBlobRead;
+    //pSession->clbks.dirFileStart = a_clbks->dirFileStart;
+    //pSession->clbks.dirFileRead = a_clbks->dirFileRead;
+    //pSession->clbks.dirFileEnd = a_clbks->dirFileEnd;
+
+    pSession->fileData.pFileName = CPPUTILS_NULL;
 
     pSession->userData = a_userData;
     pSession->bufferForDecompressedDataTmp = (Bytef*)a_bufferForDecompressedData;
@@ -99,6 +112,7 @@ ZLIBANDTLS_EXPORT ZlibWtDecompressSessionPtr ZlibWtCreateDecompressSession(
 ZLIBANDTLS_EXPORT void ZlibWtDestroyDecompressSession(ZlibWtDecompressSessionPtr a_session)
 {
     ZlibWtDestroyLLDecompressSession((ZlibWtLLDecompressSessionPtr)a_session);
+    free((char*)a_session->fileData.pFileName);
 }
 
 

@@ -20,16 +20,18 @@ typedef void (*ZlibWtTypeLLDecompressCallback)(const void* buffer, size_t bufLen
 
 typedef ZlibWtTypeLLDecompressCallback ZlibWtTypeDecompressFileAndBlobCallback;
 
-typedef void (*ZlibWtTypeFileStartDecompressCallback)(const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData, void* userData);
-typedef ZlibWtTypeFileStartDecompressCallback ZlibWtTypeFileEndDecompressCallback;
+typedef ZlibWtTypeLLDecompressCallback ZlibWtTypeDecompressDirFileAndBlobReadCallback;
+typedef void (*ZlibWtTypeDecompressDirFileOrDirStartCallback)(const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData, void* userData);
+typedef void (*ZlibWtTypeDecompressDirFileOrDirEndCallback)(void* userData);
 
 
 struct SZlibWtDecompressDirCallbacks {
-	ZlibWtTypeDecompressFileAndBlobCallback	singleBlobRead;
-	ZlibWtTypeFileStartDecompressCallback	dirFileStart;
-	ZlibWtTypeDecompressFileAndBlobCallback	dirFileRead;
-	ZlibWtTypeFileEndDecompressCallback		dirFileEnd;
-	size_t									reserved01[4];
+	ZlibWtTypeDecompressFileAndBlobCallback			singleBlobRead;
+	ZlibWtTypeDecompressDirFileOrDirStartCallback	dirDirOrFileStart;
+	ZlibWtTypeDecompressDirFileAndBlobReadCallback	dirFileRead;
+	ZlibWtTypeDecompressDirFileOrDirEndCallback		dirFileEnd;
+	ZlibWtTypeDecompressDirFileOrDirEndCallback		dirDirEnd;
+	size_t											reserved01[3];
 };
 
 CPPUTILS_END_C

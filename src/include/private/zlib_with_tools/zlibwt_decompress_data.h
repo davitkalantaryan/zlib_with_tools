@@ -16,6 +16,11 @@
 
 CPPUTILS_BEGIN_C
 
+#define ZLIBWT_DECOMPR_STAGE_HEADER         0
+#define ZLIBWT_DECOMPR_STAGE_FILENAME       1
+#define ZLIBWT_DECOMPR_STAGE_READFILE       2
+#define ZLIBWT_DECOMPR_STAGE_FILE_GAP       3
+
 struct CPPUTILS_DLL_PRIVATE ZlibWtLLDecompressSession {
     z_stream                        z_str;
     ZlibWtTypeLLDecompressCallback  clbk;
@@ -31,14 +36,20 @@ struct CPPUTILS_DLL_PRIVATE ZlibWtDecompressSession {
     struct ZlibWtLLDecompressSession        ll;
     struct SCompressDecompressHeader        header;
     struct SFileItem                        fileItem;
-    DirIterFileData                         fileData;
+    struct SDirIterFileData                 fileData;
     struct SZlibWtDecompressDirCallbacks    clbks;
     void*                                   userData;
     Bytef*                                  bufferForDecompressedDataTmp;
+
+    size_t									stage;  // 0 - reading header, 1 - reading file name, 2 - reding file
+    size_t									offsetInTheSection;
+    size_t                                  sizeOfSection;
+
     size_t                                  reserved01;
     uInt                                    sizeForBufferForDecompressedDataTmp;
     uInt                                    isInited : 1;
-    uInt                                    reserved02 : 31;
+    uInt                                    hasError : 1;
+    uInt                                    reserved03 : 30;
 };
 
 CPPUTILS_END_C

@@ -30,6 +30,10 @@ struct ZLIBANDTLS_LL_EXPORT SFileItem {
     uint32_t fileNameLen;
     uint32_t fileNameLenNorm;
     uint32_t mode;
+    //#define ZLIBWT_DIR_CONTENT_FILE         0 
+    //#define ZLIBWT_DIR_CONTENT_DIR_START    1
+    //#define ZLIBWT_DIR_CONTENT_DIR_END      2
+    //#define ZLIBWT_DIR_CONTENT_SINGLE_BLOB  3
     uint8_t  contentType;
     uint8_t  reserved01[3];
     uint8_t  reserved02[8];

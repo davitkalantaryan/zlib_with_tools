@@ -14,11 +14,13 @@
 #include <conio.h>
 #endif
 
-static void FileCompressCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
-static void FileDecompressBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
-static void FileStartDecompressDirCallback(const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData, void* a_userData);
-static void FileEndDecompressDirCallback(const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData, void* a_userData);
-static void FileReadDecompressDirCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
+static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
+//
+static void DecompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
+static void DecompressDirFileOrDirStartCallback(const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData, void* a_userData);
+static void DecompressDirFileAndBlobReadCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
+static void DecompressDirFileEndCallback(void* a_userData);
+static void DecompressDirDirEndCallback(void* a_userData);
 
 struct SDecompressData {
 	FILE* fpFileOut;
@@ -58,7 +60,7 @@ int main(int a_argc, char* a_argv[])
 			::std::cerr << "Unable to open the file with the name \"" << cpcFileNameOut << "\"\n";
 			return 1;
 		}
-		nReturn = ZlibWtCompressFileEx(fpFileIn, Z_BEST_COMPRESSION, &FileCompressCallback, fpFileOut);
+		nReturn = ZlibWtCompressFileEx(fpFileIn, Z_BEST_COMPRESSION, &CompressFileAndBlobCallback, fpFileOut);
 		fclose(fpFileOut);
 		fclose(fpFileIn);
 	}break;
@@ -73,11 +75,12 @@ int main(int a_argc, char* a_argv[])
 
 		char vcBufferOut[4096];
 		const struct SZlibWtDecompressDirCallbacks clbks = { 
-			&FileDecompressBlobCallback,
-			&FileStartDecompressDirCallback,
-			&FileReadDecompressDirCallback,
-			&FileEndDecompressDirCallback,
-			{0,0,0,0}};
+			&DecompressFileAndBlobCallback,
+			& DecompressDirFileOrDirStartCallback,
+			& DecompressDirFileAndBlobReadCallback,
+			& DecompressDirFileEndCallback,
+			& DecompressDirDirEndCallback,
+			{0,0,0}};
 		ZlibWtDecompressSessionPtr pSession = ZlibWtCreateDecompressSession(&clbks, &aData, vcBufferOut, 4096);
 		if (!pSession) {
 			if (aData.fpFileOut) { fclose(aData.fpFileOut); };
@@ -122,29 +125,32 @@ typedef void (*ZlibWtTypeLLDecompressCallback)(const void* buffer, size_t bufLen
 
 typedef ZlibWtTypeLLDecompressCallback ZlibWtTypeDecompressFileAndBlobCallback;
 
-typedef void (*ZlibWtTypeFileStartDecompressCallback)(const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData, void* userData);
-typedef ZlibWtTypeFileStartDecompressCallback ZlibWtTypeFileEndDecompressCallback;
+typedef ZlibWtTypeLLDecompressCallback ZlibWtTypeDecompressDirFileAndBlobReadCallback;
+typedef void (*ZlibWtTypeDecompressDirFileOrDirStartCallback)(const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData, void* userData);
+typedef void (*ZlibWtTypeDecompressDirFileOrDirEndCallback)(void* userData);
 
 
 struct SZlibWtDecompressDirCallbacks {
-	ZlibWtTypeDecompressFileAndBlobCallback	singleBlobRead;
-	ZlibWtTypeFileStartDecompressCallback	dirFileStart;
-	ZlibWtTypeDecompressFileAndBlobCallback	dirFileRead;
-	ZlibWtTypeFileEndDecompressCallback		dirFileEnd;
-	size_t									reserved01[4];
+	ZlibWtTypeDecompressFileAndBlobCallback			singleBlobRead;
+	ZlibWtTypeDecompressDirFileOrDirStartCallback	dirDirOrFileStart;
+	ZlibWtTypeDecompressDirFileAndBlobReadCallback	dirFileRead;
+	ZlibWtTypeDecompressDirFileOrDirEndCallback		dirFileEnd;
+	ZlibWtTypeDecompressDirFileOrDirEndCallback		dirDirEnd;
+	size_t											reserved01[3];
 };
 
 #endif
 
 
-static void FileCompressCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
+static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
 {
 	FILE* fpFileOut = (FILE*)a_userData;
 	fwrite(a_buffer, 1, a_bufLen, fpFileOut);
 }
 
 
-static void FileDecompressBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
+//
+static void DecompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
 {
 	SDecompressData* pData = (SDecompressData*)a_userData;
 	if (!pData->fpFileOut) {
@@ -158,18 +164,24 @@ static void FileDecompressBlobCallback(const void* a_buffer, size_t a_bufLen, vo
 }
 
 
-static  void FileStartDecompressDirCallback(const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData, void* a_userData)
+static void DecompressDirFileOrDirStartCallback(const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData, void* a_userData)
 {
 	//
 }
 
 
-static  void FileEndDecompressDirCallback(const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData, void* a_userData)
+static void DecompressDirFileAndBlobReadCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
+{
+}
+
+
+static void DecompressDirFileEndCallback(void* a_userData)
 {
 	//
 }
 
 
-static void FileReadDecompressDirCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
+static void DecompressDirDirEndCallback(void* a_userData)
 {
+	//
 }
