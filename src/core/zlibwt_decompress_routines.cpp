@@ -111,8 +111,8 @@ ZLIBANDTLS_EXPORT ZlibWtDecompressSessionPtr ZlibWtCreateDecompressSession(
 
 ZLIBANDTLS_EXPORT void ZlibWtDestroyDecompressSession(ZlibWtDecompressSessionPtr a_session)
 {
-    ZlibWtDestroyLLDecompressSession((ZlibWtLLDecompressSessionPtr)a_session);
     free((char*)a_session->fileData.pFileName);
+    ZlibWtDestroyLLDecompressSession((ZlibWtLLDecompressSessionPtr)a_session);
 }
 
 

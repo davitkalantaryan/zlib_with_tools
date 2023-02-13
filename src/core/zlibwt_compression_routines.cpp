@@ -129,7 +129,7 @@ static void ZlibWtFolderCompressCallbackStatic(const void* a_buffer, size_t a_bu
 
 static int ZlibWtFolderCompressDirIterCallbackStatic(const char* a_sourceDirectory,void* a_userData, const DirIterFileData* a_pFileData)
 {
-	static const char svcDummyBuffer[8] = { 0,0,0,0,0,0,0,0 };
+	static const char svcDummyBuffer[9] = { 0,0,0,0,0,0,0,0,0 };
 	struct stat fStat;
 	size_t dummyLen;
 	uint32_t fileNameLen, fileNameLenNorm;
@@ -141,6 +141,10 @@ static int ZlibWtFolderCompressDirIterCallbackStatic(const char* a_sourceDirecto
 
 	if (pUserData->fl.all) {
 		return DIRITER_EXIT_ALL;
+	}
+
+	if (a_pFileData->pFileName[0] == '.') {
+		if ((a_pFileData->pFileName[1] == 0) || ((a_pFileData->pFileName[1] == '.') && (a_pFileData->pFileName[2] == 0))) { return 0; }
 	}
 
 	nFilterResult = (*(pUserData->filter))(a_sourceDirectory,pUserData->userData,a_pFileData);
@@ -171,7 +175,7 @@ static int ZlibWtFolderCompressDirIterCallbackStatic(const char* a_sourceDirecto
 		// write file name
 		ZlibWtCompressBufferToCallback(pUserData->pSession, 0, a_pFileData->pFileName, CPPUTILS_STATIC_CAST(size_t, fileNameLen));
 		dummyLen = CPPUTILS_STATIC_CAST(size_t, fileNameLenNorm - fileNameLen);
-		assert(dummyLen < 8);
+		assert(dummyLen < 9);
 		ZlibWtCompressBufferToCallback(pUserData->pSession, 0, svcDummyBuffer, dummyLen);
 
 		IterateOverDirectoryFilesNoRecurse(vcStrFilePath, &ZlibWtFolderCompressDirIterCallbackStatic, a_userData);
@@ -201,7 +205,7 @@ static int ZlibWtFolderCompressDirIterCallbackStatic(const char* a_sourceDirecto
 		// write file name
 		ZlibWtCompressBufferToCallback(pUserData->pSession, 0, a_pFileData->pFileName, CPPUTILS_STATIC_CAST(size_t, fileNameLen));
 		dummyLen = CPPUTILS_STATIC_CAST(size_t, fileNameLenNorm - fileNameLen);
-		assert(dummyLen < 8);
+		assert(dummyLen < 9);
 		ZlibWtCompressBufferToCallback(pUserData->pSession, 0, svcDummyBuffer, dummyLen);
 
 		if (CompressSingleFile(pFile, pUserData->pSession, pUserData->pcBufferIn, ZLIBWT_DEF_CHUNK_SIZE)) {
@@ -211,7 +215,7 @@ static int ZlibWtFolderCompressDirIterCallbackStatic(const char* a_sourceDirecto
 		}
 
 		dummyLen = CPPUTILS_STATIC_CAST(size_t, fileSizeNorm - fileSize);
-		assert(dummyLen <8);
+		assert(dummyLen <9);
 		ZlibWtCompressBufferToCallback(pUserData->pSession, 0, svcDummyBuffer, dummyLen);
 
 		fclose(pFile);

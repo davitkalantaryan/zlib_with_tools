@@ -15,6 +15,7 @@
 #endif
 
 static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
+static int  DirCompressFilterFunction(const char*, void*, const DirIterFileData*);
 //
 static void DecompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
 static void DecompressDirFileOrDirStartCallback(const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData, void* a_userData);
@@ -30,6 +31,7 @@ struct SDecompressData {
 
 // a -> compress file
 // b -> decompress
+// c -> compress directory
 
 int main(int a_argc, char* a_argv[])
 {
@@ -110,6 +112,15 @@ int main(int a_argc, char* a_argv[])
 		if (aData.fpFileOut) { fclose(aData.fpFileOut); };
 		fclose(fpFileIn);
 	}break;
+	case 'c': {
+		FILE* fpFileOut = fopen_zlibandtls(cpcFileNameOut, "wb");
+		if (!fpFileOut) {
+			::std::cerr << "Unable to open the file with the name \"" << cpcFileNameOut << "\"\n";
+			return 1;
+		}
+		nReturn = ZlibWtCompressDirectoryEx(cpcFileNameIn, Z_BEST_COMPRESSION, &CompressFileAndBlobCallback, &DirCompressFilterFunction,fpFileOut);
+		fclose(fpFileOut);
+	}break;
 	default:
 		::std::cerr << "Wrong function is provided\n";
 		return 1;
@@ -146,6 +157,12 @@ static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, v
 {
 	FILE* fpFileOut = (FILE*)a_userData;
 	fwrite(a_buffer, 1, a_bufLen, fpFileOut);
+}
+
+
+static int DirCompressFilterFunction(const char*, void*, const DirIterFileData*)
+{
+	return 0;
 }
 
 
