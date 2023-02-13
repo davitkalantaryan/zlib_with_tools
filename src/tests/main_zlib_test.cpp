@@ -15,7 +15,16 @@
 #endif
 
 static void FileCompressCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
-static void ZlibWtDecompressCallbackExample(const void* a_buffer, size_t a_bufLen, void* a_userData, const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData);
+static void FileDecompressBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
+static void FileStartDecompressDirCallback(const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData, void* a_userData);
+static void FileEndDecompressDirCallback(const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData, void* a_userData);
+static void FileReadDecompressDirCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
+
+struct SDecompressData {
+	FILE* fpFileOut;
+	const char* cpcFileNameOut;
+	size_t		hasError;
+};
 
 // a -> compress file
 // b -> decompress
@@ -59,17 +68,19 @@ int main(int a_argc, char* a_argv[])
 			::std::cerr << "Unable to open the file with the name \"" << cpcFileNameIn << "\"\n";
 			return 1;
 		}
-		FILE* fpFileOut = fopen_zlibandtls(cpcFileNameOut, "wb");
-		if (!fpFileOut) {
-			fclose(fpFileIn);
-			::std::cerr << "Unable to open the file with the name \"" << cpcFileNameOut << "\"\n";
-			return 1;
-		}
+
+		SDecompressData aData{nullptr,cpcFileNameOut,0};
 
 		char vcBufferOut[4096];
-		ZlibWtDecompressSessionPtr pSession = ZlibWtCreateDecompressSession(&ZlibWtDecompressCallbackExample, fpFileOut, vcBufferOut, 4096);
+		const struct SZlibWtDecompressDirCallbacks clbks = { 
+			&FileDecompressBlobCallback,
+			&FileStartDecompressDirCallback,
+			&FileReadDecompressDirCallback,
+			&FileEndDecompressDirCallback,
+			{0,0,0,0}};
+		ZlibWtDecompressSessionPtr pSession = ZlibWtCreateDecompressSession(&clbks, &aData, vcBufferOut, 4096);
 		if (!pSession) {
-			fclose(fpFileOut);
+			if (aData.fpFileOut) { fclose(aData.fpFileOut); };
 			fclose(fpFileIn);
 			::std::cerr << "Unable to create decompress session \n";
 			return 1;
@@ -84,16 +95,16 @@ int main(int a_argc, char* a_argv[])
 			freadRet = fread(vcBufferIn, 1, 4096, fpFileIn);
 			if (ferror(fpFileIn)) {
 				ZlibWtDestroyDecompressSession(pSession);
-				fclose(fpFileOut);
+				if (aData.fpFileOut) { fclose(aData.fpFileOut); };
 				fclose(fpFileIn);
 				return 1;
 			}
 			ZlibWtDecompressBufferToCallback(pSession, ((++nIndex) & 0x10) >> 4, vcBufferIn, freadRet);
 			isFileof = feof(fpFileIn);
-		} while (!isFileof);
+		} while ((!isFileof)&&(!aData.hasError));
 
 		ZlibWtDestroyDecompressSession(pSession);
-		fclose(fpFileOut);
+		if (aData.fpFileOut) { fclose(aData.fpFileOut); };
 		fclose(fpFileIn);
 	}break;
 	default:
@@ -105,6 +116,27 @@ int main(int a_argc, char* a_argv[])
 }
 
 
+#ifdef __INTELLISENSE__
+
+typedef void (*ZlibWtTypeLLDecompressCallback)(const void* buffer, size_t bufLen, void* userData);
+
+typedef ZlibWtTypeLLDecompressCallback ZlibWtTypeDecompressFileAndBlobCallback;
+
+typedef void (*ZlibWtTypeFileStartDecompressCallback)(const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData, void* userData);
+typedef ZlibWtTypeFileStartDecompressCallback ZlibWtTypeFileEndDecompressCallback;
+
+
+struct SZlibWtDecompressDirCallbacks {
+	ZlibWtTypeDecompressFileAndBlobCallback	singleBlobRead;
+	ZlibWtTypeFileStartDecompressCallback	dirFileStart;
+	ZlibWtTypeDecompressFileAndBlobCallback	dirFileRead;
+	ZlibWtTypeFileEndDecompressCallback		dirFileEnd;
+	size_t									reserved01[4];
+};
+
+#endif
+
+
 static void FileCompressCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
 {
 	FILE* fpFileOut = (FILE*)a_userData;
@@ -112,10 +144,32 @@ static void FileCompressCallback(const void* a_buffer, size_t a_bufLen, void* a_
 }
 
 
-static void ZlibWtDecompressCallbackExample(const void* a_buffer, size_t a_bufLen, void* a_userData, const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData)
+static void FileDecompressBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
 {
-	(void)a_pFileData;
-	(void)a_pExtraData;
-	FILE* fpFileOut = (FILE*)a_userData;
-	fwrite(a_buffer, 1, a_bufLen, fpFileOut);
+	SDecompressData* pData = (SDecompressData*)a_userData;
+	if (!pData->fpFileOut) {
+		pData->fpFileOut = fopen_zlibandtls(pData->cpcFileNameOut, "wb");
+		if (!pData->fpFileOut) {
+			pData->hasError = 1;
+			return;
+		}
+	}
+	fwrite(a_buffer, 1, a_bufLen, pData->fpFileOut);
+}
+
+
+static  void FileStartDecompressDirCallback(const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData, void* a_userData)
+{
+	//
+}
+
+
+static  void FileEndDecompressDirCallback(const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData, void* a_userData)
+{
+	//
+}
+
+
+static void FileReadDecompressDirCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
+{
 }

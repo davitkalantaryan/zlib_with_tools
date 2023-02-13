@@ -76,7 +76,7 @@ CPPUTILS_DLL_PRIVATE void ZlibWtDecompressCallbackStatData_version_0000(const vo
 
 static void ZlibWtDecompressCallbackStatData_dir(const void* a_buffer, size_t a_bufLen, void* a_userData)
 {
-	//
+	ZlibWtDecompressSessionPtr pSession = (ZlibWtDecompressSessionPtr)a_userData;
 }
 
 
@@ -84,7 +84,7 @@ static void ZlibWtDecompressCallbackStatData_blob_and_file(const void* a_buffer,
 {
 	// typedef void (*ZlibWtTypeDecompressCallback)(const void* buffer, size_t bufLen, void* userData, const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData);
 	ZlibWtDecompressSessionPtr pSession = (ZlibWtDecompressSessionPtr)a_userData;
-	(*(pSession->clbk))(a_buffer, a_bufLen, pSession->userData, &(pSession->fileData), &(pSession->fileItem));
+	(*(pSession->clbks.singleBlobRead))(a_buffer, a_bufLen, pSession->userData);
 }
 
 

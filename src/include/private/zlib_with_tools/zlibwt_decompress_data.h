@@ -28,17 +28,17 @@ struct CPPUTILS_DLL_PRIVATE ZlibWtLLDecompressSession {
 
 
 struct CPPUTILS_DLL_PRIVATE ZlibWtDecompressSession {
-    struct ZlibWtLLDecompressSession    ll;
-    struct SCompressDecompressHeader    header;
-    struct SFileItem                    fileItem;
-    DirIterFileData                     fileData;
-    ZlibWtTypeDecompressCallback        clbk;
-    void*                               userData;
-    Bytef*                              bufferForDecompressedDataTmp;
-    size_t                              reserved01;
-    uInt                                sizeForBufferForDecompressedDataTmp;
-    uInt                                isInited : 1;
-    uInt                                reserved02 : 31;
+    struct ZlibWtLLDecompressSession        ll;
+    struct SCompressDecompressHeader        header;
+    struct SFileItem                        fileItem;
+    DirIterFileData                         fileData;
+    struct SZlibWtDecompressDirCallbacks    clbks;
+    void*                                   userData;
+    Bytef*                                  bufferForDecompressedDataTmp;
+    size_t                                  reserved01;
+    uInt                                    sizeForBufferForDecompressedDataTmp;
+    uInt                                    isInited : 1;
+    uInt                                    reserved02 : 31;
 };
 
 CPPUTILS_END_C

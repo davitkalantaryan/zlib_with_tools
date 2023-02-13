@@ -17,7 +17,20 @@
 CPPUTILS_BEGIN_C
 
 typedef void (*ZlibWtTypeLLDecompressCallback)(const void* buffer, size_t bufLen, void* userData);
-typedef void (*ZlibWtTypeDecompressCallback)(const void* buffer, size_t bufLen, void* userData, const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData);
+
+typedef ZlibWtTypeLLDecompressCallback ZlibWtTypeDecompressFileAndBlobCallback;
+
+typedef void (*ZlibWtTypeFileStartDecompressCallback)(const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData, void* userData);
+typedef ZlibWtTypeFileStartDecompressCallback ZlibWtTypeFileEndDecompressCallback;
+
+
+struct SZlibWtDecompressDirCallbacks {
+	ZlibWtTypeDecompressFileAndBlobCallback	singleBlobRead;
+	ZlibWtTypeFileStartDecompressCallback	dirFileStart;
+	ZlibWtTypeDecompressFileAndBlobCallback	dirFileRead;
+	ZlibWtTypeFileEndDecompressCallback		dirFileEnd;
+	size_t									reserved01[4];
+};
 
 CPPUTILS_END_C
 

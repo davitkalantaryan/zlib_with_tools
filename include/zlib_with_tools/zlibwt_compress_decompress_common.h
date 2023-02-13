@@ -19,7 +19,7 @@ enum ZLIBANDTLS_LL_EXPORT TypeOfCompressedContent{
 	CompressedContentNone = 0,
 	CompressedContentDirectory = 1,
     CompressedContentFile = 2,
-    CompressedContentBlob = 3
+    CompressedContentBlob = 4
 };
 
 

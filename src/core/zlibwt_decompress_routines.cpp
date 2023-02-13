@@ -18,6 +18,7 @@
 #include <zlib_with_tools/zlibwt_ll_decompress_routines.h>
 #include <private/zlib_with_tools/zlibwt_decompress_data.h>
 #include <cpputils/endian.h>
+#include <string.h>
 
 
 
@@ -55,12 +56,19 @@ static void ZlibWtDecompressCallbackStatHeader(const void* a_buffer, size_t a_bu
 
 #ifdef __INTELLISENSE__
 
+struct SZlibWtDecompressDirCallbacks {
+    ZlibWtTypeDecompressFileAndBlobCallback	singleBlobRead;
+    ZlibWtTypeFileStartDecompressCallback	dirFileStart;
+    ZlibWtTypeDecompressFileAndBlobCallback	dirFileRead;
+    ZlibWtTypeFileEndDecompressCallback		dirFileEnd;
+    size_t									reserved01[4];
+};
 
 #endif
 
 
 ZLIBANDTLS_EXPORT ZlibWtDecompressSessionPtr ZlibWtCreateDecompressSession(
-    ZlibWtTypeDecompressCallback a_clbk,
+    const struct SZlibWtDecompressDirCallbacks* a_clbks,
     void* a_userData,
     void* a_bufferForDecompressedData,
     size_t a_sizeForBufferForDecompressedData)
@@ -72,7 +80,13 @@ ZLIBANDTLS_EXPORT ZlibWtDecompressSessionPtr ZlibWtCreateDecompressSession(
     ZlibWtDecompressSessionPtr pSession  = (ZlibWtDecompressSessionPtr)pSessionLL;
     ZlibWtSetCallbackForLLDecompressSession(pSessionLL, &ZlibWtDecompressCallbackStatHeader, pSession);
     ZlibWtSetBufferForLLDecompressSession(pSessionLL, &(pSession->header), sizeof(struct SCompressDecompressHeader));
-    pSession->clbk = a_clbk;
+    //pSession->clbk = a_clbk;
+    //memcpy(&(pSession->clbks), &a_clbks, sizeof(struct SZlibWtDecompressDirCallbacks));
+    pSession->clbks.singleBlobRead = a_clbks->singleBlobRead;
+    pSession->clbks.dirFileStart = a_clbks->dirFileStart;
+    pSession->clbks.dirFileRead = a_clbks->dirFileRead;
+    pSession->clbks.dirFileEnd = a_clbks->dirFileEnd;
+
     pSession->userData = a_userData;
     pSession->bufferForDecompressedDataTmp = (Bytef*)a_bufferForDecompressedData;
     pSession->sizeForBufferForDecompressedDataTmp = (uInt)a_sizeForBufferForDecompressedData;

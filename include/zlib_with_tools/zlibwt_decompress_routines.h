@@ -25,7 +25,7 @@ typedef struct ZlibWtDecompressSession* ZlibWtDecompressSessionPtr;
 
 
 ZLIBANDTLS_EXPORT ZlibWtDecompressSessionPtr ZlibWtCreateDecompressSession(
-	ZlibWtTypeDecompressCallback a_clbk,
+	const struct SZlibWtDecompressDirCallbacks* a_clbks,
 	void* userData,
 	void* a_bufferForDecompressedData,
 	size_t a_sizeForBufferForDecompressedData);

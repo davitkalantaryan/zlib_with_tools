@@ -119,5 +119,8 @@
     <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_decompress_routines.h">
       <Filter>Header Files\include\zlib_with_tools</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_compression_data.h">
+      <Filter>Header Files\include\zlib_with_tools</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
