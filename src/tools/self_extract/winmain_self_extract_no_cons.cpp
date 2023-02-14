@@ -2,15 +2,19 @@
 #define  WIN_MAIN_APP
 #define WAIT_DEBUGGER
 
+#include <zlib_with_tools/zlibwt_compression_routines.h>
+#include <zlib_with_tools/zlibwt_decompress_routines.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <zlib.h>
+#ifdef _WIN32
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 #include <Windows.h>
 #include <shellapi.h>
-#include "zlib_with_tools/zlib_compression_routines.h"
-#include "zlib_with_tools/zlib_decompress_routines.h"
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
+#else
+#endif
 
 #define OUT_FILE_NAME_01	"__out.exe"
 #define OUT_FOLDER_NAME_01	"out_dir"
@@ -29,19 +33,8 @@
 
 static const char* s_cpcExeName = nullptr;
 
-static int FilterFunction(const char*, void*, const DirIterFileData* a_data)
-{
-	if ((a_data->pFileName[0] == '_')&& (a_data->pFileName[1] == '_')) {
-		return 1;
-	}
-
-	if (strcmp(s_cpcExeName, a_data->pFileName) == 0) {
-		return 1;
-	}
-
-	return 0;
-}
-
+static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
+static int  DirCompressFilterFunction(const char*, void*, const DirIterFileData* a_data);
 
 #ifdef WIN_MAIN_APP
 int APIENTRY WinMain(
@@ -119,8 +112,11 @@ int main(int a_argc, char* a_argv[])
 	fileSize = (size_t)ftell(fpExe);
 
 	if (fileSize > MAX_EXE_SIZE) {
+		TypeOfCompressedContent dcmprsRet;
 		fseek(fpExe, MAX_EXE_SIZE, SEEK_SET);
-		nReturn = ZlibDecompressFolder(fpExe, OUT_FOLDER_NAME_01);
+		//nReturn = ZlibDecompressFolder(fpExe, OUT_FOLDER_NAME_01);
+		dcmprsRet = ZlibWtDecompressFileOrDirEx(fpExe, OUT_FOLDER_NAME_01);
+		nReturn = (dcmprsRet == CompressedContentDirectory) ? 0 : 1;
 
 		if (nReturn) { goto returnPoint; }
 
@@ -184,7 +180,8 @@ int main(int a_argc, char* a_argv[])
 			*pcDelimer = 0;
 		}
 
-		nReturn = ZlibCompressFolder(vcExePathThenDir, fpOut, Z_DEFAULT_COMPRESSION,&FilterFunction,CPPUTILS_NULL);
+		//nReturn = ZlibCompressFolder(vcExePathThenDir, fpOut, Z_DEFAULT_COMPRESSION,&FilterFunction,CPPUTILS_NULL);
+		nReturn = ZlibWtCompressDirectoryEx(vcExePathThenDir, Z_BEST_COMPRESSION, &CompressFileAndBlobCallback, &DirCompressFilterFunction, fpOut);
 	}
 	
 returnPoint:
@@ -197,4 +194,25 @@ returnPoint:
 	free((char*)s_cpcExeName);
 
 	return nReturn;
+}
+
+
+static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
+{
+	FILE* fpFileOut = (FILE*)a_userData;
+	fwrite(a_buffer, 1, a_bufLen, fpFileOut);
+}
+
+
+static int DirCompressFilterFunction(const char*, void*, const DirIterFileData* a_data)
+{
+	if ((a_data->pFileName[0] == '_') && (a_data->pFileName[1] == '_')) {
+		return 1;
+	}
+
+	if (strcmp(s_cpcExeName, a_data->pFileName) == 0) {
+		return 1;
+	}
+
+	return 0;
 }

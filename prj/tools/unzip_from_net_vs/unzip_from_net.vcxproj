@@ -308,14 +308,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\utils\common_argument_parser.cpp" />
-    <ClCompile Include="..\..\..\src\util\main_unzip_from_net.cpp" />
-    <ClCompile Include="..\..\..\src\util\zlib_compress_decompress_common.cpp" />
-    <ClCompile Include="..\..\..\src\util\zlib_decompress_routines.cpp" />
-    <ClCompile Include="..\..\..\src\util\zlib_decompress_routines_version1.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\include\zlib_compress_decompress_common.h" />
-    <ClInclude Include="..\..\..\include\zlib_decompress_routines.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

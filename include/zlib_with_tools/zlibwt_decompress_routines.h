@@ -16,6 +16,7 @@
 #include <zlib_with_tools/export_symbols.h>
 #include <zlib_with_tools/zlibwt_decompress_data.h>
 #include <stddef.h>
+#include <stdio.h>
 
 
 CPPUTILS_BEGIN_C
@@ -23,8 +24,13 @@ CPPUTILS_BEGIN_C
 struct ZlibWtDecompressSession;
 typedef struct ZlibWtDecompressSession* ZlibWtDecompressSessionPtr;
 
-ZLIBANDTLS_EXPORT TypeOfCompressedContent ZlibWtDecompressFile(
+ZLIBANDTLS_EXPORT TypeOfCompressedContent ZlibWtDecompressFileOrDir(
 	const char* a_cpcInputCompressedFile,
+	const char* a_cpcOutDecompressedFileOrDir);
+
+
+ZLIBANDTLS_EXPORT TypeOfCompressedContent ZlibWtDecompressFileOrDirEx(
+	FILE* a_fpInpCompressedFile,
 	const char* a_cpcOutDecompressedFileOrDir);
 
 

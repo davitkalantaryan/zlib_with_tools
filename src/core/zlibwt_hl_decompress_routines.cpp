@@ -48,13 +48,12 @@ struct CPPUTILS_DLL_PRIVATE SDecompressData {
 };
 
 
-ZLIBANDTLS_EXPORT TypeOfCompressedContent ZlibWtDecompressFile(
-    const char* a_cpcInputCompressedFile,
-    const char* a_cpcOutDecompressedFileOrDir)
+ZLIBANDTLS_EXPORT TypeOfCompressedContent ZlibWtDecompressFileOrDirEx(
+	FILE* a_fpInpCompressedFile,
+	const char* a_cpcOutDecompressedFileOrDir)
 {
 	ZlibWtDecompressSessionPtr pSession;
 	char* pcBufferIn;
-	FILE* fpFileIn;
 	int isFileof;
 	int nIndex = 0;
 	size_t freadRet;
@@ -87,7 +86,7 @@ ZLIBANDTLS_EXPORT TypeOfCompressedContent ZlibWtDecompressFile(
 		CompressedContentNone
 	};
 
-	char *pcBufferOut = (char*)malloc(ZLIBWT_DEF_CHUNK_SIZE);
+	char* pcBufferOut = (char*)malloc(ZLIBWT_DEF_CHUNK_SIZE);
 	if (!pcBufferOut) {
 		ZLIBWT_ERROR_REPORT("Unable create buffer");
 		return CompressedContentNone;
@@ -100,18 +99,8 @@ ZLIBANDTLS_EXPORT TypeOfCompressedContent ZlibWtDecompressFile(
 		return CompressedContentNone;
 	}
 
-	fpFileIn = fopen_zlibandtls(a_cpcInputCompressedFile, "rb");
-	if (!fpFileIn) {
-		free(pcBufferIn);
-		free(pcBufferOut);
-		ZLIBWT_ERROR_REPORT( "Unable to open the file with the name \" %s\"\n", a_cpcInputCompressedFile);
-		return CompressedContentNone;
-	}
-
-
 	pSession = ZlibWtCreateDecompressSession(&clbks, &aData, pcBufferOut, ZLIBWT_DEF_CHUNK_SIZE);
 	if (!pSession) {
-		fclose(fpFileIn);
 		free(pcBufferIn);
 		free(pcBufferOut);
 		ZLIBWT_ERROR_REPORT("Unable to create decompress session \n");
@@ -119,28 +108,43 @@ ZLIBANDTLS_EXPORT TypeOfCompressedContent ZlibWtDecompressFile(
 	}
 
 	do {
-		freadRet = fread(pcBufferIn, 1, ZLIBWT_DEF_CHUNK_SIZE, fpFileIn);
-		if (ferror(fpFileIn)) {
+		freadRet = fread(pcBufferIn, 1, ZLIBWT_DEF_CHUNK_SIZE, a_fpInpCompressedFile);
+		if (ferror(a_fpInpCompressedFile)) {
 			if (aData.fpFileOut) { fclose(aData.fpFileOut); }
 			ZlibWtDestroyDecompressSession(pSession);
-			fclose(fpFileIn);
 			free(pcBufferIn);
 			free(pcBufferOut);
 			return CompressedContentNone;
 		}
 		ZlibWtDecompressBufferToCallback(pSession, ((++nIndex) & 0x10) >> 4, pcBufferIn, freadRet);
-		isFileof = feof(fpFileIn);
+		isFileof = feof(a_fpInpCompressedFile);
 	} while ((!isFileof) && (!aData.hasError));
 
 
 	// cleanup
 	if (aData.fpFileOut) { fclose(aData.fpFileOut); }
 	ZlibWtDestroyDecompressSession(pSession);
-	fclose(fpFileIn);
 	free(pcBufferIn);
 	free(pcBufferOut);
 
 	return aData.retValue;
+}
+
+
+ZLIBANDTLS_EXPORT TypeOfCompressedContent ZlibWtDecompressFileOrDir(
+    const char* a_cpcInputCompressedFile,
+    const char* a_cpcOutDecompressedFileOrDir)
+{
+	TypeOfCompressedContent retVal;
+	FILE* fpFileIn = fopen_zlibandtls(a_cpcInputCompressedFile, "rb");
+	if (!fpFileIn) {
+		ZLIBWT_ERROR_REPORT("Unable to open the file with the name \" %s\"\n", a_cpcInputCompressedFile);
+		return CompressedContentNone;
+	}
+
+	retVal = ZlibWtDecompressFileOrDirEx(fpFileIn, a_cpcOutDecompressedFileOrDir);
+	fclose(fpFileIn);
+	return retVal;
 }
 
 
