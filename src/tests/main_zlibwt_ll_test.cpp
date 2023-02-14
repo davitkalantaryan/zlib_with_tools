@@ -227,7 +227,7 @@ static void DecompressDirFileOrDirStartCallback(const DirIterFileData* a_pFileDa
 		snprintf_zlibandtls(vcFileNameBuffer, 4095, "%s/%s", pData->directoryPath, a_pFileData->pFileName);
 		//sopen_zlibandtls(&(pData->fd),vcFileNameBuffer, _O_WRONLY  | _O_CREAT | _O_BINARY, (int)a_pExtraData->mode);
 		//sopen_zlibandtls(&(pData->fd), vcFileNameBuffer, _O_WRONLY | _O_CREAT | _O_BINARY, (_S_IFREG|_S_IREAD | _S_IWRITE| _S_IEXEC)& a_pExtraData->mode);
-		sopen_zlibandtls(&(pData->fd), vcFileNameBuffer, _O_WRONLY | _O_CREAT | _O_BINARY, (_S_IREAD | _S_IWRITE)& a_pExtraData->mode);
+		sopen_zlibandtls(&(pData->fd), vcFileNameBuffer, ZLIBWT_O_WRONLY | ZLIBWT_O_CREAT | ZLIBWT_O_BINARY, mode_fo_zlibandtls(a_pExtraData->mode));
 		if (pData->fd < 0) {
 			pData->hasError = 1;
 			return;

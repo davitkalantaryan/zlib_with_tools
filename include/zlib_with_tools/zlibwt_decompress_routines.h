@@ -23,6 +23,10 @@ CPPUTILS_BEGIN_C
 struct ZlibWtDecompressSession;
 typedef struct ZlibWtDecompressSession* ZlibWtDecompressSessionPtr;
 
+ZLIBANDTLS_EXPORT TypeOfCompressedContent ZlibWtDecompressFile(
+	const char* a_cpcInputCompressedFile,
+	const char* a_cpcOutDecompressedFileOrDir);
+
 
 ZLIBANDTLS_EXPORT ZlibWtDecompressSessionPtr ZlibWtCreateDecompressSession(
 	const struct SZlibWtDecompressCallbacks* a_clbks,

@@ -42,9 +42,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\tests\main_zlib_test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\contrib\qtutils\contrib\cpputils\src\core\cpputils_hashtbl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -64,6 +61,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\core\zlibwt_ll_decompress_routines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\tests\main_zlibwt_hl_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\zlibwt_hl_decompress_routines.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -117,6 +120,9 @@
       <Filter>Header Files\include\zlib_with_tools\utils</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\zlib_with_tools\utils\string_zlibandtls.h">
+      <Filter>Header Files\include\zlib_with_tools\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\utils\memory_zlibandtls.h">
       <Filter>Header Files\include\zlib_with_tools\utils</Filter>
     </ClInclude>
   </ItemGroup>
