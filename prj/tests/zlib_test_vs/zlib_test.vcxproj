@@ -48,9 +48,6 @@
     <ClInclude Include="..\..\..\include\zlib_with_tools\common\util\common_argument_parser.hpp" />
     <ClInclude Include="..\..\..\include\zlib_with_tools\common\util\common_argument_parser.impl.hpp" />
     <ClInclude Include="..\..\..\include\zlib_with_tools\export_symbols.h" />
-    <ClInclude Include="..\..\..\include\zlib_with_tools\qt_zlib_compression_routines.hpp" />
-    <ClInclude Include="..\..\..\include\zlib_with_tools\qt_zlib_compress_decompress_common.hpp" />
-    <ClInclude Include="..\..\..\include\zlib_with_tools\qt_zlib_decompress_routines.hpp" />
     <ClInclude Include="..\..\..\include\zlib_with_tools\stdio_zlibandtls.h" />
     <ClInclude Include="..\..\..\include\zlib_with_tools\string_zlibandtls.h" />
     <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_compression_data.h" />

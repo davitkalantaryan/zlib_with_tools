@@ -24,8 +24,8 @@ static void DecompressDirFileEndCallback(void* a_userData);
 static void DecompressDirDirEndCallback(void* a_userData);
 
 struct SDecompressData {
-	FILE* fpFileOut;
-	const char* cpcFileNameOut;
+	FILE*		fpFileOut;
+	const char* cpcFileOrFolderNameOut;
 	size_t		hasError;
 };
 
