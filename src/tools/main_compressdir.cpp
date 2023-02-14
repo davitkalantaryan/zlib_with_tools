@@ -2,11 +2,12 @@
 // http://www.zlib.net/zlib_how.html
 
 
-#include <zlib_with_tools/zlib_compression_routines.h>
-#include <zlib_with_tools/stdio_zlibandtls.h>
-#include <zlib_with_tools/string_zlibandtls.h>
+#include <zlib_with_tools/zlibwt_compression_routines.h>
+#include <zlib_with_tools/utils/stdio_zlibandtls.h>
+#include <zlib_with_tools/utils/string_zlibandtls.h>
 #include <zlib_with_tools/common/util/common_argument_parser.hpp>
 #include <cpputils/hash/hash.hpp>
+#include <zlib.h>
 #include <iostream>
 
 #ifdef _MSC_VER
@@ -19,7 +20,8 @@
 
 
 static void PrintHelp(void);
-static int CompressBasedOnConfig(const char* a_configFileName, FILE *a_dest, int a_level);
+static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
+static int  DirCompressFilterFunction(const char*, void*, const DirIterFileData*);
 
 /* compress or decompress from stdin to stdout */
 int main(int a_argc, char * a_argv[])
@@ -66,13 +68,16 @@ int main(int a_argc, char * a_argv[])
 	}
 
 	if(aParser["-if"]){
-		ret = ZlibCompressFolder(aParser["-if"], fpOut, Z_DEFAULT_COMPRESSION,NULL,NULL);
+		//ret = ZlibCompressFolderEx(aParser["-if"], fpOut, Z_DEFAULT_COMPRESSION,NULL,NULL);
+		ret = ZlibWtCompressDirectoryEx(aParser["-if"], Z_BEST_COMPRESSION, &CompressFileAndBlobCallback, &DirCompressFilterFunction, fpOut);
 	}
 	else if(argc2){ 
-		ret = ZlibCompressFolder(argv2[0], fpOut, Z_DEFAULT_COMPRESSION,NULL,NULL);
+		//ret = ZlibCompressFolder(argv2[0], fpOut, Z_DEFAULT_COMPRESSION,NULL,NULL);
+		ret = ZlibWtCompressDirectoryEx(argv2[0], Z_BEST_COMPRESSION, &CompressFileAndBlobCallback, &DirCompressFilterFunction, fpOut);
 	}
 	else {
-		ret = CompressBasedOnConfig(aParser["-cf"], fpOut, Z_DEFAULT_COMPRESSION);
+		//ret = CompressBasedOnConfig(aParser["-cf"], fpOut, Z_DEFAULT_COMPRESSION);
+		ret = 0;
 	}
 
 	//ret = 0;
@@ -97,144 +102,14 @@ static void PrintHelp(void)
 }
 
 
-
-static int PrepareListFromFile(
-	SCompressList* a_list, uint16_t* a_pHeaderSize, uint16_t* a_numberOfItems,const char* a_configFileName);
-
-
-static int CompressBasedOnConfig(const char* a_configFileName, FILE *a_dest, int a_level)
+static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
 {
-	SFileItemList *pItem, *pItemTemp;
-	SCompressList aList;
-	int nReturn = -1;
-	uint16_t headerSize, numberOfItems;
-
-	if(PrepareListFromFile(&aList,&headerSize,&numberOfItems,a_configFileName)){
-		goto returnPoint;
-	}
-
-	headerSize += sizeof(SCompressDecompressHeader);
-	nReturn=ZlibCompressFolderEx(&aList,headerSize,numberOfItems,a_dest,a_level);
-
-returnPoint:
-
-	pItem = aList.first;
-
-	while(pItem){
-		pItemTemp = pItem->next;
-		if(pItem->file){fclose(pItem->file);}
-		if(pItem->item){free(pItem->item);}
-		free(pItem);
-		pItem = pItemTemp;
-	}
-
-	return nReturn;
-
-	//GetPrintProcessorDirectory()
-
+	FILE* fpFileOut = (FILE*)a_userData;
+	fwrite(a_buffer, 1, a_bufLen, fpFileOut);
 }
 
 
-static int PrepareListFromFile(SCompressList* a_list,uint16_t* a_pHeaderSize, uint16_t* a_numberOfItems, const char* a_configFileName)
-{	
-	static const size_t scunLINE_LEN_MIN1 = 4 * MAX_PATH - 1;
-	static const char svcTermStr[] = {' ','\t'};
-	static const char svcTermStr2[] = { ' ','\t','\n','\r' };
-	
-	char *pcFilePath, *pcTargetPath, *pcTemp, *pcFileName, *pcSubDirs, *pcNext;
-	SFileItemList* pItem;
-	FILE* fpFile = fopen_zlibandtls(a_configFileName, "r");
-	//common::HashTbl<bool> aHashDirs;
-	::cpputils::hash::Set<::std::string> aHashDirs;
-	size_t unIndexOff;
-	size_t unFilePathLen, unTargetPathLen;
-	size_t unHash;
-	int nReturn = -1;
-	uint16_t fileNameLen;
-	char vcLine[scunLINE_LEN_MIN1 +1];
-	char vcOriginal;
-
-	Init_SCompressList(a_list);
-	*a_pHeaderSize = 0;
-	*a_numberOfItems = 0;
-
-	if(!fpFile){goto returnPoint;}
-
-	while (fgets(vcLine, scunLINE_LEN_MIN1, fpFile) != NULL){
-		if (vcLine[0] == '#') continue;
-		
-		unIndexOff=strspn(vcLine, svcTermStr);  // skip all tabs and spaces
-		if((vcLine[unIndexOff]=='\n')||(vcLine[unIndexOff]==0)){continue;}
-		pcFilePath = vcLine + unIndexOff;
-		
-		unFilePathLen=strcspn(pcFilePath,svcTermStr);  // find next tab or space
-		if((pcFilePath[unIndexOff]=='\n')||(pcFilePath[unIndexOff]==0)){continue;}
-		pcTemp = pcFilePath + unFilePathLen;
-		*pcTemp++ = 0;
-
-		unIndexOff=strspn(pcTemp, svcTermStr); // skip all tabs and spaces
-		if((pcTemp[unIndexOff]=='\n')||(pcTemp[unIndexOff]==0)){continue;}
-		pcTargetPath = pcTemp + unIndexOff;
-
-		unTargetPathLen = strcspn(pcTargetPath, svcTermStr2);  // find next tab or space
-		if(pcTargetPath[unTargetPathLen-1]=='.'){
-			pcFileName = strrchr(pcFilePath, '/');
-			if(pcFileName){++pcFileName;}
-			else{
-				pcFileName = strrchr(pcFilePath, '\\');
-				if(pcFileName){++pcFileName;}
-				else{pcFileName=pcFilePath;}
-			}
-			strcpy_zlibandtls(&pcTargetPath[unTargetPathLen-1], pcFileName);
-			unTargetPathLen = strlen(pcTargetPath);
-		}
-		else{
-			pcTargetPath[unTargetPathLen] = 0;
-		}
-
-		pcTemp = strchr(pcTargetPath, '/');
-		if (pcTemp) { vcOriginal = '/'; }
-		else{ pcTemp = strchr(pcTargetPath, '\\');if(pcTemp){vcOriginal = '\\';} }
-		pcSubDirs = pcTargetPath;
-
-		while(pcTemp){
-			*pcTemp = 0;
-			//fileNameLen = (uint16_t)strlen(pcSubDirs);
-			//if(!aHashDirs.FindEntry(pcSubDirs,fileNameLen,&bFindResult)){
-			fileNameLen = (uint16_t)strlen(pcTargetPath);
-			if (!aHashDirs.find(pcTargetPath,&unHash)) {
-				//pItem=ZlibCreateListItemCompress(pcSubDirs, fileNameLen,1,NULL);
-				pItem = ZlibCreateListItemCompress(pcTargetPath, fileNameLen, 1, NULL);
-				if(!pItem){goto returnPoint;}
-				*a_pHeaderSize += LEN_FROM_ITEM(pItem->item);
-				++(*a_numberOfItems);
-				if(a_list->last){a_list->last->next=pItem;a_list->last=pItem;}
-				else {a_list->first=a_list->last=pItem;}
-				aHashDirs.AddEntryWithKnownHashMv(::std::string(pcSubDirs), unHash);
-			}
-			*pcTemp = vcOriginal;
-			
-			pcNext = pcTemp + 1;
-			pcTemp = strchr(pcNext, '/');
-			if (pcTemp) { vcOriginal = '/'; }
-			else { pcTemp = strchr(pcNext, '\\'); if (pcTemp) { vcOriginal = '\\'; } }
-			pcSubDirs = pcNext;
-		}
-
-		pItem=ZlibCreateListItemCompress(pcTargetPath, (uint16_t)unTargetPathLen,0, pcFilePath);
-		if (!pItem) { goto returnPoint; }
-		*a_pHeaderSize += LEN_FROM_ITEM(pItem->item);
-		++(*a_numberOfItems);
-		if (a_list->last) { a_list->last->next = pItem; a_list->last = pItem; }
-		else { a_list->first = a_list->last = pItem; }
-
-	}  // while (fgets(vcLine, scunLINE_LEN_MIN1, fpFile) != NULL){
-
-	nReturn = 0;
-returnPoint:
-
-	if(fpFile){fclose(fpFile);}
-
-	return nReturn;
+static int DirCompressFilterFunction(const char*, void*, const DirIterFileData*)
+{
+	return 0;
 }
-

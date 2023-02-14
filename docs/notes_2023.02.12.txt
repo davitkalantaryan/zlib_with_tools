@@ -1,0 +1,9 @@
+
+ Possible command line arguments for the zlib_test app
+ 
+ 1. a D:\photos\aaa.JPG D:\photos\jpg1.zlibwt
+ 2. b D:\photos\jpg1.zlibwt D:\photos\jpgout1.jpg
+ 3. a D:\photos\IMG_0238.MOV D:\photos\mov1.zlibwt
+ 4. b D:\photos\mov1.zlibwt D:\photos\movout1.mov
+ 5. c D:\davit\dev\zlib_with_tools\scripts D:\davit\dev\zlib_with_tools\.tests\scripts.zlibwt
+ 6. b D:\davit\dev\zlib_with_tools\.tests\scripts.zlibwt D:\davit\dev\zlib_with_tools\.tests\scripts

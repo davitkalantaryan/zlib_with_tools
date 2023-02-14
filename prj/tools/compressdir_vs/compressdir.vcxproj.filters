@@ -24,16 +24,16 @@
     <ClCompile Include="..\..\..\src\tools\main_compressdir.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\zlib_compress_decompress_common.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\core\zlib_compression_routines.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\contrib\directory_iterator\src\core\diriter\directory_iterator_win.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\qtutils\contrib\cpputils\src\core\cpputils_hashtbl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\zlibwt_compression_routines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\zlibwt_ll_compression_routines.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

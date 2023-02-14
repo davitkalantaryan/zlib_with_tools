@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\include">
+      <UniqueIdentifier>{ac18aa02-a691-4bce-a621-250094aca1ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\zlib_with_tools">
+      <UniqueIdentifier>{2ad70327-ffa8-442a-b34a-a086beeff7a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\zlib_with_tools\common">
+      <UniqueIdentifier>{45e00bcc-f6c6-4fac-a2d4-e362e02dd19a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\zlib_with_tools\common\util">
+      <UniqueIdentifier>{17db74bf-2e3a-445b-8a03-2ae4526d0571}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\src">
+      <UniqueIdentifier>{c06d1708-3758-43d9-aa84-8960b35df435}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\src\include">
+      <UniqueIdentifier>{a542a763-0d39-4b2e-b4b2-f710e634ee76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\src\include\private">
+      <UniqueIdentifier>{a48b7dd9-3795-4edc-9c07-7223c044ffbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\src\include\private\zlib_with_tools">
+      <UniqueIdentifier>{2cd095a2-2407-4665-ae38-cf028142d5bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\zlib_with_tools\utils">
+      <UniqueIdentifier>{db4c91e2-9def-41b8-9ade-8e2f18d7ecfc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\contrib\qtutils\contrib\cpputils\src\core\cpputils_hashtbl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\directory_iterator\src\core\diriter\directory_iterator_win.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\zlibwt_ll_compression_routines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\zlibwt_compression_routines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\zlibwt_decompress_routines_version_0000.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\zlibwt_decompress_routines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\zlibwt_ll_decompress_routines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\tests\main_zlibwt_ll_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\zlib_first_include.h">
+      <Filter>Header Files\include\zlib_with_tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\common\util\common_argument_parser.hpp">
+      <Filter>Header Files\include\zlib_with_tools\common\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\common\util\common_argument_parser.impl.hpp">
+      <Filter>Header Files\include\zlib_with_tools\common\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\export_symbols.h">
+      <Filter>Header Files\include\zlib_with_tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\include\private\zlib_with_tools\zlibwt_compress_decompress_common.h">
+      <Filter>Header Files\src\include\private\zlib_with_tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\include\private\zlib_with_tools\zlibwt_compress_decompress_common_version_0000.h">
+      <Filter>Header Files\src\include\private\zlib_with_tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_compression_routines.h">
+      <Filter>Header Files\include\zlib_with_tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_ll_compression_routines.h">
+      <Filter>Header Files\include\zlib_with_tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_ll_decompress_routines.h">
+      <Filter>Header Files\include\zlib_with_tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_decompress_data.h">
+      <Filter>Header Files\include\zlib_with_tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_compress_decompress_common.h">
+      <Filter>Header Files\include\zlib_with_tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\include\private\zlib_with_tools\zlibwt_decompress_data.h">
+      <Filter>Header Files\src\include\private\zlib_with_tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_decompress_routines.h">
+      <Filter>Header Files\include\zlib_with_tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_compression_data.h">
+      <Filter>Header Files\include\zlib_with_tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\utils\io_zlibandtls.h">
+      <Filter>Header Files\include\zlib_with_tools\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\utils\stdio_zlibandtls.h">
+      <Filter>Header Files\include\zlib_with_tools\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\utils\string_zlibandtls.h">
+      <Filter>Header Files\include\zlib_with_tools\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\utils\memory_zlibandtls.h">
+      <Filter>Header Files\include\zlib_with_tools\utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
