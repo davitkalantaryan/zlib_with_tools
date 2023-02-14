@@ -53,7 +53,7 @@ int main(int a_argc, char* a_argv[])
 		fclose(fpFileIn);
 	}break;
 	case 'b': {
-		const TypeOfCompressedContent dcmprsRet = ZlibWtDecompressFile(cpcFileNameIn, cpcFileNameOut);
+		const TypeOfCompressedContent dcmprsRet = ZlibWtDecompressFileOrDir(cpcFileNameIn, cpcFileNameOut);
 		::std::cout << "dcmprsRet:" << dcmprsRet << ::std::endl;
 	}break;
 	case 'c': {
