@@ -51,7 +51,7 @@ struct CPPUTILS_DLL_PRIVATE ZlibWtDecompressSession {
     struct SCompressDecompressHeader        header;
     struct SFileItem                        fileItem;
     struct SDirIterFileData                 fileData;
-    struct SZlibWtDecompressDirCallbacks    clbks;
+    struct SZlibWtDecompressCallbacks		clbks;
     void*                                   userData;
     Bytef*                                  bufferForDecompressedDataTmp;
 
@@ -91,12 +91,15 @@ CPPUTILS_DLL_PRIVATE void ZlibWtDecompressCallbackStatData_version_0000(const vo
 		pSession->stage = ZLIBWT_DECOMPR_STAGE_HEADER;
 		pSession->offsetInTheSection = 0;
 		pSession->sizeOfSection = sizeof(struct SFileItem);
+		(*(pSession->clbks.dr.decompressStart))(pSession->userData);
 		clbk = &ZlibWtDecompressCallbackStatData_dir;
 		break;
 	case CompressedContentFile: case CompressedContentBlob:
+		(*(pSession->clbks.fl.decompressStart))(pSession->userData);
 		clbk = &ZlibWtDecompressCallbackStatData_blob_and_file;
 		break;
 	default:
+		pSession->hasError = 1;
 		return;
 	}  //  switch (pSession->header.used.typeOfCompressedContent) {
 
@@ -147,7 +150,7 @@ static void ZlibWtDecompressCallbackStatData_dir(const void* a_buffer, size_t a_
 				break;
 			case ZLIBWT_DIR_CONTENT_DIR_END:
 				pSession->fileData.isDir = 1;
-				(*(pSession->clbks.dirDirEnd))(pSession->userData);
+				(*(pSession->clbks.dr.dirEnd))(pSession->userData);
 				break;
 			default:
 				break;
@@ -180,7 +183,7 @@ static void ZlibWtDecompressCallbackStatData_dir(const void* a_buffer, size_t a_
 				return;
 			}  //  switch (pSession->fileItem.contentType) {
 			pSession->offsetInTheSection = 0;
-			(*(pSession->clbks.dirDirOrFileStart))(&(pSession->fileData),&(pSession->fileItem),pSession->userData);
+			(*(pSession->clbks.dr.dirOrFileStart))(&(pSession->fileData),&(pSession->fileItem),pSession->userData);
 			if (a_bufLen > cunRemnBuffSize) {
 				ZlibWtDecompressCallbackStatData_dir(((char*)a_buffer) + cunRemnBuffSize, a_bufLen - cunRemnBuffSize, a_userData);
 			}
@@ -192,18 +195,18 @@ static void ZlibWtDecompressCallbackStatData_dir(const void* a_buffer, size_t a_
 	}break;
 	case ZLIBWT_DECOMPR_STAGE_READFILE: {
 		if (a_bufLen >= cunRemnBuffSize) {
-			(*(pSession->clbks.dirFileRead))(a_buffer, cunRemnBuffSize, pSession->userData);
+			(*(pSession->clbks.dr.fileRead))(a_buffer, cunRemnBuffSize, pSession->userData);
 			assert(pSession->fileItem.contentType== ZLIBWT_DIR_CONTENT_FILE);
 			pSession->stage = ZLIBWT_DECOMPR_STAGE_FILE_GAP;
 			pSession->sizeOfSection = (size_t)(pSession->fileItem.fileSizeNorm - pSession->fileItem.fileSize);
 			pSession->offsetInTheSection = 0;
-			(*(pSession->clbks.dirFileEnd))(pSession->userData);
+			(*(pSession->clbks.dr.fileEnd))(pSession->userData);
 			if (a_bufLen > cunRemnBuffSize) {
 				ZlibWtDecompressCallbackStatData_dir(((char*)a_buffer) + cunRemnBuffSize, a_bufLen - cunRemnBuffSize, a_userData);
 			}
 		}  //  if (a_bufLen >= cunRemnBuffSize) {
 		else {
-			(*(pSession->clbks.dirFileRead))(a_buffer, a_bufLen, pSession->userData);
+			(*(pSession->clbks.dr.fileRead))(a_buffer, a_bufLen, pSession->userData);
 			pSession->offsetInTheSection += a_bufLen;
 		}
 	}break;
@@ -231,7 +234,7 @@ static void ZlibWtDecompressCallbackStatData_blob_and_file(const void* a_buffer,
 {
 	// typedef void (*ZlibWtTypeDecompressCallback)(const void* buffer, size_t bufLen, void* userData, const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData);
 	ZlibWtDecompressSessionPtr pSession = (ZlibWtDecompressSessionPtr)a_userData;
-	(*(pSession->clbks.singleBlobRead))(a_buffer, a_bufLen, pSession->userData);
+	(*(pSession->clbks.fl.read))(a_buffer, a_bufLen, pSession->userData);
 }
 
 

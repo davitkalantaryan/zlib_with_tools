@@ -9,7 +9,7 @@
 
 #include <zlib_with_tools/zlibwt_compression_routines.h>
 #include <zlib_with_tools/zlibwt_ll_compression_routines.h>
-#include <zlib_with_tools/stdio_zlibandtls.h>
+#include <zlib_with_tools/utils/stdio_zlibandtls.h>
 #include <private/zlib_with_tools/zlibwt_compress_decompress_common.h>
 #include <cpputils/endian.h>
 #include <assert.h>

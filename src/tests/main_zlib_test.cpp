@@ -4,29 +4,39 @@
 
 #include <zlib_with_tools/zlibwt_compression_routines.h>
 #include <zlib_with_tools/zlibwt_decompress_routines.h>
-#include <zlib_with_tools/stdio_zlibandtls.h>
+#include <zlib_with_tools/utils/stdio_zlibandtls.h>
+#include <zlib_with_tools/utils/io_zlibandtls.h>
+#include <zlib_with_tools/utils/string_zlibandtls.h>
 #include <zlib.h>
 #include <iostream>
 #include <stdio.h>
+#include <assert.h>
 
 #ifdef _MSC_VER
 #pragma comment (lib,"zlib.lib")
-#include <conio.h>
 #endif
 
 static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
 static int  DirCompressFilterFunction(const char*, void*, const DirIterFileData*);
-//
+/*///////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+static void DecompressFileStartCallback(void* a_userData);
 static void DecompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
+/*///////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+static void DecompressDirStartCallback(void* a_userData);
 static void DecompressDirFileOrDirStartCallback(const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData, void* a_userData);
-static void DecompressDirFileAndBlobReadCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
+static void DecompressDirFileReadCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
 static void DecompressDirFileEndCallback(void* a_userData);
 static void DecompressDirDirEndCallback(void* a_userData);
 
 struct SDecompressData {
 	FILE*		fpFileOut;
 	const char* cpcFileOrFolderNameOut;
-	size_t		hasError;
+	char*		directoryPath;
+	size_t		directoryPathLen;
+	size_t		hasError : 1;
+	size_t		reserved01 : (sizeof(size_t) - 1);
+	int			fd;
+	int			reserved02;
 };
 
 // a -> compress file
@@ -73,16 +83,24 @@ int main(int a_argc, char* a_argv[])
 			return 1;
 		}
 
-		SDecompressData aData{nullptr,cpcFileNameOut,0};
+		SDecompressData aData{nullptr,cpcFileNameOut,nullptr,0,0,0,-1,0};
 
 		char vcBufferOut[4096];
-		const struct SZlibWtDecompressDirCallbacks clbks = { 
-			&DecompressFileAndBlobCallback,
-			& DecompressDirFileOrDirStartCallback,
-			& DecompressDirFileAndBlobReadCallback,
-			& DecompressDirFileEndCallback,
-			& DecompressDirDirEndCallback,
-			{0,0,0}};
+		const struct SZlibWtDecompressCallbacks clbks = {
+			{
+				& DecompressFileStartCallback,
+				& DecompressFileAndBlobCallback,
+				{0,0}
+			},
+			{
+				& DecompressDirStartCallback,
+				& DecompressDirFileOrDirStartCallback,
+				& DecompressDirFileReadCallback,
+				& DecompressDirFileEndCallback,
+				& DecompressDirDirEndCallback,
+				{0,0,0}
+			}
+		};
 		ZlibWtDecompressSessionPtr pSession = ZlibWtCreateDecompressSession(&clbks, &aData, vcBufferOut, 4096);
 		if (!pSession) {
 			if (aData.fpFileOut) { fclose(aData.fpFileOut); };
@@ -109,7 +127,8 @@ int main(int a_argc, char* a_argv[])
 		} while ((!isFileof)&&(!aData.hasError));
 
 		ZlibWtDestroyDecompressSession(pSession);
-		if (aData.fpFileOut) { fclose(aData.fpFileOut); };
+		if (aData.fpFileOut) { fclose(aData.fpFileOut); }
+		free(aData.directoryPath);
 		fclose(fpFileIn);
 	}break;
 	case 'c': {
@@ -130,29 +149,6 @@ int main(int a_argc, char* a_argv[])
 }
 
 
-#ifdef __INTELLISENSE__
-
-typedef void (*ZlibWtTypeLLDecompressCallback)(const void* buffer, size_t bufLen, void* userData);
-
-typedef ZlibWtTypeLLDecompressCallback ZlibWtTypeDecompressFileAndBlobCallback;
-
-typedef ZlibWtTypeLLDecompressCallback ZlibWtTypeDecompressDirFileAndBlobReadCallback;
-typedef void (*ZlibWtTypeDecompressDirFileOrDirStartCallback)(const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData, void* userData);
-typedef void (*ZlibWtTypeDecompressDirFileOrDirEndCallback)(void* userData);
-
-
-struct SZlibWtDecompressDirCallbacks {
-	ZlibWtTypeDecompressFileAndBlobCallback			singleBlobRead;
-	ZlibWtTypeDecompressDirFileOrDirStartCallback	dirDirOrFileStart;
-	ZlibWtTypeDecompressDirFileAndBlobReadCallback	dirFileRead;
-	ZlibWtTypeDecompressDirFileOrDirEndCallback		dirFileEnd;
-	ZlibWtTypeDecompressDirFileOrDirEndCallback		dirDirEnd;
-	size_t											reserved01[3];
-};
-
-#endif
-
-
 static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
 {
 	FILE* fpFileOut = (FILE*)a_userData;
@@ -166,39 +162,100 @@ static int DirCompressFilterFunction(const char*, void*, const DirIterFileData*)
 }
 
 
-//
+/*///////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+static void DecompressFileStartCallback(void* a_userData)
+{
+	SDecompressData* pData = (SDecompressData*)a_userData;
+	pData->fpFileOut = fopen_zlibandtls(pData->cpcFileOrFolderNameOut, "wb");
+	if (!pData->fpFileOut) {
+		pData->hasError = 1;
+	}
+}
+
+
 static void DecompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
 {
 	SDecompressData* pData = (SDecompressData*)a_userData;
-	if (!pData->fpFileOut) {
-		pData->fpFileOut = fopen_zlibandtls(pData->cpcFileNameOut, "wb");
-		if (!pData->fpFileOut) {
-			pData->hasError = 1;
-			return;
-		}
-	}
 	fwrite(a_buffer, 1, a_bufLen, pData->fpFileOut);
 }
 
 
+/*///////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+static void DecompressDirStartCallback(void* a_userData)
+{
+	SDecompressData* pData = (SDecompressData*)a_userData;
+	int nReturn = mkdir_zlibandtls(pData->cpcFileOrFolderNameOut, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+	if (nReturn) {
+		pData->hasError = 1;
+		return;
+	}
+
+	pData->directoryPath = stdup_zlibandtls(pData->cpcFileOrFolderNameOut);
+	if (!pData->directoryPath) {
+		pData->hasError = 1;
+		return;
+	}
+
+	pData->directoryPathLen = strlen(pData->cpcFileOrFolderNameOut);
+}
+
 static void DecompressDirFileOrDirStartCallback(const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData, void* a_userData)
 {
-	//
+	SDecompressData* pData = (SDecompressData*)a_userData;
+
+	if (a_pFileData->isDir) {
+		const size_t newStrLen = pData->directoryPathLen + 1 + ((size_t)a_pExtraData->fileNameLen);
+		char* directoryPathTmp = (char*)realloc(pData->directoryPath, newStrLen + 1);
+		if (!directoryPathTmp) {
+			pData->hasError = 1;
+			return;
+		}
+		pData->directoryPath = directoryPathTmp;
+		pData->directoryPath[pData->directoryPathLen] = '/';
+		memcpy(pData->directoryPath + pData->directoryPathLen + 1, a_pFileData->pFileName, (size_t)a_pExtraData->fileNameLen);
+		pData->directoryPath[newStrLen] = 0;
+		pData->directoryPathLen = newStrLen;
+		int nReturn = mkdir_zlibandtls(pData->directoryPath, a_pExtraData->mode);
+		if (nReturn) {
+			pData->hasError = 1;
+			return;
+		}
+	}
+	else {
+		char vcFileNameBuffer[4096];
+		snprintf_zlibandtls(vcFileNameBuffer, 4095, "%s/%s", pData->directoryPath, a_pFileData->pFileName);
+		//sopen_zlibandtls(&(pData->fd),vcFileNameBuffer, _O_WRONLY  | _O_CREAT | _O_BINARY, (int)a_pExtraData->mode);
+		//sopen_zlibandtls(&(pData->fd), vcFileNameBuffer, _O_WRONLY | _O_CREAT | _O_BINARY, (_S_IFREG|_S_IREAD | _S_IWRITE| _S_IEXEC)& a_pExtraData->mode);
+		sopen_zlibandtls(&(pData->fd), vcFileNameBuffer, _O_WRONLY | _O_CREAT | _O_BINARY, (_S_IREAD | _S_IWRITE)& a_pExtraData->mode);
+		if (pData->fd < 0) {
+			pData->hasError = 1;
+			return;
+		}
+	}
 }
 
 
-static void DecompressDirFileAndBlobReadCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
+static void DecompressDirFileReadCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
 {
+	SDecompressData* pData = (SDecompressData*)a_userData;
+	write_zlibandtls(pData->fd, a_buffer, a_bufLen);
 }
 
 
 static void DecompressDirFileEndCallback(void* a_userData)
 {
-	//
+	SDecompressData* pData = (SDecompressData*)a_userData;
+	close_zlibandtls(pData->fd);
 }
 
 
 static void DecompressDirDirEndCallback(void* a_userData)
 {
-	//
+	SDecompressData* pData = (SDecompressData*)a_userData;
+	char* cpcTerm = strrchr(pData->directoryPath, '/');
+	assert(cpcTerm);
+	const size_t newStrLen = (size_t)(cpcTerm-(pData->directoryPath));
+	*cpcTerm = 0;
+	pData->directoryPathLen = newStrLen;
 }

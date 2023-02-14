@@ -79,7 +79,7 @@ struct SZlibWtDecompressDirCallbacks {
 
 
 ZLIBANDTLS_EXPORT ZlibWtDecompressSessionPtr ZlibWtCreateDecompressSession(
-    const struct SZlibWtDecompressDirCallbacks* a_clbks,
+    const struct SZlibWtDecompressCallbacks* a_clbks,
     void* a_userData,
     void* a_bufferForDecompressedData,
     size_t a_sizeForBufferForDecompressedData)
@@ -92,7 +92,7 @@ ZLIBANDTLS_EXPORT ZlibWtDecompressSessionPtr ZlibWtCreateDecompressSession(
     ZlibWtSetCallbackForLLDecompressSession(pSessionLL, &ZlibWtDecompressCallbackStatHeader, pSession);
     ZlibWtSetBufferForLLDecompressSession(pSessionLL, &(pSession->header), sizeof(struct SCompressDecompressHeader));
     //pSession->clbk = a_clbk;
-    memcpy(&(pSession->clbks), a_clbks, sizeof(struct SZlibWtDecompressDirCallbacks));
+    memcpy(&(pSession->clbks), a_clbks, sizeof(struct SZlibWtDecompressCallbacks));
     //pSession->clbks.singleBlobRead = a_clbks->singleBlobRead;
     //pSession->clbks.dirFileStart = a_clbks->dirFileStart;
     //pSession->clbks.dirFileRead = a_clbks->dirFileRead;

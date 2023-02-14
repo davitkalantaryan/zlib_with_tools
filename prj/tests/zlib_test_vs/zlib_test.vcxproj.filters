@@ -110,10 +110,13 @@
     <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_compression_data.h">
       <Filter>Header Files\include\zlib_with_tools</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\zlib_with_tools\stdio_zlibandtls.h">
+    <ClInclude Include="..\..\..\include\zlib_with_tools\utils\io_zlibandtls.h">
       <Filter>Header Files\include\zlib_with_tools\utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\zlib_with_tools\string_zlibandtls.h">
+    <ClInclude Include="..\..\..\include\zlib_with_tools\utils\stdio_zlibandtls.h">
+      <Filter>Header Files\include\zlib_with_tools\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\utils\string_zlibandtls.h">
       <Filter>Header Files\include\zlib_with_tools\utils</Filter>
     </ClInclude>
   </ItemGroup>

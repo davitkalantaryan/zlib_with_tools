@@ -37,7 +37,7 @@ struct CPPUTILS_DLL_PRIVATE ZlibWtDecompressSession {
     struct SCompressDecompressHeader        header;
     struct SFileItem                        fileItem;
     struct SDirIterFileData                 fileData;
-    struct SZlibWtDecompressDirCallbacks    clbks;
+    struct SZlibWtDecompressCallbacks       clbks;
     void*                                   userData;
     Bytef*                                  bufferForDecompressedDataTmp;
 
