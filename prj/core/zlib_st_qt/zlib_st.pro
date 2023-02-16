@@ -1,5 +1,5 @@
 #   
-# file:		zlib.pro
+# file:		zlib_st.pro
 # created on:	2010 May 27 
 # created by:	D. Kalantaryan (davit.kalantaryan@gmail.com)  
 #  
