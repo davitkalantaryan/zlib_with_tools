@@ -1,6 +1,5 @@
 
-#define  WIN_MAIN_APP
-#define WAIT_DEBUGGER
+//#define WAIT_DEBUGGER
 
 #include <zlib_with_tools/zlibwt_compression_routines.h>
 #include <zlib_with_tools/zlibwt_decompress_routines.h>
