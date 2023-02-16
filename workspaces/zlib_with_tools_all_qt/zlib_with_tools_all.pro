@@ -13,12 +13,14 @@ greaterThan(QT_MAJOR_VERSION, 4):QT += widgets
 repositoryRoot = $${PWD}/../..
 
 zlib                    = $${repositoryRoot}/prj/core/zlib_qt/zlib.pro
+zlib_st                 = $${repositoryRoot}/prj/core/zlib_st_qt/zlib_st.pro
 zlibwt_hl_test          = $${repositoryRoot}/prj/tests/zlibwt_hl_test_qt/zlibwt_hl_test.pro
 zlibwt_ll_test          = $${repositoryRoot}/prj/tests/zlibwt_ll_test_qt/zlibwt_ll_test.pro
 
 
 SUBDIRS +=  \
     $$zlib                \
+    $$zlib_st             \
     $$zlibwt_hl_test      \
     $$zlibwt_ll_test
 
