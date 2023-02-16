@@ -6,14 +6,24 @@
 #
 
 TEMPLATE = subdirs
-#CONFIG += ordered
+CONFIG += ordered # todo: get rid of this
 
 greaterThan(QT_MAJOR_VERSION, 4):QT += widgets
 
 repositoryRoot = $${PWD}/../..
 
-SUBDIRS	+=	"$${repositoryRoot}/prj/tests/zlibwt_hl_test_qt/zlibwt_hl_test.pro"
-SUBDIRS	+=	"$${repositoryRoot}/prj/tests/zlibwt_ll_test_qt/zlibwt_ll_test.pro"
+zlib                    = $${repositoryRoot}/prj/core/zlib_qt/zlib.pro
+zlibwt_hl_test          = $${repositoryRoot}/prj/tests/zlibwt_hl_test_qt/zlibwt_hl_test.pro
+zlibwt_ll_test          = $${repositoryRoot}/prj/tests/zlibwt_ll_test_qt/zlibwt_ll_test.pro
+
+
+SUBDIRS +=  \
+    $$zlib                \
+    $$zlibwt_hl_test      \
+    $$zlibwt_ll_test
+
+$${zlibwt_hl_test}.depends = $${zlib}
+$${zlibwt_ll_test}.depends = $${zlib}
 
 
 OTHER_FILES += $$files($${repositoryRoot}/docs/*.md,true)

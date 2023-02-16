@@ -18,6 +18,10 @@ else {
 INCLUDEPATH += "$${PWD}/../../../include"
 INCLUDEPATH += "$${PWD}/../../../contrib/zlib"
 
+QT -= core
+QT -= gui
+CONFIG -= qt
+
 SOURCES		+=	\
 	$${PWD}/../../../contrib/zlib/adler32.c			\
 	$${PWD}/../../../contrib/zlib/compress.c		\

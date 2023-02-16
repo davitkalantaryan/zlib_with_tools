@@ -6,7 +6,6 @@
 
 
 message("file:  zlibwt_ll_test.pro  ")
-include($${PWD}/../../common/common_qt/zlib.pri)
 repositoryRoot = $${PWD}/../../..
 include($${repositoryRoot}/contrib/qtutils/contrib/cpputils/prj/common/common_qt/sys_common.pri)
 DESTDIR     = $${artifactRoot}/$${SYSTEM_PATH}/$$CONFIGURATION/test
@@ -18,10 +17,16 @@ CONFIG -= qt
 
 DEFINES += ZLIB_CONST
 
+INCLUDEPATH += "$${PWD}/../../../include"
+INCLUDEPATH += "$${PWD}/../../../contrib/zlib"
 INCLUDEPATH += $${PWD}/../../../contrib/qtutils/contrib/cpputils/include
 INCLUDEPATH += $${PWD}/../../../contrib/qtutils/contrib/cpputils/contrib/cinternal/include
 INCLUDEPATH += $${PWD}/../../../contrib/directory_iterator/include
 INCLUDEPATH += $${PWD}/../../../src/include
+
+
+LIBS += -L$${DESTDIR}/../lib
+LIBS += -lzlib
 
 
 SOURCES		+=	\
