@@ -33,7 +33,7 @@
 #else
 #define ZLIBWT_O_WRONLY									O_WRONLY
 #define ZLIBWT_O_CREAT									O_CREAT
-#define ZLIBWT_O_BINARY									O_BINARY
+#define ZLIBWT_O_BINARY									0
 
 #define sopen_zlibandtls(_pfh,_filename,_oflag,_pmode)	*(_pfh) = open(_filename,_oflag,_pmode)
 #define mkdir_zlibandtls								mkdir

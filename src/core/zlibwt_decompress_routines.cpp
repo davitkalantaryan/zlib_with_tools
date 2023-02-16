@@ -19,6 +19,8 @@
 #include <private/zlib_with_tools/zlibwt_decompress_data.h>
 #include <cpputils/endian.h>
 #include <string.h>
+#include <stdlib.h>
+#include <assert.h>
 
 
 
@@ -50,6 +52,11 @@ static void ZlibWtDecompressCallbackStatHeader(const void* a_buffer, size_t a_bu
 
         ZlibWtSetCallbackForLLDecompressSession(pSessionLL, clbk, pSession);
         ZlibWtSetBufferForLLDecompressSession(pSessionLL, pSession->bufferForDecompressedDataTmp, pSession->sizeForBufferForDecompressedDataTmp);
+        if(CPPUTILS_UNLIKELY(pSessionLL->z_str.total_out > ZLIBWT_MAIN_HEADER_SIZE)){
+            const size_t cunRemaining = CPPUTILS_STATIC_CAST(size_t,pSessionLL->z_str.total_out) - ZLIBWT_MAIN_HEADER_SIZE;
+            assert(a_bufLen>cunRemaining);
+            (*clbk)(((char*)a_buffer)+(a_bufLen-cunRemaining),cunRemaining,pSession->userData);
+        }
         ZlibWtLLDecompressBufferToCallbackReadOldIn(pSessionLL, 0);
     }
 }

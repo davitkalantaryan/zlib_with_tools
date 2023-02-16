@@ -13,6 +13,7 @@
 #include <private/zlib_with_tools/zlibwt_compress_decompress_common.h>
 #include <cpputils/endian.h>
 #include <assert.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
