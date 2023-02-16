@@ -20,7 +20,7 @@
 #define OUT_FOLDER_NAME_01	"out_dir"
 
 #ifdef _MSC_VER
-#pragma comment (lib,"zlib.lib")
+#pragma comment (lib,"zlib_st.lib")
 #endif
 
 #ifdef _DEBUG
