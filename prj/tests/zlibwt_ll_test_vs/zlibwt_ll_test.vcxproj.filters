@@ -42,9 +42,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\contrib\qtutils\contrib\cpputils\src\core\cpputils_hashtbl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\contrib\directory_iterator\src\core\diriter\directory_iterator_win.c">
       <Filter>Source Files</Filter>
     </ClCompile>
