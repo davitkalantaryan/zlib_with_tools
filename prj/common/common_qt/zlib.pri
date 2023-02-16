@@ -1,5 +1,5 @@
 #   
-# file:			zlib.pri
+# file:		zlib.pri
 # created on:	2010 May 27 
 # created by:	D. Kalantaryan (davit.kalantaryan@gmail.com)  
 #  
