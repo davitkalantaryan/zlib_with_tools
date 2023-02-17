@@ -58,13 +58,14 @@ int main(int a_argc, char* a_argv[])
 	size_t fileSize;
 	errno_t errFl;
 
-#if defined(_DEBUG)
-#ifdef WAIT_DEBUGGER
+#if !defined(NDEBUG) && defined(WAIT_DEBUGGER)
 	while (!IsDebuggerPresent()) {
 		SleepEx(10, TRUE);
 	}
 #endif
-#else
+
+#ifdef _WIN32
+
 	SHFILEOPSTRUCTA shfo = {
 	NULL,
 	FO_DELETE,
@@ -75,7 +76,10 @@ int main(int a_argc, char* a_argv[])
 	NULL,
 	NULL };
 
+#else
+
 #endif
+
 
 #ifdef WIN_MAIN_APP
 	//(void)a_hInstance;
@@ -150,9 +154,10 @@ int main(int a_argc, char* a_argv[])
 			CloseHandle(aProcInf.hProcess);
 		}
 
-#ifndef _DEBUG
+#ifdef _WIN32
 		//RemoveDirectoryA(OUT_FOLDER_NAME_01);
 		SHFileOperationA(&shfo);
+#else
 #endif
 
 	}
