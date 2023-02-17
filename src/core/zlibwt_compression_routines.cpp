@@ -153,8 +153,9 @@ static int ZlibWtFolderCompressDirIterCallbackStatic(const char* a_sourceDirecto
         // we skip this file, in case if return is equal to `DIRITER_EXIT_ALL` (=387) iteration will be stopped at all
 		if (nFilterResult == DIRITER_EXIT_ALL) {
 			pUserData->fl.b.shouldExit = 1;
+            return DIRITER_EXIT_ALL;
 		}
-        return nFilterResult;
+        return 0;
     }
 
     pUserData->hasNotAnyFile = 0;

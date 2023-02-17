@@ -16,6 +16,7 @@ zlib                    = $${repositoryRoot}/prj/core/zlib_qt/zlib.pro
 zlib_st                 = $${repositoryRoot}/prj/core/zlib_st_qt/zlib_st.pro
 self_extract            = $${repositoryRoot}/prj/tools/self_extract_qt/self_extract.pro
 compressdir             = $${repositoryRoot}/prj/tools/compressdir_qt/compressdir.pro
+hello_world_test        = $${repositoryRoot}/prj/tests/hello_world_test_qt/hello_world_test.pro
 zlibwt_hl_test          = $${repositoryRoot}/prj/tests/zlibwt_hl_test_qt/zlibwt_hl_test.pro
 zlibwt_ll_test          = $${repositoryRoot}/prj/tests/zlibwt_ll_test_qt/zlibwt_ll_test.pro
 
@@ -25,6 +26,7 @@ SUBDIRS +=  \
     $$zlib_st             \
     $$self_extract        \
     $$compressdir         \
+    $$hello_world_test    \
     $$zlibwt_hl_test      \
     $$zlibwt_ll_test
 

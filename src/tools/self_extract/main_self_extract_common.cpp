@@ -1,10 +1,11 @@
 
-//#define WAIT_DEBUGGER
+#define WAIT_DEBUGGER
 
 #include <zlib_with_tools/zlibwt_compression_routines.h>
 #include <zlib_with_tools/zlibwt_decompress_routines.h>
 #include <zlib_with_tools/utils/string_zlibandtls.h>
 #include <zlib_with_tools/utils/stdio_zlibandtls.h>
+#include <zlib_with_tools/utils/io_zlibandtls.h>
 #include <system/exe/parent.hpp>
 #include <zlib.h>
 #include <stdlib.h>
@@ -52,15 +53,23 @@ int main(int a_argc, char* a_argv[])
 	char vcBuffer[VC_BUFFER_SIZE];
 	char vcExePathThenDir[VC_BUFFER_SIZE];
 	char* pcDelimer;
-	FILE *fpExe = NULL, *fpOut=NULL;
+    FILE *fpExe = CPPUTILS_NULL;
+    int fdOut=-1;
+    size_t unWrRet;
 	size_t unNextRead, unRemainingBytes, unRWcount;
 	size_t fileSize;
 	char* vcpArgv[2] = {CPPUTILS_NULL,CPPUTILS_NULL };
 
 #if !defined(NDEBUG) && defined(WAIT_DEBUGGER)
+#ifdef _WIN32
 	while (!IsDebuggerPresent()) {
 		SleepEx(10, TRUE);
 	}
+#else
+    fprintf(stdout,"press any key then press enter to continue! ");
+    fflush(stdout);
+    getchar();
+#endif
 #endif
 
 
@@ -102,7 +111,7 @@ int main(int a_argc, char* a_argv[])
 		::systemN::exe::parent::THandle procHandle;
 		TypeOfCompressedContent dcmprsRet;
 
-		vcpArgv[0] = strdup_zlibandtls(OUT_FOLDER_NAME_01 "\\main.exe");
+        vcpArgv[0] = strdup_zlibandtls(OUT_FOLDER_NAME_01 ZLIBWT_FILE_DELIM "main.exe");
 		if (!vcpArgv[0]) { goto returnPoint; }
 
 		fseek(fpExe, MAX_EXE_SIZE, SEEK_SET);
@@ -124,8 +133,9 @@ int main(int a_argc, char* a_argv[])
 
 	}
 	else {
-		fpOut = fopen_zlibandtls(OUT_FILE_NAME_01, "wb");
-		if (!fpOut) {
+        //fdOut = fopen_zlibandtls(OUT_FILE_NAME_01, "wb");
+        sopen_zlibandtls(&fdOut,OUT_FILE_NAME_01,O_CREAT|O_WRONLY, S_IRWXU | S_IRWXG |  S_IROTH|S_IXOTH);
+        if (fdOut<0) {
 			goto returnPoint;
 		}
 
@@ -134,19 +144,20 @@ int main(int a_argc, char* a_argv[])
 			unNextRead = (unRemainingBytes < VC_BUFFER_SIZE) ? unRemainingBytes : VC_BUFFER_SIZE;
 			unRWcount = fread(vcBuffer, 1, unNextRead, fpExe);
 			if (unRWcount > 0) {
-				fwrite(vcBuffer, 1, unRWcount, fpOut);
+                unWrRet = (size_t)write_zlibandtls(fdOut,vcBuffer, unRWcount);
+                (void)unWrRet;
 				unRemainingBytes -= unRWcount;
 			}
 		}  // for (unRemainingBytes = fileSize;;) {
 
-		fseek(fpOut, MAX_EXE_SIZE, SEEK_SET);
+        lseek(fdOut, MAX_EXE_SIZE, SEEK_SET);
 
 		if (pcDelimer) {
 			*pcDelimer = 0;
 		}
 
 		//nReturn = ZlibCompressFolder(vcExePathThenDir, fpOut, Z_DEFAULT_COMPRESSION,&FilterFunction,CPPUTILS_NULL);
-		nReturn = ZlibWtCompressDirectoryEx(vcExePathThenDir, Z_BEST_COMPRESSION, &CompressFileAndBlobCallback, &DirCompressFilterFunction, fpOut);
+        nReturn = ZlibWtCompressDirectoryEx(vcExePathThenDir, Z_BEST_COMPRESSION, &CompressFileAndBlobCallback, &DirCompressFilterFunction, (void*)((size_t)fdOut));
 	}
 	
 returnPoint:
@@ -154,8 +165,8 @@ returnPoint:
         RemoveNonEmptyDirectory(OUT_FOLDER_NAME_01);
     }
 	free(vcpArgv[0]);
-	if (fpOut) {
-		fclose(fpOut);
+    if (fdOut>=0) {
+        close_zlibandtls(fdOut);
 	}
 	if (fpExe) {
 		fclose(fpExe);
@@ -168,8 +179,9 @@ returnPoint:
 
 static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
 {
-	FILE* fpFileOut = (FILE*)a_userData;
-	fwrite(a_buffer, 1, a_bufLen, fpFileOut);
+    int fdOut = (int)((size_t)a_userData);
+    size_t dummy = (size_t)write_zlibandtls(fdOut,a_buffer, a_bufLen);
+    (void)dummy;
 }
 
 
@@ -249,6 +261,7 @@ static void RemoveNonEmptyDirectory(const char* a_dirPath)
 
     struct SDirIterData aDt = {0};
     IterateOverDirectoryFilesNoRecurse(a_dirPath, &DirIterFuncForRemovinDirectory, &aDt);
+    rmdir(a_dirPath);
 
 #endif  //  #ifdef _WIN32
 
