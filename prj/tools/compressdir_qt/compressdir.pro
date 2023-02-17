@@ -26,7 +26,8 @@ INCLUDEPATH += $${PWD}/../../../src/include
 INCLUDEPATH += $${PWD}/../../../contrib/system/src/include
 
 
-LIBS += $${DESTDIR}/../lib/libzlib_st.a
+LIBS += -L$${DESTDIR}/../lib
+LIBS += -lzlib
 
 SOURCES		+=	\
 	\

@@ -239,7 +239,8 @@ static void DecompressDirFileOrDirStartCallback(const DirIterFileData* a_pFileDa
 static void DecompressDirFileReadCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
 {
 	SDecompressData* pData = (SDecompressData*)a_userData;
-	write_zlibandtls(pData->fd, a_buffer, a_bufLen);
+    size_t szRet = (size_t)write_zlibandtls(pData->fd, a_buffer, a_bufLen);
+    (void)szRet;
 }
 
 

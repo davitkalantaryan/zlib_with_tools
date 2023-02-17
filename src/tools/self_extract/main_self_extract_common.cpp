@@ -12,6 +12,8 @@
 #ifdef _WIN32
 #include <shellapi.h>
 #else
+#include <unistd.h>
+#include <directory_iterator/directory_iterator.h>
 #endif
 
 #define OUT_FILE_NAME_01	"__out.exe"
@@ -21,10 +23,10 @@
 #pragma comment (lib,"zlib_st.lib")
 #endif
 
-#ifdef _DEBUG
-#define MAX_EXE_SIZE	2097152
-#else
+#ifdef NDEBUG
 #define MAX_EXE_SIZE	524288
+#else
+#define MAX_EXE_SIZE	2097152
 #endif
 
 #define VC_BUFFER_SIZE		4192
@@ -33,6 +35,7 @@ static const char* s_cpcExeName = nullptr;
 
 static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
 static int  DirCompressFilterFunction(const char*, void*, const DirIterFileData* a_data);
+static void RemoveNonEmptyDirectory(const char* a_dirPath);
 
 #ifdef WIN_MAIN_APP
 int APIENTRY WinMain(
@@ -44,6 +47,7 @@ int APIENTRY WinMain(
 int main(int a_argc, char* a_argv[])
 #endif
 {
+    bool shouldRemoveDirectory = false;
 	int nReturn = 1;
 	char vcBuffer[VC_BUFFER_SIZE];
 	char vcExePathThenDir[VC_BUFFER_SIZE];
@@ -57,22 +61,6 @@ int main(int a_argc, char* a_argv[])
 	while (!IsDebuggerPresent()) {
 		SleepEx(10, TRUE);
 	}
-#endif
-
-#ifdef _WIN32
-
-	SHFILEOPSTRUCTA shfo = {
-	NULL,
-	FO_DELETE,
-	OUT_FOLDER_NAME_01,
-	NULL,
-	FOF_SILENT | FOF_NOERRORUI | FOF_NOCONFIRMATION,
-	FALSE,
-	NULL,
-	NULL };
-
-#else
-
 #endif
 
 
@@ -130,13 +118,9 @@ int main(int a_argc, char* a_argv[])
 #endif
 		if (!procHandle) {goto returnPoint;}
 
-		systemN::exe::parent::WaitAndClear(procHandle, -1, &nRet);
+        shouldRemoveDirectory= true; // later on this will be done on mre fancy way
 
-#ifdef _WIN32
-		//RemoveDirectoryA(OUT_FOLDER_NAME_01);
-		SHFileOperationA(&shfo);
-#else
-#endif
+		systemN::exe::parent::WaitAndClear(procHandle, -1, &nRet);
 
 	}
 	else {
@@ -166,6 +150,9 @@ int main(int a_argc, char* a_argv[])
 	}
 	
 returnPoint:
+    if(shouldRemoveDirectory){
+        RemoveNonEmptyDirectory(OUT_FOLDER_NAME_01);
+    }
 	free(vcpArgv[0]);
 	if (fpOut) {
 		fclose(fpOut);
@@ -197,4 +184,72 @@ static int DirCompressFilterFunction(const char*, void*, const DirIterFileData* 
 	}
 
 	return 0;
+}
+
+
+#ifndef _WIN32
+
+struct SDirIterData{
+    size_t count;
+};
+
+static int DirIterFuncForRemovinDirectory(const char* a_sourceDirectory,void* a_pUd, const DirIterFileData* a_pData) CPPUTILS_NOEXCEPT
+{
+    struct SDirIterData* pDt = (struct SDirIterData*)a_pUd;
+
+    if (a_pData->isDir) {
+        struct SDirIterData aDt = {0};
+        char  vcStrFilePath[4096];
+        if (a_pData->pFileName[0] == '.') {
+            if ((a_pData->pFileName[1] == 0) || ((a_pData->pFileName[1] == '.') && (a_pData->pFileName[2] == 0))) { return 0; }
+        }
+        snprintf_di(vcStrFilePath, 4095, "%s/%s", a_sourceDirectory, a_pData->pFileName);
+        IterateOverDirectoryFilesNoRecurse(vcStrFilePath, &DirIterFuncForRemovinDirectory, &aDt);
+        if(aDt.count){
+            ++(pDt->count);
+        }
+        else{
+            rmdir(vcStrFilePath);
+        }
+    }
+    else{
+        int nRet;
+        char  vcStrFilePath[4096];
+        snprintf_di(vcStrFilePath, 4095, "%s/%s", a_sourceDirectory, a_pData->pFileName);
+        nRet = unlink(vcStrFilePath);
+        if(nRet){  //  most probably EBUSY
+            ++(pDt->count);
+        }
+    }
+
+    return 0;
+}
+
+#endif  //  #ifndef _WIN32
+
+
+static void RemoveNonEmptyDirectory(const char* a_dirPath)
+{
+
+#ifdef _WIN32
+
+    SHFILEOPSTRUCTA shfo = {
+    CPPUTILS_NULL,
+    FO_DELETE,
+    a_dirPath,
+    CPPUTILS_NULL,
+    FOF_SILENT | FOF_NOERRORUI | FOF_NOCONFIRMATION,
+    FALSE,
+    CPPUTILS_NULL,
+    CPPUTILS_NULL };
+
+    SHFileOperationA(&shfo);
+
+#else   //  #ifdef _WIN32
+
+    struct SDirIterData aDt = {0};
+    IterateOverDirectoryFilesNoRecurse(a_dirPath, &DirIterFuncForRemovinDirectory, &aDt);
+
+#endif  //  #ifdef _WIN32
+
 }
