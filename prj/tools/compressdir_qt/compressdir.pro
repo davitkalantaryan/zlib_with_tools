@@ -31,17 +31,11 @@ LIBS += -lzlib
 
 SOURCES		+=	\
 	\
-        $${PWD}/../../../src/tools/self_extract/main_self_extract_common.cpp                        \
+        $${PWD}/../../../src/tools/main_compressdir.cpp                                             \
         $${PWD}/../../../src/core/zlibwt_ll_compression_routines.cpp                                \
         $${PWD}/../../../src/core/zlibwt_compression_routines.cpp                                   \
-        $${PWD}/../../../src/core/zlibwt_decompress_routines.cpp                                    \
-        $${PWD}/../../../src/core/zlibwt_decompress_routines_version_0000.cpp                       \
-        $${PWD}/../../../src/core/zlibwt_ll_decompress_routines.cpp                                 \
-        $${PWD}/../../../src/core/zlibwt_hl_decompress_routines.cpp                                 \
-        $${PWD}/../../../contrib/directory_iterator/src/core/diriter/directory_iterator_unix.c      \
-        $${PWD}/../../../contrib/system/src/core/system_exe_parent_unix.cpp                         \
-        $${PWD}/../../../contrib/system/src/core/system_exe_parent_windows.cpp                      \
-        $${PWD}/../../../contrib/system/src/core/system_rw.cpp
+        $${PWD}/../../../src/utils/common_argument_parser.cpp                                       \
+        $${PWD}/../../../contrib/directory_iterator/src/core/diriter/directory_iterator_unix.c
 
 HEADERS += $$files($${repositoryRoot}/include/*.hpp,true)
 HEADERS += $$files($${repositoryRoot}/include/*.h,true)
