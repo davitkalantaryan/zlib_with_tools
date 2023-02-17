@@ -3,13 +3,14 @@
 
 #include <zlib_with_tools/zlibwt_compression_routines.h>
 #include <zlib_with_tools/zlibwt_decompress_routines.h>
-#include <zlib_with_tools/utils/string_zlibandtls.h>
-#include <zlib_with_tools/utils/stdio_zlibandtls.h>
-#include <system/exe/parent.hpp>
-#include <zlib.h>
+#include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
-
+#include <zlib.h>
 #ifdef _WIN32
+#include <WinSock2.h>
+#include <WS2tcpip.h>
+#include <Windows.h>
 #include <shellapi.h>
 #else
 #endif
@@ -45,13 +46,17 @@ int main(int a_argc, char* a_argv[])
 #endif
 {
 	int nReturn = 1;
+	DWORD dwErrCode;
+	STARTUPINFOA aStartInfo;
+	PROCESS_INFORMATION aProcInf;
 	char vcBuffer[VC_BUFFER_SIZE];
 	char vcExePathThenDir[VC_BUFFER_SIZE];
+	//char vcMainPath[VC_BUFFER_SIZE];
 	char* pcDelimer;
 	FILE *fpExe = NULL, *fpOut=NULL;
 	size_t unNextRead, unRemainingBytes, unRWcount;
 	size_t fileSize;
-	char* vcpArgv[2] = {CPPUTILS_NULL,CPPUTILS_NULL };
+	errno_t errFl;
 
 #if !defined(NDEBUG) && defined(WAIT_DEBUGGER)
 	while (!IsDebuggerPresent()) {
@@ -84,25 +89,25 @@ int main(int a_argc, char* a_argv[])
 	GetModuleFileNameA(a_hInstance, vcExePathThenDir, VC_BUFFER_SIZE - 1);
 #else
 	(void)a_argc;
-	strncpy_zlibandtls(vcExePathThenDir, a_argv[0], VC_BUFFER_SIZE - 1);
+	strncpy_s(vcExePathThenDir, VC_BUFFER_SIZE - 1,a_argv[0], VC_BUFFER_SIZE - 1);
 #endif
 
 	pcDelimer = strrchr(vcExePathThenDir, '\\');
 	if (pcDelimer) {
-		s_cpcExeName = strdup_zlibandtls(pcDelimer + 1);
+		s_cpcExeName = _strdup(pcDelimer + 1);
 	}
 	else {
 		pcDelimer = strrchr(vcExePathThenDir, '/');
 		if (pcDelimer) {
-			s_cpcExeName = strdup_zlibandtls(pcDelimer + 1);
+			s_cpcExeName = _strdup(pcDelimer + 1);
 		}
 		else {
-			s_cpcExeName = strdup_zlibandtls(vcExePathThenDir);
+			s_cpcExeName = _strdup(vcExePathThenDir);
 		}
 	}
 
-	fpExe = fopen_zlibandtls(vcExePathThenDir, "rb");
-	if (!fpExe) {
+	errFl = fopen_s(&fpExe, vcExePathThenDir, "rb");
+	if (errFl) {
 		return 1;
 	}
 
@@ -110,27 +115,44 @@ int main(int a_argc, char* a_argv[])
 	fileSize = (size_t)ftell(fpExe);
 
 	if (fileSize > MAX_EXE_SIZE) {
-		int nRet;
-		::systemN::exe::parent::THandle procHandle;
 		TypeOfCompressedContent dcmprsRet;
-
-		vcpArgv[0] = strdup_zlibandtls(OUT_FOLDER_NAME_01 "\\main.exe");
-		if (!vcpArgv[0]) { goto returnPoint; }
-
 		fseek(fpExe, MAX_EXE_SIZE, SEEK_SET);
+		//nReturn = ZlibDecompressFolder(fpExe, OUT_FOLDER_NAME_01);
 		dcmprsRet = ZlibWtDecompressFileOrDirEx(fpExe, OUT_FOLDER_NAME_01);
 		nReturn = (dcmprsRet == CompressedContentDirectory) ? 0 : 1;
 
 		if (nReturn) { goto returnPoint; }
 
-#ifdef _WIN32
-		procHandle = ::systemN::exe::parent::RunNoWaitW(0,0, vcpArgv[0]);
-#else
-		procHandle = ::systemN::exe::parent::RunNoWaitU(0,0, vcpArgv);
-#endif
-		if (!procHandle) {goto returnPoint;}
+		ZeroMemory(&aStartInfo, sizeof(aStartInfo));
+		//aStartInfo.dwFlags = STARTF_USESTDHANDLES;
+		aStartInfo.hStdInput = GetStdHandle(STD_INPUT_HANDLE);
+		aStartInfo.hStdOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+		aStartInfo.hStdError = GetStdHandle(STD_ERROR_HANDLE);
+		aStartInfo.wShowWindow = SW_HIDE;
 
-		systemN::exe::parent::WaitAndClear(procHandle, -1, &nRet);
+		ZeroMemory(&aProcInf, sizeof(PROCESS_INFORMATION));
+
+		//strcat_s(vcMainPath, VC_BUFFER_SIZE)
+
+		dwErrCode = CreateProcessA(
+			OUT_FOLDER_NAME_01 "\\main.exe",
+			//const_cast<char*>(a_cpcExecute),
+			a_lpCmdLine,
+			NULL,
+			NULL,
+			TRUE,
+			NORMAL_PRIORITY_CLASS | CREATE_NO_WINDOW,
+			NULL,
+			NULL,
+			&aStartInfo,
+			&aProcInf
+		);
+
+		if (dwErrCode) {
+			WaitForSingleObject(aProcInf.hProcess, INFINITE);
+			CloseHandle(aProcInf.hThread);
+			CloseHandle(aProcInf.hProcess);
+		}
 
 #ifdef _WIN32
 		//RemoveDirectoryA(OUT_FOLDER_NAME_01);
@@ -140,8 +162,9 @@ int main(int a_argc, char* a_argv[])
 
 	}
 	else {
-		fpOut = fopen_zlibandtls(OUT_FILE_NAME_01, "wb");
-		if (!fpOut) {
+		errFl = fopen_s(&fpOut, OUT_FILE_NAME_01, "wb");
+		if (errFl) {
+			fpOut = NULL;
 			goto returnPoint;
 		}
 
@@ -166,7 +189,6 @@ int main(int a_argc, char* a_argv[])
 	}
 	
 returnPoint:
-	free(vcpArgv[0]);
 	if (fpOut) {
 		fclose(fpOut);
 	}

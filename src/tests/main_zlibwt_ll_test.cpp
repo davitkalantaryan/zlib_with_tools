@@ -191,7 +191,7 @@ static void DecompressDirStartCallback(void* a_userData)
 		return;
 	}
 
-	pData->directoryPath = stdup_zlibandtls(pData->cpcFileOrFolderNameOut);
+	pData->directoryPath = strdup_zlibandtls(pData->cpcFileOrFolderNameOut);
 	if (!pData->directoryPath) {
 		pData->hasError = 1;
 		return;
