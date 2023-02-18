@@ -38,9 +38,7 @@ SOURCES		+=	\
         $${PWD}/../../../src/core/zlibwt_ll_decompress_routines.cpp                                 \
         $${PWD}/../../../src/core/zlibwt_hl_decompress_routines.cpp                                 \
         $${PWD}/../../../contrib/directory_iterator/src/core/diriter/directory_iterator_unix.c      \
-        $${PWD}/../../../contrib/system/src/core/system_exe_parent_unix.cpp                         \
-        $${PWD}/../../../contrib/system/src/core/system_exe_parent_windows.cpp                      \
-        $${PWD}/../../../contrib/system/src/core/system_rw.cpp
+        $${PWD}/../../../contrib/system/src/core/system_create_process_unix.c
 
 HEADERS += $$files($${repositoryRoot}/include/*.hpp,true)
 HEADERS += $$files($${repositoryRoot}/include/*.h,true)

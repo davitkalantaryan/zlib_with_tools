@@ -6,7 +6,7 @@
 #include <zlib_with_tools/utils/string_zlibandtls.h>
 #include <zlib_with_tools/utils/stdio_zlibandtls.h>
 #include <zlib_with_tools/utils/io_zlibandtls.h>
-#include <system/exe/parent.hpp>
+#include <system/create_process.h>
 #include <zlib.h>
 #include <stdlib.h>
 
@@ -57,8 +57,11 @@ int main(int a_argc, char* a_argv[])
     int fdOut=-1;
     size_t unWrRet;
 	size_t unNextRead, unRemainingBytes, unRWcount;
-	size_t fileSize;
-	char* vcpArgv[2] = {CPPUTILS_NULL,CPPUTILS_NULL };
+	size_t fileSize;    
+#ifdef WIN_MAIN_APP
+#else
+    char* pcArg0 = CPPUTILS_NULL;
+#endif
 
 #if !defined(NDEBUG) && defined(WAIT_DEBUGGER)
 #ifdef _WIN32
@@ -108,11 +111,13 @@ int main(int a_argc, char* a_argv[])
 
 	if (fileSize > MAX_EXE_SIZE) {
 		int nRet;
-		::systemN::exe::parent::THandle procHandle;
+        TSystemProcessHandlePtr procHandle;
 		TypeOfCompressedContent dcmprsRet;
 
-        vcpArgv[0] = strdup_zlibandtls(OUT_FOLDER_NAME_01 ZLIBWT_FILE_DELIM "main.exe");
-		if (!vcpArgv[0]) { goto returnPoint; }
+#ifndef WIN_MAIN_APP
+        pcArg0 = a_argv[0] = strdup_zlibandtls(OUT_FOLDER_NAME_01 ZLIBWT_FILE_DELIM "main.exe");
+        if (!a_argv[0]) { goto returnPoint; }
+#endif
 
 		fseek(fpExe, MAX_EXE_SIZE, SEEK_SET);
 		dcmprsRet = ZlibWtDecompressFileOrDirEx(fpExe, OUT_FOLDER_NAME_01);
@@ -120,16 +125,16 @@ int main(int a_argc, char* a_argv[])
 
 		if (nReturn) { goto returnPoint; }
 
-#ifdef _WIN32
-		procHandle = ::systemN::exe::parent::RunNoWaitW(0,0, vcpArgv[0]);
+#ifdef WIN_MAIN_APP
+        procHandle = SystemCreateProcessU(OUT_FOLDER_NAME_01 ZLIBWT_FILE_DELIM "main.exe",a_lpCmdLine);
 #else
-		procHandle = ::systemN::exe::parent::RunNoWaitU(0,0, vcpArgv);
+        procHandle = SystemCreateProcessU(a_argv);
 #endif
 		if (!procHandle) {goto returnPoint;}
 
-        shouldRemoveDirectory= true; // later on this will be done on mre fancy way
+        SystemWaitndClearProcess(procHandle,&nRet);
 
-		systemN::exe::parent::WaitAndClear(procHandle, -1, &nRet);
+        shouldRemoveDirectory= (nRet==0); // later on this will be done on mre fancy way
 
 	}
 	else {
@@ -163,8 +168,11 @@ int main(int a_argc, char* a_argv[])
 returnPoint:
     if(shouldRemoveDirectory){
         RemoveNonEmptyDirectory(OUT_FOLDER_NAME_01);
-    }
-	free(vcpArgv[0]);
+    }    
+#ifdef WIN_MAIN_APP
+#else
+    free(pcArg0);
+#endif
     if (fdOut>=0) {
         close_zlibandtls(fdOut);
 	}
