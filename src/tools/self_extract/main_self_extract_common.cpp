@@ -41,6 +41,14 @@ static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, v
 static int  DirCompressFilterFunction(const char*, void*, const DirIterFileData* a_data);
 static void RemoveNonEmptyDirectory(const char* a_dirPath);
 
+struct SCompressData {
+	int fd;
+	uint32_t outFileNotFound;
+	uint32_t ownFileNotFound;
+	const char* outFileName;
+	const char* reserved02;
+};
+
 #ifdef WIN_MAIN_APP
 int APIENTRY WinMain(
 	HINSTANCE a_hInstance,
@@ -57,10 +65,9 @@ int main(int a_argc, char* a_argv[])
 	char vcExePathThenDir[VC_BUFFER_SIZE];
 	char* pcDelimer;
     FILE *fpExe = CPPUTILS_NULL;
-    int fdOut=-1;
     size_t unWrRet;
 	size_t unNextRead, unRemainingBytes, unRWcount;
-	size_t fileSize;    
+	size_t fileSize;
 #ifdef WIN_MAIN_APP
 #else
     char* pcArg0 = CPPUTILS_NULL;
@@ -118,7 +125,7 @@ int main(int a_argc, char* a_argv[])
 		TypeOfCompressedContent dcmprsRet;
 
 #ifndef WIN_MAIN_APP
-        pcArg0 = a_argv[0] = strdup_zlibandtls(OUT_FOLDER_NAME_01 ZLIBWT_FILE_DELIM "main.exe");
+        pcArg0 = a_argv[0] = strdup_zlibandtls(OUT_FOLDER_NAME_01 ZLIBWT_FILE_DELIM "maind.exe");
         if (!a_argv[0]) { goto returnPoint; }
 #endif
 
@@ -129,24 +136,55 @@ int main(int a_argc, char* a_argv[])
 		if (nReturn) { goto returnPoint; }
 
 #ifdef WIN_MAIN_APP
-        procHandle = SystemCreateProcessW(OUT_FOLDER_NAME_01 ZLIBWT_FILE_DELIM "main.exe",a_lpCmdLine);
+        procHandle = SystemCreateProcessW(OUT_FOLDER_NAME_01 ZLIBWT_FILE_DELIM "maind.exe",a_lpCmdLine);
 #else
         procHandle = SystemCreateProcessU(a_argv);
 #endif
-		if (!procHandle) {goto returnPoint;}
+		if (procHandle) {
+			SystemWaitAndClearProcess(procHandle, &nRet);
+			procHandle = CPPUTILS_NULL;
+		}
+		else {
+			nRet = 1;
+		}
 
-        SystemWaitAndClearProcess(procHandle,&nRet);
 
-        shouldRemoveDirectory= (nRet==0); // later on this will be done on mre fancy way
+		if (nRet) {
+			shouldRemoveDirectory = false; // later on this will be done on mre fancy way
+#ifdef WIN_MAIN_APP
+			procHandle = SystemCreateProcessW(OUT_FOLDER_NAME_01 ZLIBWT_FILE_DELIM "main.exe", a_lpCmdLine);
+#else
+			pcArg0[4] = '.';
+			pcArg0[5] = 'e';
+			pcArg0[6] = 'x';
+			pcArg0[7] = 'e';
+			pcArg0[8] = 0;
+			procHandle = SystemCreateProcessU(a_argv);
+#endif
+		}
+		else {
+			shouldRemoveDirectory = true;
+		}
+
+		if (procHandle) {
+			SystemWaitAndClearProcess(procHandle, &nRet);
+		}
 
 	}
 	else {
+		struct SCompressData aCmprsData;
+
+		aCmprsData.fd = -1;
+		aCmprsData.outFileNotFound = 1;
+		aCmprsData.ownFileNotFound = 1;
+		aCmprsData.outFileName = OUT_FILE_NAME_01;
+
 #ifdef _WIN32
-		sopen_zlibandtls(&fdOut, OUT_FILE_NAME_01, O_CREAT | O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE | _S_IREAD);
+		sopen_zlibandtls(&(aCmprsData.fd), OUT_FILE_NAME_01, O_CREAT | O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE | _S_IREAD);
 #else
-        sopen_zlibandtls(&fdOut,OUT_FILE_NAME_01,O_CREAT|O_WRONLY, S_IRWXU | S_IRWXG |  S_IROTH|S_IXOTH);
+        sopen_zlibandtls(&(aCmprsData.fd),OUT_FILE_NAME_01,O_CREAT|O_WRONLY, S_IRWXU | S_IRWXG |  S_IROTH|S_IXOTH);
 #endif
-        if (fdOut<0) {
+        if ((aCmprsData.fd) <0) {
 			goto returnPoint;
 		}
 
@@ -155,20 +193,21 @@ int main(int a_argc, char* a_argv[])
 			unNextRead = (unRemainingBytes < VC_BUFFER_SIZE) ? unRemainingBytes : VC_BUFFER_SIZE;
 			unRWcount = fread(vcBuffer, 1, unNextRead, fpExe);
 			if (unRWcount > 0) {
-                unWrRet = (size_t)write_zlibandtls(fdOut,vcBuffer, unRWcount);
+                unWrRet = (size_t)write_zlibandtls((aCmprsData.fd),vcBuffer, unRWcount);
                 (void)unWrRet;
 				unRemainingBytes -= unRWcount;
 			}
 		}  // for (unRemainingBytes = fileSize;;) {
 
-        lseek_zlibandtls(fdOut, MAX_EXE_SIZE, SEEK_SET);
+        lseek_zlibandtls((aCmprsData.fd), MAX_EXE_SIZE, SEEK_SET);
 
 		if (pcDelimer) {
 			*pcDelimer = 0;
 		}
 
 		//nReturn = ZlibCompressFolder(vcExePathThenDir, fpOut, Z_DEFAULT_COMPRESSION,&FilterFunction,CPPUTILS_NULL);
-        nReturn = ZlibWtCompressDirectoryEx(vcExePathThenDir, Z_BEST_COMPRESSION, &CompressFileAndBlobCallback, &DirCompressFilterFunction, (void*)((size_t)fdOut));
+        nReturn = ZlibWtCompressDirectoryEx(vcExePathThenDir, Z_BEST_COMPRESSION, &CompressFileAndBlobCallback, &DirCompressFilterFunction, &aCmprsData);
+		close_zlibandtls(aCmprsData.fd);
 	}
 	
 returnPoint:
@@ -179,9 +218,6 @@ returnPoint:
 #else
     free(pcArg0);
 #endif
-    if (fdOut>=0) {
-        close_zlibandtls(fdOut);
-	}
 	if (fpExe) {
 		fclose(fpExe);
 	}
@@ -193,21 +229,34 @@ returnPoint:
 
 static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
 {
-    int fdOut = (int)((size_t)a_userData);
-    size_t dummy = (size_t)write_zlibandtls(fdOut,a_buffer, a_bufLen);
+	struct SCompressData* pCmprsData = (struct SCompressData*)a_userData;
+    size_t dummy = (size_t)write_zlibandtls(pCmprsData->fd,a_buffer, a_bufLen);
     (void)dummy;
 }
 
 
-static int DirCompressFilterFunction(const char*, void*, const DirIterFileData* a_data)
+static int DirCompressFilterFunction(const char* a_sourceDirectory, void* a_userData, const DirIterFileData* a_data)
 {
-	if ((a_data->pFileName[0] == '_') && (a_data->pFileName[1] == '_')) {
-		return 1;
-	}
+	struct SCompressData* pCmprsData = (struct SCompressData*)a_userData;
 
-	if (strcmp(s_cpcExeName, a_data->pFileName) == 0) {
-		return 1;
-	}
+	if (pCmprsData->ownFileNotFound) {
+		if (!(a_data->isDir)) {
+			if (strcmp(s_cpcExeName, a_data->pFileName) == 0) {
+				pCmprsData->ownFileNotFound = 0;
+				return 1;
+			}  //  if (strcmp(s_cpcExeName, a_data->pFileName) == 0) {
+		}  //  if (!(a_data->isDir)) {
+	}  //  if (pCmprsData->ownFileNotFound) {
+
+
+	if (pCmprsData->outFileNotFound) {
+		if (!(a_data->isDir)) {
+			if (strcmp(pCmprsData->outFileName, a_data->pFileName) == 0) {
+				pCmprsData->outFileNotFound = 0;
+				return 1;
+			}  //  if (strcmp(pCmprsData->outFileName, a_data->pFileName) == 0) {
+		}  //  if (!(a_data->isDir)) {
+	}  //  if (pCmprsData->outFileNotFound) {
 
 	return 0;
 }
