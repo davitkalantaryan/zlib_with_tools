@@ -304,7 +304,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\.gitattributes" />
-    <None Include="..\..\.github\workflows\check_merge_to_master.yml" />
+    <None Include="..\..\.github\workflows\check_merge_to_master_and_develop.yml" />
     <None Include="..\..\.gitignore" />
     <None Include="..\..\README.md" />
     <None Include="..\..\scripts\windows_build_all.bat" />

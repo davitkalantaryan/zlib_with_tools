@@ -8,7 +8,7 @@
 #				3. https://github.com/actions/download-artifact
 #
 
-name: check-merge-to-master
+name: check-merge-to-master-and-develop
 on:
     pull_request:
         branches: [ master, develop ]
