@@ -39,7 +39,16 @@
     <ClCompile Include="..\..\..\src\tools\self_extract\main_self_extract_common.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\contrib\system\src\core\system_exe_parent_windows.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\system\src\core\system_rw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\contrib\system\src\core\system_create_process_windows.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\system\src\core\system_create_process_unix.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

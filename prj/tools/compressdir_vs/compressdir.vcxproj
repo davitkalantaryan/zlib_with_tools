@@ -332,7 +332,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\contrib\directory_iterator\src\core\diriter\directory_iterator_win.c" />
-    <ClCompile Include="..\..\..\contrib\qtutils\contrib\cpputils\src\core\cpputils_hashtbl.cpp" />
     <ClCompile Include="..\..\..\src\core\zlibwt_compression_routines.cpp" />
     <ClCompile Include="..\..\..\src\core\zlibwt_ll_compression_routines.cpp" />
     <ClCompile Include="..\..\..\src\tools\main_compressdir.cpp" />

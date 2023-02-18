@@ -1,5 +1,5 @@
 #   
-# file:			zlib.pri
+# file:		zlib.pri
 # created on:	2010 May 27 
 # created by:	D. Kalantaryan (davit.kalantaryan@gmail.com)  
 #  
@@ -17,6 +17,10 @@ else {
 
 INCLUDEPATH += "$${PWD}/../../../include"
 INCLUDEPATH += "$${PWD}/../../../contrib/zlib"
+
+QT -= core
+QT -= gui
+CONFIG -= qt
 
 SOURCES		+=	\
 	$${PWD}/../../../contrib/zlib/adler32.c			\

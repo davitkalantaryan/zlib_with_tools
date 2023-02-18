@@ -191,7 +191,7 @@ static void DecompressDirStartCallback(void* a_userData)
 		return;
 	}
 
-	pData->directoryPath = stdup_zlibandtls(pData->cpcFileOrFolderNameOut);
+	pData->directoryPath = strdup_zlibandtls(pData->cpcFileOrFolderNameOut);
 	if (!pData->directoryPath) {
 		pData->hasError = 1;
 		return;
@@ -239,7 +239,8 @@ static void DecompressDirFileOrDirStartCallback(const DirIterFileData* a_pFileDa
 static void DecompressDirFileReadCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
 {
 	SDecompressData* pData = (SDecompressData*)a_userData;
-	write_zlibandtls(pData->fd, a_buffer, a_bufLen);
+    size_t szRet = (size_t)write_zlibandtls(pData->fd, a_buffer, a_bufLen);
+    (void)szRet;
 }
 
 
