@@ -1,5 +1,5 @@
 
-#define WAIT_DEBUGGER
+//#define WAIT_DEBUGGER
 
 #include <zlib_with_tools/zlibwt_compression_routines.h>
 #include <zlib_with_tools/zlibwt_decompress_routines.h>
@@ -11,6 +11,9 @@
 #include <stdlib.h>
 
 #ifdef _WIN32
+#include <WinSock2.h>
+#include <WS2tcpip.h>
+#include <Windows.h>
 #include <shellapi.h>
 #else
 #include <unistd.h>
@@ -126,20 +129,23 @@ int main(int a_argc, char* a_argv[])
 		if (nReturn) { goto returnPoint; }
 
 #ifdef WIN_MAIN_APP
-        procHandle = SystemCreateProcessU(OUT_FOLDER_NAME_01 ZLIBWT_FILE_DELIM "main.exe",a_lpCmdLine);
+        procHandle = SystemCreateProcessW(OUT_FOLDER_NAME_01 ZLIBWT_FILE_DELIM "main.exe",a_lpCmdLine);
 #else
         procHandle = SystemCreateProcessU(a_argv);
 #endif
 		if (!procHandle) {goto returnPoint;}
 
-        SystemWaitndClearProcess(procHandle,&nRet);
+        SystemWaitAndClearProcess(procHandle,&nRet);
 
         shouldRemoveDirectory= (nRet==0); // later on this will be done on mre fancy way
 
 	}
 	else {
-        //fdOut = fopen_zlibandtls(OUT_FILE_NAME_01, "wb");
+#ifdef _WIN32
+		sopen_zlibandtls(&fdOut, OUT_FILE_NAME_01, O_CREAT | O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE | _S_IREAD);
+#else
         sopen_zlibandtls(&fdOut,OUT_FILE_NAME_01,O_CREAT|O_WRONLY, S_IRWXU | S_IRWXG |  S_IROTH|S_IXOTH);
+#endif
         if (fdOut<0) {
 			goto returnPoint;
 		}
@@ -155,7 +161,7 @@ int main(int a_argc, char* a_argv[])
 			}
 		}  // for (unRemainingBytes = fileSize;;) {
 
-        lseek(fdOut, MAX_EXE_SIZE, SEEK_SET);
+        lseek_zlibandtls(fdOut, MAX_EXE_SIZE, SEEK_SET);
 
 		if (pcDelimer) {
 			*pcDelimer = 0;

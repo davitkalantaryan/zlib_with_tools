@@ -45,5 +45,11 @@
     <ClCompile Include="..\..\..\contrib\system\src\core\system_rw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\contrib\system\src\core\system_create_process_windows.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\system\src\core\system_create_process_unix.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

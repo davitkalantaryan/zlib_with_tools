@@ -36,7 +36,10 @@
     <ClCompile Include="..\..\..\src\core\zlibwt_ll_compression_routines.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\tools\self_extract\winmain_self_extract.cpp">
+    <ClCompile Include="..\..\..\src\tools\self_extract\main_self_extract_common.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\system\src\core\system_create_process_windows.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
