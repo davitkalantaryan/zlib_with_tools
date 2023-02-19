@@ -5,7 +5,9 @@
 // created by:		Davit Kalantaryan (davit.kalantaryan@desy.de)
 //
 
-
+#ifdef _MSC_VER
+#pragma warning (disable:4710)
+#endif
 #include <stdio.h>
 
 int main(void)

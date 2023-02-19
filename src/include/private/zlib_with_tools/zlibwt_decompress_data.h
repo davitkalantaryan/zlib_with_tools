@@ -21,6 +21,10 @@ CPPUTILS_BEGIN_C
 #define ZLIBWT_DECOMPR_STAGE_READFILE       2
 #define ZLIBWT_DECOMPR_STAGE_FILE_GAP       3
 
+#ifdef _MSC_VER
+#pragma warning (disable:4820)
+#endif
+
 struct CPPUTILS_DLL_PRIVATE ZlibWtLLDecompressSession {
     z_stream                        z_str;
     ZlibWtTypeLLDecompressCallback  clbk;
