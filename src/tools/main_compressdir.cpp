@@ -6,9 +6,16 @@
 #include <zlib_with_tools/utils/stdio_zlibandtls.h>
 #include <zlib_with_tools/utils/string_zlibandtls.h>
 #include <zlib_with_tools/common/util/common_argument_parser.hpp>
-#include <cpputils/hash/hash.hpp>
-#include <zlib.h>
+#include <zlib_with_tools/zlibwt_zlib_h_wrapper.h>
+
+#ifdef _MSC_VER
+#pragma warning (push)
+#pragma warning (disable:4365)
+#endif
 #include <iostream>
+#ifdef _MSC_VER
+#pragma warning (pop)
+#endif
 
 #ifdef _MSC_VER
 #pragma comment (lib,"zlib.lib")
@@ -18,10 +25,10 @@
 #endif
 
 
-
 static void PrintHelp(void);
-static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
-static int  DirCompressFilterFunction(const char*, void*, const DirIterFileData*);
+static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData) CPPUTILS_NOEXCEPT;
+static int  DirCompressFilterFunction(const char*, void*, const DirIterFileData*) CPPUTILS_NOEXCEPT;
+
 
 /* compress or decompress from stdin to stdout */
 int main(int a_argc, char * a_argv[])
@@ -102,14 +109,14 @@ static void PrintHelp(void)
 }
 
 
-static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
+static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData) CPPUTILS_NOEXCEPT
 {
 	FILE* fpFileOut = (FILE*)a_userData;
 	fwrite(a_buffer, 1, a_bufLen, fpFileOut);
 }
 
 
-static int DirCompressFilterFunction(const char*, void*, const DirIterFileData*)
+static int DirCompressFilterFunction(const char*, void*, const DirIterFileData*) CPPUTILS_NOEXCEPT
 {
 	return 0;
 }

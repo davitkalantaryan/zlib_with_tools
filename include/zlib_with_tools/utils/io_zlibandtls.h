@@ -31,7 +31,7 @@
 #define write_zlibandtls(_fd,_buffer,_bufSize)			_write(_fd,_buffer,CPPUTILS_STATIC_CAST(unsigned int,_bufSize))
 #define close_zlibandtls								_close
 #define lseek_zlibandtls(_fd,_off,_org)                 _lseek(_fd,CPPUTILS_STATIC_CAST(long,_off),_org)
-#define mode_fo_zlibandtls(_mode)						((_S_IREAD | _S_IWRITE)& (_mode))
+#define mode_fo_zlibandtls(_mode)						((int)((_S_IREAD | _S_IWRITE)& (_mode)))
 #else
 #define ZLIBWT_O_WRONLY									O_WRONLY
 #define ZLIBWT_O_CREAT									O_CREAT

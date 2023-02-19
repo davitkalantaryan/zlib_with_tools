@@ -35,7 +35,14 @@ ZLIBANDTLS_LL_EXPORT ZlibWtLLDecompressSessionPtr ZlibWtCreateLLDecompressSessio
     nReturn = inflateInit(&(pSession->z_str));
     if (nReturn != Z_OK) { return CPPUTILS_NULL; }
 
+#ifdef _MSC_VER
+#pragma warning (push)
+#pragma warning (disable:5039)
+#endif
     ZlibWtSetCallbackForLLDecompressSession(pSession,a_clbk, a_userData);
+#ifdef _MSC_VER
+#pragma warning (pop)
+#endif
     ZlibWtSetBufferForLLDecompressSession(pSession, a_bufferForDecompressedData, a_sizeForBufferForDecompressedData);
 
     return pSession;

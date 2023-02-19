@@ -10,8 +10,8 @@
 
 #include <zlib_with_tools/export_symbols.h>
 #include <zlib_with_tools/zlibwt_decompress_data.h>
+#include <zlib_with_tools/zlibwt_zlib_h_wrapper.h>
 #include <private/zlib_with_tools/zlibwt_compress_decompress_common.h>
-#include <zlib.h>
 
 
 CPPUTILS_BEGIN_C
@@ -20,6 +20,10 @@ CPPUTILS_BEGIN_C
 #define ZLIBWT_DECOMPR_STAGE_FILENAME       1
 #define ZLIBWT_DECOMPR_STAGE_READFILE       2
 #define ZLIBWT_DECOMPR_STAGE_FILE_GAP       3
+
+#ifdef _MSC_VER
+#pragma warning (disable:4820)
+#endif
 
 struct CPPUTILS_DLL_PRIVATE ZlibWtLLDecompressSession {
     z_stream                        z_str;
