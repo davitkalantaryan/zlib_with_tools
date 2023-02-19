@@ -6,12 +6,13 @@
 #include <zlib_with_tools/utils/string_zlibandtls.h>
 #include <zlib_with_tools/utils/stdio_zlibandtls.h>
 #include <zlib_with_tools/utils/io_zlibandtls.h>
+#include <zlib_with_tools/zlibwt_zlib_h_wrapper.h>
 #include <resource_handler/resource_handler.h>
 #include <system/create_process.h>
-#include <zlib.h>
 #include <stdlib.h>
 
 #ifdef _WIN32
+#include <cinternal/disable_compiler_warnings.h>
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 #include <Windows.h>

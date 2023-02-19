@@ -13,6 +13,7 @@
 #include <zlib_with_tools/utils/stdio_zlibandtls.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 #include <Windows.h>

@@ -10,8 +10,8 @@
 
 #include <zlib_with_tools/export_symbols.h>
 #include <zlib_with_tools/zlibwt_decompress_data.h>
+#include <zlib_with_tools/zlibwt_zlib_h_wrapper.h>
 #include <private/zlib_with_tools/zlibwt_compress_decompress_common.h>
-#include <zlib.h>
 
 
 CPPUTILS_BEGIN_C

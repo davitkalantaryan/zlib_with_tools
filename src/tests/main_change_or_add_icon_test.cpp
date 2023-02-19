@@ -9,7 +9,7 @@
 #include <zlib_with_tools/utils/stdio_zlibandtls.h>
 #include <zlib_with_tools/utils/memory_zlibandtls.h>
 #include <resource_handler/resource_handler.h>
-#include <iostream>
+#include <stdio.h>
 #include <string.h>
 #include <stddef.h>
 #include <stdlib.h>
@@ -30,7 +30,7 @@ int main(int a_argc, char* a_argv[])
     assert(pcTerm);
 
     if (a_argc < 2) {
-        ::std::cerr << "icon file is not specified\n";
+        fprintf(stderr,"icon file is not specified\n");
         return 1;
     }
 

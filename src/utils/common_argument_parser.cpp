@@ -19,6 +19,9 @@
 
 #if defined(_MSC_VER) & (_MSC_VER>1400)
 #pragma warning (disable:4996)
+#pragma warning (disable:4820)
+#pragma warning (disable:4365)
+#pragma warning (disable:4061)
 #endif
 
 //#define SHORTCUTS_DELIM_SYMBOL2	','

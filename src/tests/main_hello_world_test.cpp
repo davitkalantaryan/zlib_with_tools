@@ -6,11 +6,11 @@
 //
 
 
-#include <iostream>
+#include <stdio.h>
 
 int main(void)
 {
-    ::std::cout << "Hello world!\n";
+    printf("Hello world!\n");
 
     return 0;
 }
