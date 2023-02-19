@@ -7,17 +7,17 @@
 #include <zlib_with_tools/utils/stdio_zlibandtls.h>
 #include <zlib_with_tools/utils/io_zlibandtls.h>
 #include <zlib_with_tools/utils/string_zlibandtls.h>
-#include <zlib.h>
-#include <iostream>
+#include <zlib_with_tools/zlibwt_zlib_h_wrapper.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <assert.h>
 
 #ifdef _MSC_VER
 #pragma comment (lib,"zlib.lib")
 #endif
 
-static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
-static int  DirCompressFilterFunction(const char*, void*, const DirIterFileData*);
+static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData) CPPUTILS_NOEXCEPT;
+static int  DirCompressFilterFunction(const char*, void*, const DirIterFileData*) CPPUTILS_NOEXCEPT;
 /*///////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 static void DecompressFileStartCallback(void* a_userData);
 static void DecompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
@@ -46,7 +46,7 @@ struct SDecompressData {
 int main(int a_argc, char* a_argv[])
 {
 	if (a_argc < 3) {
-		::std::cerr << "Function and file should be provided\n";
+		fprintf(stderr,"Function and file should be provided\n");
 		return 1;
 	}
 
@@ -63,13 +63,13 @@ int main(int a_argc, char* a_argv[])
 	case 'a': {
 		FILE* fpFileIn = fopen_zlibandtls(cpcFileNameIn, "rb");
 		if (!fpFileIn) {
-			::std::cerr << "Unable to open the file with the name \"" << cpcFileNameIn << "\"\n";
+			fprintf(stderr, "Unable to open the file with the name \"%s\"\n", cpcFileNameIn);
 			return 1;
 		}
 		FILE* fpFileOut = fopen_zlibandtls(cpcFileNameOut, "wb");
 		if (!fpFileOut) {
 			fclose(fpFileIn);
-			::std::cerr << "Unable to open the file with the name \"" << cpcFileNameOut << "\"\n";
+			fprintf(stderr, "Unable to open the file with the name \"%s\"\n", cpcFileNameOut);
 			return 1;
 		}
 		nReturn = ZlibWtCompressFileEx(fpFileIn, Z_BEST_COMPRESSION, &CompressFileAndBlobCallback, fpFileOut);
@@ -79,7 +79,7 @@ int main(int a_argc, char* a_argv[])
 	case 'b': {
 		FILE* fpFileIn = fopen_zlibandtls(cpcFileNameIn, "rb");
 		if (!fpFileIn) {
-			::std::cerr << "Unable to open the file with the name \"" << cpcFileNameIn << "\"\n";
+			fprintf(stderr, "Unable to open the file with the name \"%s\"\n", cpcFileNameIn);
 			return 1;
 		}
 
@@ -105,7 +105,7 @@ int main(int a_argc, char* a_argv[])
 		if (!pSession) {
 			if (aData.fpFileOut) { fclose(aData.fpFileOut); };
 			fclose(fpFileIn);
-			::std::cerr << "Unable to create decompress session \n";
+			fprintf(stderr, "Unable to create decompress session \n");
 			return 1;
 		}
 
@@ -134,14 +134,14 @@ int main(int a_argc, char* a_argv[])
 	case 'c': {
 		FILE* fpFileOut = fopen_zlibandtls(cpcFileNameOut, "wb");
 		if (!fpFileOut) {
-			::std::cerr << "Unable to open the file with the name \"" << cpcFileNameOut << "\"\n";
+			fprintf(stderr, "Unable to open the file with the name \"%s\"\n", cpcFileNameOut);
 			return 1;
 		}
 		nReturn = ZlibWtCompressDirectoryEx(cpcFileNameIn, Z_BEST_COMPRESSION, &CompressFileAndBlobCallback, &DirCompressFilterFunction,fpFileOut);
 		fclose(fpFileOut);
 	}break;
 	default:
-		::std::cerr << "Wrong function is provided\n";
+		fprintf(stderr, "Wrong function is provided\n");
 		return 1;
 	}
 
@@ -149,14 +149,14 @@ int main(int a_argc, char* a_argv[])
 }
 
 
-static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
+static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData) CPPUTILS_NOEXCEPT
 {
 	FILE* fpFileOut = (FILE*)a_userData;
 	fwrite(a_buffer, 1, a_bufLen, fpFileOut);
 }
 
 
-static int DirCompressFilterFunction(const char*, void*, const DirIterFileData*)
+static int DirCompressFilterFunction(const char*, void*, const DirIterFileData*) CPPUTILS_NOEXCEPT
 {
 	return 0;
 }
@@ -191,7 +191,7 @@ static void DecompressDirStartCallback(void* a_userData)
 		return;
 	}
 
-	pData->directoryPath = stdup_zlibandtls(pData->cpcFileOrFolderNameOut);
+	pData->directoryPath = strdup_zlibandtls(pData->cpcFileOrFolderNameOut);
 	if (!pData->directoryPath) {
 		pData->hasError = 1;
 		return;
@@ -239,7 +239,8 @@ static void DecompressDirFileOrDirStartCallback(const DirIterFileData* a_pFileDa
 static void DecompressDirFileReadCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
 {
 	SDecompressData* pData = (SDecompressData*)a_userData;
-	write_zlibandtls(pData->fd, a_buffer, a_bufLen);
+    size_t szRet = (size_t)write_zlibandtls(pData->fd, a_buffer, a_bufLen);
+    (void)szRet;
 }
 
 

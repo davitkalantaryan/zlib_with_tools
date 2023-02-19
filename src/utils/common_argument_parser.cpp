@@ -12,11 +12,16 @@
  */
 
 //#include "stdafx.h"
+#include <zlib_with_tools/export_symbols.h>
+#include <string.h>
 #ifdef __cplusplus
 #include <zlib_with_tools/common/util/common_argument_parser.hpp>
 
 #if defined(_MSC_VER) & (_MSC_VER>1400)
 #pragma warning (disable:4996)
+#pragma warning (disable:4820)
+#pragma warning (disable:4365)
+#pragma warning (disable:4061)
 #endif
 
 //#define SHORTCUTS_DELIM_SYMBOL2	','
@@ -29,6 +34,7 @@ class CInputBase
 public:
 	int isFound;std::string helpStr;
 	CInputBase():isFound(0){}
+    virtual ~CInputBase(){}
 	virtual common::argumentParser::argType::Type getType()const {return common::argumentParser::argType::noArg;}
 	virtual const char* valueRight()const { return ""; }
 	virtual const char* valueLeft()const { return ""; }
@@ -39,8 +45,9 @@ class CInputArgRight : public CInputBase
 public:
 	std::string defaultOrValueRight;
 	CInputArgRight(const std::string& a_defRight): defaultOrValueRight(a_defRight){}
-	virtual common::argumentParser::argType::Type getType()const {return common::argumentParser::argType::rightArg;}
-	virtual const char* valueRight()const { return defaultOrValueRight.c_str(); }
+    virtual ~CInputArgRight()override{}
+    virtual common::argumentParser::argType::Type getType()const override{return common::argumentParser::argType::rightArg;}
+    virtual const char* valueRight()const override{ return defaultOrValueRight.c_str(); }
 };
 
 class CInputArgRightAndLeft : public CInputArgRight
@@ -50,8 +57,8 @@ public:
 	CInputArgRightAndLeft(const std::string& a_defRight,const std::string& a_defLeft)
 		: CInputArgRight(a_defRight), defaultOrValueLeft(a_defLeft)
 	{}
-	virtual common::argumentParser::argType::Type getType()const{return common::argumentParser::argType::bougthArg;}
-	virtual const char* valueLeft()const { return defaultOrValueLeft.c_str(); }
+    virtual common::argumentParser::argType::Type getType()const override{return common::argumentParser::argType::bougthArg;}
+    virtual const char* valueLeft()const override{ return defaultOrValueLeft.c_str(); }
 };
 
 struct InfoAndCleanPair {
@@ -223,14 +230,11 @@ void common::argument_parser::ParseCommandLine(int& a_argc, char** a_argv)
 	CInputArgRight* pInpRight;
 	CInputArgRightAndLeft* pInpBoth;
 	size_t j, unStrLen;
-	bool bFound;
-	char cTmp;
 
     for (int i(0); i<((int)a_argc);){
 
-		unStrLen = strlen(a_argv[i]); bFound = false;
+        unStrLen = strlen(a_argv[i]);
 		for(j=0;j<unStrLen;++j){
-			cTmp = (a_argv[i])[j];
 			if(!m_htOptionsInAndOut.count(a_argv[i])){++i;continue;}
 		}
 		if(!m_htOptionsInAndOut.count(a_argv[i])){++i;continue;}
@@ -257,6 +261,7 @@ void common::argument_parser::ParseCommandLine(int& a_argc, char** a_argv)
 					memmove(a_argv+(i-1), a_argv+i, (a_argc-i+1) * sizeof(char*));
 					--a_argc; --i;
 				}
+                CPPUTILS_FALLTHROUGH
 			case argumentParser::argType::rightArg:
 				if (((a_argv[i])[0] != '-') && (i < (a_argc--))) {
 					pInpRight = (CInputArgRight*)pInput;

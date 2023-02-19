@@ -6,13 +6,35 @@
 #
 
 TEMPLATE = subdirs
-#CONFIG += ordered
+CONFIG += ordered # todo: get rid of this
 
 greaterThan(QT_MAJOR_VERSION, 4):QT += widgets
 
 repositoryRoot = $${PWD}/../..
 
-SUBDIRS	+=	"$${repositoryRoot}/prj/tests/zlib_test_qt/zlib_test.pro"
+zlib                    = $${repositoryRoot}/prj/core/zlib_qt/zlib.pro
+zlib_st                 = $${repositoryRoot}/prj/core/zlib_st_qt/zlib_st.pro
+self_extract            = $${repositoryRoot}/prj/tools/self_extract_qt/self_extract.pro
+compressdir             = $${repositoryRoot}/prj/tools/compressdir_qt/compressdir.pro
+hello_world_test        = $${repositoryRoot}/prj/tests/hello_world_test_qt/hello_world_test.pro
+zlibwt_hl_test          = $${repositoryRoot}/prj/tests/zlibwt_hl_test_qt/zlibwt_hl_test.pro
+zlibwt_ll_test          = $${repositoryRoot}/prj/tests/zlibwt_ll_test_qt/zlibwt_ll_test.pro
+
+
+SUBDIRS +=  \
+    $$zlib                \
+    $$zlib_st             \
+    $$self_extract        \
+    $$compressdir         \
+    $$hello_world_test    \
+    $$zlibwt_hl_test      \
+    $$zlibwt_ll_test
+
+
+$${self_extract}.depends = $${zlib_st}
+$${compressdir}.depends = $${zlib}
+$${zlibwt_hl_test}.depends = $${zlib}
+$${zlibwt_ll_test}.depends = $${zlib}
 
 
 OTHER_FILES += $$files($${repositoryRoot}/docs/*.md,true)

@@ -15,9 +15,16 @@
 
 #ifdef __cplusplus
 
+#ifdef _MSC_VER
+#pragma warning (push)
+#pragma warning (disable:4365)
+#endif
 #include <string>
 #include <map>
 #include <vector>
+#ifdef _MSC_VER
+#pragma warning (pop)
+#endif
 
 #define SHORTCUTS_DELIM_SYMBOL2	','
 #define INFO_START_DELIM		':'

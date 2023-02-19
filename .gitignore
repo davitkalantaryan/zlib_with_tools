@@ -65,6 +65,8 @@
 #
 !/prj/*/*_mkfl/*Makefile*
 #
+!/prj/*/*_xcode/*.xcodeproj
+#
 !/prj/*/*_mult/*Makefile
 !/prj/*/*_mult/*.sln
 !/prj/*/*_mult/*.vcxproj
@@ -94,3 +96,5 @@ prj/tests/googletest_mult/Makefile.googletest_getter
 /prj/core/zlib_st_vs/zlib_st.vcxproj.filters
 /prj/core/zlib_vs/zlib.vcxproj.filters
 /prj/core/zlib_st_dl_vs/zlib_st_dl.vcxproj.filters
+
+.DS_Store

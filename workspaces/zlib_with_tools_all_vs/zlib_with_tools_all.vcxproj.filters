@@ -53,7 +53,7 @@
     <None Include="..\..\scripts\windows_build_all.bat">
       <Filter>files\scripts</Filter>
     </None>
-    <None Include="..\..\.github\workflows\check_merge_to_master.yml">
+    <None Include="..\..\.github\workflows\check_merge_to_master_and_develop.yml">
       <Filter>files\.github\workflows</Filter>
     </None>
   </ItemGroup>
