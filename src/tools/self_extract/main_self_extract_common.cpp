@@ -21,7 +21,8 @@
 #endif
 
 #define OUT_FILE_NAME_01	"__out.exe"
-#define OUT_FOLDER_NAME_01	"out_dir"
+#define OUT_FOLDER_NAME_01	".out_dir"
+#define ZLIBWT_SE_OUT_DIR_STR_LEN_PLUS1   9
 
 #ifdef _MSC_VER
 #pragma comment (lib,"zlib_st.lib")
@@ -130,6 +131,7 @@ int main(int a_argc, char* a_argv[])
 #endif
 
 		fseek(fpExe, MAX_EXE_SIZE, SEEK_SET);
+        RemoveNonEmptyDirectory(OUT_FOLDER_NAME_01);
 		dcmprsRet = ZlibWtDecompressFileOrDirEx(fpExe, OUT_FOLDER_NAME_01);
 		nReturn = (dcmprsRet == CompressedContentDirectory) ? 0 : 1;
 
@@ -154,11 +156,11 @@ int main(int a_argc, char* a_argv[])
 #ifdef WIN_MAIN_APP
 			procHandle = SystemCreateProcessW(OUT_FOLDER_NAME_01 ZLIBWT_FILE_DELIM "main.exe", a_lpCmdLine);
 #else
-			pcArg0[4] = '.';
-			pcArg0[5] = 'e';
-			pcArg0[6] = 'x';
-			pcArg0[7] = 'e';
-			pcArg0[8] = 0;
+            pcArg0[ZLIBWT_SE_OUT_DIR_STR_LEN_PLUS1+4] = '.';
+            pcArg0[ZLIBWT_SE_OUT_DIR_STR_LEN_PLUS1+5] = 'e';
+            pcArg0[ZLIBWT_SE_OUT_DIR_STR_LEN_PLUS1+6] = 'x';
+            pcArg0[ZLIBWT_SE_OUT_DIR_STR_LEN_PLUS1+7] = 'e';
+            pcArg0[ZLIBWT_SE_OUT_DIR_STR_LEN_PLUS1+8] = 0;
 			procHandle = SystemCreateProcessU(a_argv);
 #endif
 		}
@@ -235,7 +237,7 @@ static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, v
 }
 
 
-static int DirCompressFilterFunction(const char* a_sourceDirectory, void* a_userData, const DirIterFileData* a_data)
+static int DirCompressFilterFunction(const char*, void* a_userData, const DirIterFileData* a_data)
 {
 	struct SCompressData* pCmprsData = (struct SCompressData*)a_userData;
 
