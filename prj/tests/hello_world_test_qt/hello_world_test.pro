@@ -6,8 +6,11 @@
 
 
 message("file:  zlibwt_hl_test.pro  ")
+
 repositoryRoot = $${PWD}/../../..
-include($${repositoryRoot}/contrib/qtutils/contrib/cpputils/prj/common/common_qt/sys_common.pri)
+include($${repositoryRoot}/contrib/qtutils/contrib/cpputils/contrib/cinternal/prj/common/common_qt/sys_common.pri)
+include($${repositoryRoot}/contrib/qtutils/contrib/cpputils/contrib/cinternal/prj/common/common_qt/flags_common.pri)
+
 DESTDIR     = $${artifactRoot}/$${SYSTEM_PATH}/$$CONFIGURATION/test
 message(DESTDIR is $$DESTDIR)
 
