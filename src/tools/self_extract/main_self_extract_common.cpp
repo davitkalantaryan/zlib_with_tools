@@ -6,6 +6,7 @@
 #include <zlib_with_tools/utils/string_zlibandtls.h>
 #include <zlib_with_tools/utils/stdio_zlibandtls.h>
 #include <zlib_with_tools/utils/io_zlibandtls.h>
+#include <resource_handler/resource_handler.h>
 #include <system/create_process.h>
 #include <zlib.h>
 #include <stdlib.h>
@@ -20,8 +21,18 @@
 #include <directory_iterator/directory_iterator.h>
 #endif
 
-#define OUT_FILE_NAME_01	"__out.exe"
-#define OUT_FOLDER_NAME_01	".out_dir"
+#ifdef WAIT_DEBUGGER
+#define ZLIBWT_GETCH(...)	printf("press any key then enter to exit");fflush(stdout);getchar();
+#define ZLIBWT_SE_DEBUG(...)	printf(__VA_ARGS__); printf("\n")
+#else
+#define ZLIBWT_GETCH(...)
+#define ZLIBWT_SE_DEBUG(...)
+#endif
+
+
+#define ZLIBWT_MAIN_ICON_FILE	"main.ico"
+#define OUT_FILE_NAME_01		"__out.exe"
+#define OUT_FOLDER_NAME_01		".out_dir"
 #define ZLIBWT_SE_OUT_DIR_STR_LEN_PLUS1   9
 
 #ifdef _MSC_VER
@@ -182,9 +193,9 @@ int main(int a_argc, char* a_argv[])
 		aCmprsData.outFileName = OUT_FILE_NAME_01;
 
 #ifdef _WIN32
-		sopen_zlibandtls(&(aCmprsData.fd), OUT_FILE_NAME_01, O_CREAT | O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE | _S_IREAD);
+		sopen_zlibandtls(&(aCmprsData.fd), OUT_FILE_NAME_01, _O_TRUNC| _O_CREAT|_O_WRONLY | _O_BINARY, _S_IREAD | _S_IWRITE | _S_IREAD);
 #else
-        sopen_zlibandtls(&(aCmprsData.fd),OUT_FILE_NAME_01,O_CREAT|O_WRONLY, S_IRWXU | S_IRWXG |  S_IROTH|S_IXOTH);
+        sopen_zlibandtls(&(aCmprsData.fd),OUT_FILE_NAME_01, O_TRUNC|O_CREAT|O_WRONLY, S_IRWXU | S_IRWXG |  S_IROTH|S_IXOTH);
 #endif
         if ((aCmprsData.fd) <0) {
 			goto returnPoint;
@@ -200,6 +211,19 @@ int main(int a_argc, char* a_argv[])
 				unRemainingBytes -= unRWcount;
 			}
 		}  // for (unRemainingBytes = fileSize;;) {
+
+		close_zlibandtls(aCmprsData.fd);
+
+		ResourceHandlerSecIconToApp(OUT_FILE_NAME_01, ZLIBWT_MAIN_ICON_FILE);
+
+#ifdef _WIN32
+		sopen_zlibandtls(&(aCmprsData.fd), OUT_FILE_NAME_01, _O_WRONLY | _O_BINARY, _S_IREAD | _S_IWRITE | _S_IREAD);
+#else
+		sopen_zlibandtls(&(aCmprsData.fd), OUT_FILE_NAME_01, O_WRONLY, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+#endif
+		if ((aCmprsData.fd) < 0) {
+			goto returnPoint;
+		}
 
         lseek_zlibandtls((aCmprsData.fd), MAX_EXE_SIZE, SEEK_SET);
 
@@ -225,6 +249,8 @@ returnPoint:
 	}
 	free((char*)s_cpcExeName);
 
+	ZLIBWT_GETCH()
+
 	return nReturn;
 }
 
@@ -242,7 +268,8 @@ static int DirCompressFilterFunction(const char*, void* a_userData, const DirIte
 	struct SCompressData* pCmprsData = (struct SCompressData*)a_userData;
 
 	if (pCmprsData->ownFileNotFound) {
-		if (!(a_data->isDir)) {
+		//if (!(a_data->isDir)) 
+		{
 			if (strcmp(s_cpcExeName, a_data->pFileName) == 0) {
 				pCmprsData->ownFileNotFound = 0;
 				return 1;
@@ -252,13 +279,16 @@ static int DirCompressFilterFunction(const char*, void* a_userData, const DirIte
 
 
 	if (pCmprsData->outFileNotFound) {
-		if (!(a_data->isDir)) {
+		//if (!(a_data->isDir)) 
+		{
 			if (strcmp(pCmprsData->outFileName, a_data->pFileName) == 0) {
 				pCmprsData->outFileNotFound = 0;
 				return 1;
 			}  //  if (strcmp(pCmprsData->outFileName, a_data->pFileName) == 0) {
 		}  //  if (!(a_data->isDir)) {
 	}  //  if (pCmprsData->outFileNotFound) {
+
+	ZLIBWT_SE_DEBUG("filename: %s", a_data->pFileName);
 
 	return 0;
 }

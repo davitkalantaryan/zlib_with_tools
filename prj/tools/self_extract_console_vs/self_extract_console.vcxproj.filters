@@ -51,5 +51,8 @@
     <ClCompile Include="..\..\..\contrib\system\src\core\system_create_process_unix.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\core\resource_handler_windows.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

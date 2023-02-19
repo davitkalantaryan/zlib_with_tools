@@ -313,6 +313,7 @@
     <ClCompile Include="..\..\..\contrib\system\src\core\system_create_process_windows.c" />
     <ClCompile Include="..\..\..\contrib\system\src\core\system_exe_parent_windows.cpp" />
     <ClCompile Include="..\..\..\contrib\system\src\core\system_rw.cpp" />
+    <ClCompile Include="..\..\..\src\core\resource_handler_windows.c" />
     <ClCompile Include="..\..\..\src\core\zlibwt_compression_routines.cpp" />
     <ClCompile Include="..\..\..\src\core\zlibwt_decompress_routines.cpp" />
     <ClCompile Include="..\..\..\src\core\zlibwt_decompress_routines_version_0000.cpp" />
