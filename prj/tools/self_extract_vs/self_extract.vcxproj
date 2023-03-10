@@ -320,13 +320,13 @@
     <ClCompile Include="..\..\..\contrib\system\src\core\system_create_process_unix.c" />
     <ClCompile Include="..\..\..\contrib\system\src\core\system_create_process_windows.c" />
     <ClCompile Include="..\..\..\src\core\resource_handler_windows.c" />
-    <ClCompile Include="..\..\..\src\core\zlibwt_compression_routines.cpp" />
-    <ClCompile Include="..\..\..\src\core\zlibwt_decompress_routines.cpp" />
-    <ClCompile Include="..\..\..\src\core\zlibwt_decompress_routines_version_0000.cpp" />
-    <ClCompile Include="..\..\..\src\core\zlibwt_hl_decompress_routines.cpp" />
-    <ClCompile Include="..\..\..\src\core\zlibwt_ll_compression_routines.cpp" />
-    <ClCompile Include="..\..\..\src\core\zlibwt_ll_decompress_routines.cpp" />
-    <ClCompile Include="..\..\..\src\tools\main_self_extract.cpp" />
+    <ClCompile Include="..\..\..\src\core\zlibwt_compression_routines.c" />
+    <ClCompile Include="..\..\..\src\core\zlibwt_decompress_routines.c" />
+    <ClCompile Include="..\..\..\src\core\zlibwt_decompress_routines_version_0000.c" />
+    <ClCompile Include="..\..\..\src\core\zlibwt_hl_decompress_routines.c" />
+    <ClCompile Include="..\..\..\src\core\zlibwt_ll_compression_routines.c" />
+    <ClCompile Include="..\..\..\src\core\zlibwt_ll_decompress_routines.c" />
+    <ClCompile Include="..\..\..\src\tools\main_self_extract.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

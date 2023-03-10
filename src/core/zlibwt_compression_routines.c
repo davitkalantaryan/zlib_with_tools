@@ -11,7 +11,7 @@
 #include <zlib_with_tools/zlibwt_ll_compression_routines.h>
 #include <zlib_with_tools/utils/stdio_zlibandtls.h>
 #include <private/zlib_with_tools/zlibwt_compress_decompress_common.h>
-#include <cpputils/endian.h>
+#include <cinternal/endian.h>
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>

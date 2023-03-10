@@ -10,6 +10,7 @@
 #include <resource_handler/resource_handler.h>
 #include <system/create_process.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #ifdef _WIN32
 #include <cinternal/disable_compiler_warnings.h>
@@ -48,7 +49,7 @@
 
 #define VC_BUFFER_SIZE		4192
 
-static const char* s_cpcExeName = nullptr;
+static const char* s_cpcExeName = CPPUTILS_NULL;
 
 static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
 static int  DirCompressFilterFunction(const char*, void*, const DirIterFileData* a_data);
@@ -129,7 +130,7 @@ int main(int a_argc, char* a_argv[])
 	if (fileSize > MAX_EXE_SIZE) {
 		int nRet;
         TSystemProcessHandlePtr procHandle;
-		TypeOfCompressedContent dcmprsRet;
+		enum TypeOfCompressedContent dcmprsRet;
 
         pcArg0 = a_argv[0] = strdup_zlibandtls(OUT_FOLDER_NAME_01 ZLIBWT_FILE_DELIM "maind.exe");
         if (!a_argv[0]) { goto returnPoint; }
@@ -246,9 +247,10 @@ static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, v
 }
 
 
-static int DirCompressFilterFunction(const char*, void* a_userData, const DirIterFileData* a_data)
+static int DirCompressFilterFunction(const char* a_dirFilePath, void* a_userData, const DirIterFileData* a_data)
 {
 	struct SCompressData* pCmprsData = (struct SCompressData*)a_userData;
+	CPPUTILS_STATIC_CAST(void, a_dirFilePath);
 
 	if (pCmprsData->ownFileNotFound) {
 		//if (!(a_data->isDir)) 

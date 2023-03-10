@@ -24,12 +24,12 @@ CPPUTILS_BEGIN_C
 struct ZlibWtDecompressSession;
 typedef struct ZlibWtDecompressSession* ZlibWtDecompressSessionPtr;
 
-ZLIBANDTLS_EXPORT TypeOfCompressedContent ZlibWtDecompressFileOrDir(
+ZLIBANDTLS_EXPORT enum TypeOfCompressedContent ZlibWtDecompressFileOrDir(
 	const char* a_cpcInputCompressedFile,
 	const char* a_cpcOutDecompressedFileOrDir);
 
 
-ZLIBANDTLS_EXPORT TypeOfCompressedContent ZlibWtDecompressFileOrDirEx(
+ZLIBANDTLS_EXPORT enum TypeOfCompressedContent ZlibWtDecompressFileOrDirEx(
 	FILE* a_fpInpCompressedFile,
 	const char* a_cpcOutDecompressedFileOrDir);
 
