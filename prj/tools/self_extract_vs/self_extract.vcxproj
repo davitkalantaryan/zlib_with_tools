@@ -326,7 +326,7 @@
     <ClCompile Include="..\..\..\src\core\zlibwt_hl_decompress_routines.cpp" />
     <ClCompile Include="..\..\..\src\core\zlibwt_ll_compression_routines.cpp" />
     <ClCompile Include="..\..\..\src\core\zlibwt_ll_decompress_routines.cpp" />
-    <ClCompile Include="..\..\..\src\tools\self_extract\main_self_extract_common.cpp" />
+    <ClCompile Include="..\..\..\src\tools\main_self_extract.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

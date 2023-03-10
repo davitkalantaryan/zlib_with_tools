@@ -36,9 +36,6 @@
     <ClCompile Include="..\..\..\src\core\zlibwt_ll_compression_routines.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\tools\self_extract\main_self_extract_common.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\contrib\system\src\core\system_create_process_windows.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -46,6 +43,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\core\resource_handler_windows.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\tools\main_self_extract.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

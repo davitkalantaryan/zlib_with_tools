@@ -32,7 +32,7 @@ LIBS += $${DESTDIR}/../lib/libzlib_st.a
 
 SOURCES		+=	\
 	\
-        $${PWD}/../../../src/tools/self_extract/main_self_extract_common.cpp                        \
+	$${PWD}/../../../src/tools/main_self_extract.cpp                        \
         $${PWD}/../../../src/core/zlibwt_ll_compression_routines.cpp                                \
         $${PWD}/../../../src/core/zlibwt_compression_routines.cpp                                   \
         $${PWD}/../../../src/core/zlibwt_decompress_routines.cpp                                    \
