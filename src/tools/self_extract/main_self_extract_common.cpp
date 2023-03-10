@@ -54,6 +54,18 @@ static void CompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, v
 static int  DirCompressFilterFunction(const char*, void*, const DirIterFileData* a_data);
 static void RemoveNonEmptyDirectory(const char* a_dirPath);
 
+
+CPPUTILS_CODE_INITIALIZER(main_self_extract_common_init) {
+	FILE* fpFile;
+	FreeConsole();
+	AttachConsole(ATTACH_PARENT_PROCESS);
+	if (GetConsoleWindow()) {
+		freopen_s(&fpFile, "CONOUT$", "w", stdout); // redirect stdout to console
+		freopen_s(&fpFile, "CONOUT$", "w", stderr); // redirect stderr to console
+		freopen_s(&fpFile, "CONIN$", "r", stdin); // redirect stdin to console
+	}
+}
+
 struct SCompressData {
 	int fd;
 	uint32_t outFileNotFound;
