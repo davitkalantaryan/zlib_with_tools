@@ -74,15 +74,8 @@ struct SCompressData {
 	const char* reserved02;
 };
 
-#ifdef WIN_MAIN_APP
-int APIENTRY WinMain(
-	HINSTANCE a_hInstance,
-	HINSTANCE a_hPrevInstance,
-	LPSTR     a_lpCmdLine,
-	int       a_nShowCmd)
-#else
+
 int main(int a_argc, char* a_argv[])
-#endif
 {
     bool shouldRemoveDirectory = false;
 	int nReturn = 1;
@@ -93,10 +86,8 @@ int main(int a_argc, char* a_argv[])
     size_t unWrRet;
 	size_t unNextRead, unRemainingBytes, unRWcount;
 	size_t fileSize;
-#ifdef WIN_MAIN_APP
-#else
     char* pcArg0 = CPPUTILS_NULL;
-#endif
+
 
 #if !defined(NDEBUG) && defined(WAIT_DEBUGGER)
 #ifdef _WIN32
@@ -110,17 +101,8 @@ int main(int a_argc, char* a_argv[])
 #endif
 #endif
 
-
-#ifdef WIN_MAIN_APP
-	//(void)a_hInstance;
-	(void)a_hPrevInstance;
-	(void)a_lpCmdLine;
-	(void)a_nShowCmd;
-	GetModuleFileNameA(a_hInstance, vcExePathThenDir, VC_BUFFER_SIZE - 1);
-#else
 	(void)a_argc;
 	strncpy_zlibandtls(vcExePathThenDir, a_argv[0], VC_BUFFER_SIZE - 1);
-#endif
 
 	pcDelimer = strrchr(vcExePathThenDir, '\\');
 	if (pcDelimer) {
@@ -149,10 +131,8 @@ int main(int a_argc, char* a_argv[])
         TSystemProcessHandlePtr procHandle;
 		TypeOfCompressedContent dcmprsRet;
 
-#ifndef WIN_MAIN_APP
         pcArg0 = a_argv[0] = strdup_zlibandtls(OUT_FOLDER_NAME_01 ZLIBWT_FILE_DELIM "maind.exe");
         if (!a_argv[0]) { goto returnPoint; }
-#endif
 
 		fseek(fpExe, MAX_EXE_SIZE, SEEK_SET);
         RemoveNonEmptyDirectory(OUT_FOLDER_NAME_01);
@@ -161,11 +141,8 @@ int main(int a_argc, char* a_argv[])
 
 		if (nReturn) { goto returnPoint; }
 
-#ifdef WIN_MAIN_APP
-        procHandle = SystemCreateProcessW(OUT_FOLDER_NAME_01 ZLIBWT_FILE_DELIM "maind.exe",a_lpCmdLine);
-#else
         procHandle = SystemCreateProcessU(a_argv);
-#endif
+
 		if (procHandle) {
 			SystemWaitAndClearProcess(procHandle, &nRet);
 			procHandle = CPPUTILS_NULL;
@@ -177,16 +154,12 @@ int main(int a_argc, char* a_argv[])
 
 		if (nRet) {
 			shouldRemoveDirectory = false; // later on this will be done on mre fancy way
-#ifdef WIN_MAIN_APP
-			procHandle = SystemCreateProcessW(OUT_FOLDER_NAME_01 ZLIBWT_FILE_DELIM "main.exe", a_lpCmdLine);
-#else
             pcArg0[ZLIBWT_SE_OUT_DIR_STR_LEN_PLUS1+4] = '.';
             pcArg0[ZLIBWT_SE_OUT_DIR_STR_LEN_PLUS1+5] = 'e';
             pcArg0[ZLIBWT_SE_OUT_DIR_STR_LEN_PLUS1+6] = 'x';
             pcArg0[ZLIBWT_SE_OUT_DIR_STR_LEN_PLUS1+7] = 'e';
             pcArg0[ZLIBWT_SE_OUT_DIR_STR_LEN_PLUS1+8] = 0;
 			procHandle = SystemCreateProcessU(a_argv);
-#endif
 		}
 		else {
 			shouldRemoveDirectory = true;
@@ -253,10 +226,7 @@ returnPoint:
     if(shouldRemoveDirectory){
         RemoveNonEmptyDirectory(OUT_FOLDER_NAME_01);
     }    
-#ifdef WIN_MAIN_APP
-#else
     free(pcArg0);
-#endif
 	if (fpExe) {
 		fclose(fpExe);
 	}
