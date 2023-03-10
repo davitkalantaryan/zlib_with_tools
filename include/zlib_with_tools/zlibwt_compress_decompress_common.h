@@ -15,6 +15,11 @@
 CPPUTILS_BEGIN_C
 
 
+#ifdef CPPUTILS_GCC_FAMILY
+#pragma GCC diagnostic ignored "-Wattributes"
+#endif
+
+
 enum ZLIBANDTLS_LL_EXPORT TypeOfCompressedContent{
 	CompressedContentNone = 0,
 	CompressedContentDirectory = 1,

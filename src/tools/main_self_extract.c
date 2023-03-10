@@ -57,6 +57,7 @@ static void RemoveNonEmptyDirectory(const char* a_dirPath);
 
 
 CPPUTILS_CODE_INITIALIZER(main_self_extract_common_init) {
+#ifdef _WIN32
 	FILE* fpFile;
 	FreeConsole();
 	AttachConsole(ATTACH_PARENT_PROCESS);
@@ -65,9 +66,10 @@ CPPUTILS_CODE_INITIALIZER(main_self_extract_common_init) {
 		freopen_s(&fpFile, "CONOUT$", "w", stderr); // redirect stderr to console
 		freopen_s(&fpFile, "CONIN$", "r", stdin); // redirect stdin to console
 	}
+#endif
 }
 
-struct SCompressData {
+struct CPPUTILS_DLL_PRIVATE SCompressData {
 	int fd;
 	uint32_t outFileNotFound;
 	uint32_t ownFileNotFound;
