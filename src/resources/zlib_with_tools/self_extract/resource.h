@@ -2,8 +2,8 @@
 // Microsoft Visual C++ generated include file.
 // Used by self_extract.rc
 //
-#define IDI_ICON1                       102
-#define IDI_ICON_CPPUTILS               102
+
+#define IDI_ICON_SELF_EXTRACT           102
 
 // Next default values for new objects
 // 

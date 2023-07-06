@@ -54,7 +54,7 @@ END
 // remains consistent on all systems.
 
 #if !defined(ZLWT_SELF_EXTRACT_ICON)
-#define ZLWT_SELF_EXTRACT_ICON  "cpputils_icon.ico"
+#define ZLWT_SELF_EXTRACT_ICON  "self_extract_icon.ico"
 #endif
 
 IDI_ICON_CPPUTILS       ICON                    ZLWT_SELF_EXTRACT_ICON
