@@ -49,4 +49,22 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\resources\zlib_with_tools\self_extract\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\resources\zlib_with_tools\self_extract\resource1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\src\resources\zlib_with_tools\self_extract\self_extract.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\src\resources\zlib_with_tools\self_extract\cpputils_icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

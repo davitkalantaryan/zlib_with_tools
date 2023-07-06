@@ -169,7 +169,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\system\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\src\include;$(ProjectDir)..\..\..\contrib\system\src\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\system\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\src\include;$(ProjectDir)..\..\..\contrib\system\src\include;$(ProjectDir)..\..\..\include\resource_handler</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -186,7 +186,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\system\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\src\include;$(ProjectDir)..\..\..\contrib\system\src\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\system\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\src\include;$(ProjectDir)..\..\..\contrib\system\src\include;$(ProjectDir)..\..\..\include\resource_handler</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -203,7 +203,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\system\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\src\include;$(ProjectDir)..\..\..\contrib\system\src\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\system\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\src\include;$(ProjectDir)..\..\..\contrib\system\src\include;$(ProjectDir)..\..\..\include\resource_handler</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -222,7 +222,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\system\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\src\include;$(ProjectDir)..\..\..\contrib\system\src\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\system\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\src\include;$(ProjectDir)..\..\..\contrib\system\src\include;$(ProjectDir)..\..\..\include\resource_handler</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -243,7 +243,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\system\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\src\include;$(ProjectDir)..\..\..\contrib\system\src\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\system\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\src\include;$(ProjectDir)..\..\..\contrib\system\src\include;$(ProjectDir)..\..\..\include\resource_handler</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -264,7 +264,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\system\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\src\include;$(ProjectDir)..\..\..\contrib\system\src\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\system\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\src\include;$(ProjectDir)..\..\..\contrib\system\src\include;$(ProjectDir)..\..\..\include\resource_handler</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -283,7 +283,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\system\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\src\include;$(ProjectDir)..\..\..\contrib\system\src\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\system\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\src\include;$(ProjectDir)..\..\..\contrib\system\src\include;$(ProjectDir)..\..\..\include\resource_handler</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -302,7 +302,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\system\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\src\include;$(ProjectDir)..\..\..\contrib\system\src\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\system\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\src\include;$(ProjectDir)..\..\..\contrib\system\src\include;$(ProjectDir)..\..\..\include\resource_handler</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -327,6 +327,16 @@
     <ClCompile Include="..\..\..\src\core\zlibwt_ll_compression_routines.c" />
     <ClCompile Include="..\..\..\src\core\zlibwt_ll_decompress_routines.c" />
     <ClCompile Include="..\..\..\src\tools\main_self_extract.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\resources\zlib_with_tools\self_extract\resource.h" />
+    <ClInclude Include="..\..\..\src\resources\zlib_with_tools\self_extract\resource1.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\src\resources\zlib_with_tools\self_extract\self_extract.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\src\resources\zlib_with_tools\self_extract\cpputils_icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
