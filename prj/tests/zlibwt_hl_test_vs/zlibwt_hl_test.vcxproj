@@ -199,7 +199,7 @@
       </PrecompiledHeader>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CPPUTILS_COMPILER_WARNINGS_PUSH_POP;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\src\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -219,7 +219,7 @@
       </PrecompiledHeader>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CPPUTILS_COMPILER_WARNINGS_PUSH_POP;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\src\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -239,7 +239,7 @@
       </PrecompiledHeader>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CPPUTILS_COMPILER_WARNINGS_PUSH_POP;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\src\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -259,7 +259,7 @@
       </PrecompiledHeader>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CPPUTILS_COMPILER_WARNINGS_PUSH_POP;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\src\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -281,7 +281,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CPPUTILS_COMPILER_WARNINGS_PUSH_POP;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\src\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -305,7 +305,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CPPUTILS_COMPILER_WARNINGS_PUSH_POP;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\src\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -329,7 +329,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CPPUTILS_COMPILER_WARNINGS_PUSH_POP;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\src\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -353,7 +353,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CPPUTILS_COMPILER_WARNINGS_PUSH_POP;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\src\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>

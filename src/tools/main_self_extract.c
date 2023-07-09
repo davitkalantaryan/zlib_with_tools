@@ -11,9 +11,8 @@
 #include <system/create_process.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
-#ifdef _WIN32
 #include <cinternal/disable_compiler_warnings.h>
+#ifdef _WIN32
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 #include <Windows.h>
@@ -22,6 +21,7 @@
 #include <unistd.h>
 #include <directory_iterator/directory_iterator.h>
 #endif
+#include <cinternal/undisable_compiler_warnings.h>
 
 #ifdef WAIT_DEBUGGER
 #define ZLIBWT_GETCH(...)	printf("press any key then enter to exit");fflush(stdout);getchar();
@@ -70,9 +70,10 @@ CPPUTILS_CODE_INITIALIZER(main_self_extract_common_init) {
 }
 
 struct CPPUTILS_DLL_PRIVATE SCompressData {
-	int fd;
-	uint32_t outFileNotFound;
-	uint32_t ownFileNotFound;
+	int			fd;
+	uint32_t	outFileNotFound;
+	uint32_t	ownFileNotFound;
+	int			reserved01;
 	const char* outFileName;
 	const char* reserved02;
 };

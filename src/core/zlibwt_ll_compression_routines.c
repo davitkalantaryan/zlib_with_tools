@@ -8,8 +8,8 @@
 
 #include <zlib_with_tools/zlibwt_ll_compression_routines.h>
 #include <private/zlib_with_tools/zlibwt_compress_decompress_common.h>
+#include <zlib_with_tools/zlibwt_zlib_h_wrapper.h>
 #include <cinternal/endian.h>
-#include <zlib.h>
 #include <stdlib.h>
 
 
