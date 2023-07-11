@@ -32,11 +32,18 @@ isEmpty(artifactRoot) {
     }
 }
 
+isEmpty( directoryIteratorRepoRoot ) {
+        directoryIteratorRepoRoot = $$(directoryIteratorRepoRoot)
+	isEmpty(directoryIteratorRepoRoot) {
+	    directoryIteratorRepoRoot = $${zlibWithToolsRepositoryRoot}/contrib/directory_iterator
+        }
+}
+
 isEmpty( qtutilsRepoRoot ) {
         qtutilsRepoRoot = $$(qtutilsRepoRoot)
-        isEmpty(qtutilsRepoRoot) {
-            qtutilsRepoRoot = $${zlibWithToolsRepositoryRoot}/contrib/qtutils
-        }
+	isEmpty(qtutilsRepoRoot) {
+	    qtutilsRepoRoot = $${zlibWithToolsRepositoryRoot}/contrib/qtutils
+	}
 }
 
 isEmpty( systemkRepositoryRoot ) {

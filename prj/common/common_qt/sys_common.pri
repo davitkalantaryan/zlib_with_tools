@@ -14,6 +14,11 @@ isEmpty( zlibWithToolsResolveCommonIncluded ) {
         zlibWithToolsResolveCommonIncluded = 1
 }
 
+isEmpty( directoryIteratorSysCommonIncluded ) {
+        include ( "$${directoryIteratorRepoRoot}/prj/common/common_qt/sys_common.pri" )
+	directoryIteratorSysCommonIncluded = 1
+}
+
 isEmpty( qtutilsSysCommonIncluded ) {
         include ( "$${qtutilsRepoRoot}/prj/common/common_qt/sys_common.pri" )
         qtutilsSysCommonIncluded = 1

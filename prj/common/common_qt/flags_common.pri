@@ -13,9 +13,14 @@ isEmpty( zlibWithToolsResolveCommonIncluded ) {
         zlibWithToolsResolveCommonIncluded = 1
 }
 
+isEmpty( directoryIteratorFlagsCommonIncluded ) {
+        include ( "$${directoryIteratorRepoRoot}/prj/common/common_qt/flags_common.pri" )
+	directoryIteratorFlagsCommonIncluded = 1
+}
+
 isEmpty( qtutilsFlagsCommonIncluded ) {
         include ( "$${qtutilsRepoRoot}/prj/common/common_qt/flags_common.pri" )
-        qtutilsFlagsCommonIncluded = 1
+	qtutilsFlagsCommonIncluded = 1
 }
 
 isEmpty( systemkFlagsCommonIncluded ) {
@@ -25,3 +30,4 @@ isEmpty( systemkFlagsCommonIncluded ) {
 
 
 INCLUDEPATH += $${zlibWithToolsRepositoryRoot}/include
+INCLUDEPATH += $${zlibWithToolsRepositoryRoot}/contrib/zlib
