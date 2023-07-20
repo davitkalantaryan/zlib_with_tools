@@ -27,21 +27,23 @@ jobs:
         runs-on: ${{ matrix.os }}
         strategy:
           matrix:
-            #os: [ubuntu-18.04, ubuntu-20.04, LinuxMint-19.3]
-            #os: [ubuntu-18.04, ubuntu-20.04]
-            # for time being let's use only one platform on matrix, because running is not free
-            os: [ubuntu-18.04]
+            #os: [ubuntu-20.04 ubuntu-22.04]
             include:
               # for all linuxes we should specify lC (lsbCode)
               # lC=$lsbCode=`lsb_release -c | cut -f 2` # for ubuntu18
-              - os: ubuntu-18.04
-                lC: bionic
-              #- os: ubuntu-20.04
-              #  lC: focal
+              #- os: ubuntu-18.04
+              #  lC: bionic
+              - os: ubuntu-20.04
+                lC: focal
+              - os: ubuntu-22.04
+                lC: jammy
+              - os: macos-latest
+                lC: mac
               #- os: LinuxMint-19.3
               #  lC: trica
         steps:
-            - uses: actions/checkout@v2
+            - name: Checking out repository
+              uses: actions/checkout@v3
 
             #- name: Install SSH key
             #  uses: shimataro/ssh-key-action@v2
