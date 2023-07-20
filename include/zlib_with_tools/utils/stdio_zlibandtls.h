@@ -16,13 +16,15 @@
 
 #ifdef _MSC_VER
 #include <share.h>
-#define fopen_zlibandtls(_filename,_mode)			_fsopen(_filename,_mode,_SH_DENYRW)
-#define fileno_zlibandtls							_fileno
-#define snprintf_zlibandtls(_buffer,_count,...)		_snprintf_s(_buffer,_count,_count,__VA_ARGS__)
+#define fopen_zlibandtls(_filename,_mode)					_fsopen(_filename,_mode,_SH_DENYRW)
+#define fileno_zlibandtls									_fileno
+#define snprintf_zlibandtls(_buffer,_count,...)				_snprintf_s(_buffer,_count,_count,__VA_ARGS__)
+#define vsnprintf_zlibandtls(_buffer,_count,_form,_args)	_vsnprintf_s(_buffer,_count,_count,_form,_args)
 #else
-#define fopen_zlibandtls							fopen
-#define fileno_zlibandtls							fileno
-#define snprintf_zlibandtls							snprintf
+#define fopen_zlibandtls									fopen
+#define fileno_zlibandtls									fileno
+#define snprintf_zlibandtls									snprintf
+#define vsnprintf_zlibandtls								vsnprintf
 #endif
 
 //#if defined(MSDOS) || defined(OS2) || defined(_WIN32) || defined(__CYGWIN__)
