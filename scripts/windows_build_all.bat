@@ -21,6 +21,17 @@ cd /D "%scriptDirectory%.."
 set "repositoryRoot=%cd%\"
 
 
+if not defined PlatformToolsetVar (
+	set "PlatformToolsetVarMid=%VCToolsVersion:~0,2%"
+	set "PlatformToolsetVarEnd=%VCToolsVersion:~3,1%"
+	set "PlatformToolsetVar=v%PlatformToolsetVarMid%%PlatformToolsetVarEnd%"
+
+	rem todo: get rid of below code
+	set "PlatformToolsetVar=v143"
+	echo PlatformToolsetVar=%PlatformToolsetVar%
+)
+
+
 :: handling arguments
 ::set argC=0
 ::for %%x in (%*) do Set /A argC+=1

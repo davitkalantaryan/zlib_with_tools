@@ -60,10 +60,10 @@ jobs:
         runs-on: windows-latest
         steps:
             - name: Checking out repository
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
 
             - name: Setup MSBuild.exe
-              uses: microsoft/setup-msbuild@v1.0.2
+              uses: microsoft/setup-msbuild@v1.1
 
             - name: Setup developer command prompt
               uses: ilammy/msvc-dev-cmd@v1
