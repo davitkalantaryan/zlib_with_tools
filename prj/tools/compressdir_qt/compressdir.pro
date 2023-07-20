@@ -32,10 +32,10 @@ LIBS += -lzlib
 
 SOURCES		+=	\
 	\
-        $${PWD}/../../../src/tools/main_compressdir.cpp                                             \
-        $${PWD}/../../../src/core/zlibwt_ll_compression_routines.cpp                                \
-        $${PWD}/../../../src/core/zlibwt_compression_routines.cpp                                   \
-        $${PWD}/../../../src/utils/common_argument_parser.cpp                                       \
+	$${PWD}/../../../src/tools/main_compressdir.cpp                                         \
+	$${PWD}/../../../src/core/zlibwt_ll_compression_routines.c				\
+	$${PWD}/../../../src/core/zlibwt_compression_routines.c                                 \
+        $${PWD}/../../../src/utils/common_argument_parser.cpp                                   \
         $${PWD}/../../../contrib/directory_iterator/src/core/diriter/directory_iterator_unix.c
 
 HEADERS += $$files($${repositoryRoot}/include/*.hpp,true)

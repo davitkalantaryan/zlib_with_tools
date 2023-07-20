@@ -43,52 +43,52 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>$(PlatformToolsetVar)</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>$(PlatformToolsetVar)</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>$(PlatformToolsetVar)</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>$(PlatformToolsetVar)</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>$(PlatformToolsetVar)</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>$(PlatformToolsetVar)</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>$(PlatformToolsetVar)</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>$(PlatformToolsetVar)</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -124,43 +124,43 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\bin\</OutDir>
-    <IntDir>$(ProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
+    <OutDir>$(ZlibWTVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\bin\</OutDir>
+    <IntDir>$(ZlibWTVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\bin\</OutDir>
-    <IntDir>$(ProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
+    <OutDir>$(ZlibWTVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\bin\</OutDir>
+    <IntDir>$(ZlibWTVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\bin\</OutDir>
-    <IntDir>$(ProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
+    <OutDir>$(ZlibWTVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\bin\</OutDir>
+    <IntDir>$(ZlibWTVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\bin\</OutDir>
-    <IntDir>$(ProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
+    <OutDir>$(ZlibWTVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\bin\</OutDir>
+    <IntDir>$(ZlibWTVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(ProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\bin\</OutDir>
-    <IntDir>$(ProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
+    <OutDir>$(ZlibWTVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\bin\</OutDir>
+    <IntDir>$(ZlibWTVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(ProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\bin\</OutDir>
-    <IntDir>$(ProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
+    <OutDir>$(ZlibWTVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\bin\</OutDir>
+    <IntDir>$(ZlibWTVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(ProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\bin\</OutDir>
-    <IntDir>$(ProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
+    <OutDir>$(ZlibWTVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\bin\</OutDir>
+    <IntDir>$(ZlibWTVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(ProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\bin\</OutDir>
-    <IntDir>$(ProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
+    <OutDir>$(ZlibWTVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\bin\</OutDir>
+    <IntDir>$(ZlibWTVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -168,7 +168,7 @@
       </PrecompiledHeader>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CPPUTILS_COMPILER_WARNINGS_PUSH_POP;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\src\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -188,7 +188,7 @@
       </PrecompiledHeader>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CPPUTILS_COMPILER_WARNINGS_PUSH_POP;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\src\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -208,7 +208,7 @@
       </PrecompiledHeader>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CPPUTILS_COMPILER_WARNINGS_PUSH_POP;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\src\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -228,7 +228,7 @@
       </PrecompiledHeader>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CPPUTILS_COMPILER_WARNINGS_PUSH_POP;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\src\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -250,7 +250,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CPPUTILS_COMPILER_WARNINGS_PUSH_POP;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\src\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -274,7 +274,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CPPUTILS_COMPILER_WARNINGS_PUSH_POP;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\src\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -298,7 +298,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CPPUTILS_COMPILER_WARNINGS_PUSH_POP;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\src\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -322,7 +322,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CPPUTILS_COMPILER_WARNINGS_PUSH_POP;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\contrib\directory_iterator\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\include;$(ProjectDir)..\..\..\contrib\qtutils\contrib\cpputils\contrib\cinternal\include;$(ProjectDir)..\..\..\include;$(ProjectDir)..\..\..\contrib\zlib;$(ProjectDir)..\..\..\src\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -340,8 +340,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\contrib\directory_iterator\src\core\diriter\directory_iterator_win.c" />
-    <ClCompile Include="..\..\..\src\core\zlibwt_compression_routines.cpp" />
-    <ClCompile Include="..\..\..\src\core\zlibwt_ll_compression_routines.cpp" />
+    <ClCompile Include="..\..\..\src\core\zlibwt_compression_routines.c" />
+    <ClCompile Include="..\..\..\src\core\zlibwt_ll_compression_routines.c" />
     <ClCompile Include="..\..\..\src\tools\main_compressdir.cpp" />
     <ClCompile Include="..\..\..\src\utils\common_argument_parser.cpp" />
   </ItemGroup>

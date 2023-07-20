@@ -54,7 +54,7 @@ int main(int a_argc, char* a_argv[])
 	}break;
 	case 'b': {
 		const TypeOfCompressedContent dcmprsRet = ZlibWtDecompressFileOrDir(cpcFileNameIn, cpcFileNameOut);
-		fprintf(stderr, "dcmprsRet:%d\n",(int)dcmprsRet);
+		fprintf(stdout, "dcmprsRet:%d\n",(int)dcmprsRet);
 	}break;
 	case 'c': {
 		FILE* fpFileOut = fopen_zlibandtls(cpcFileNameOut, "wb");

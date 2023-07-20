@@ -32,15 +32,15 @@ LIBS += $${DESTDIR}/../lib/libzlib_st.a
 
 SOURCES		+=	\
 	\
-        $${PWD}/../../../src/tools/self_extract/main_self_extract_common.cpp                        \
-        $${PWD}/../../../src/core/zlibwt_ll_compression_routines.cpp                                \
-        $${PWD}/../../../src/core/zlibwt_compression_routines.cpp                                   \
-        $${PWD}/../../../src/core/zlibwt_decompress_routines.cpp                                    \
-        $${PWD}/../../../src/core/zlibwt_decompress_routines_version_0000.cpp                       \
-        $${PWD}/../../../src/core/zlibwt_ll_decompress_routines.cpp                                 \
-        $${PWD}/../../../src/core/zlibwt_hl_decompress_routines.cpp                                 \
-        $${PWD}/../../../src/core/resource_handler_unix.c                                           \
-        $${PWD}/../../../contrib/directory_iterator/src/core/diriter/directory_iterator_unix.c      \
+	$${PWD}/../../../src/tools/main_self_extract.c						\
+	$${PWD}/../../../src/core/zlibwt_ll_compression_routines.c				\
+	$${PWD}/../../../src/core/zlibwt_compression_routines.c					\
+	$${PWD}/../../../src/core/zlibwt_decompress_routines.c					\
+	$${PWD}/../../../src/core/zlibwt_decompress_routines_version_0000.c			\
+	$${PWD}/../../../src/core/zlibwt_ll_decompress_routines.c				\
+	$${PWD}/../../../src/core/zlibwt_hl_decompress_routines.c				\
+	$${PWD}/../../../src/core/resource_handler_unix.c                                       \
+	$${PWD}/../../../contrib/directory_iterator/src/core/diriter/directory_iterator_unix.c  \
         $${PWD}/../../../contrib/system/src/core/system_create_process_unix.c
 
 HEADERS += $$files($${repositoryRoot}/include/*.hpp,true)

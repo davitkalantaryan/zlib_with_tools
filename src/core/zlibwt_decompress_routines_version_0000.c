@@ -12,7 +12,7 @@
 #include <zlib_with_tools/zlibwt_decompress_routines.h>
 #include <zlib_with_tools/zlibwt_ll_decompress_routines.h>
 #include <private/zlib_with_tools/zlibwt_decompress_data.h>
-#include <cpputils/endian.h>
+#include <cinternal/endian.h>
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -22,53 +22,6 @@ CPPUTILS_BEGIN_C
 static void ZlibWtDecompressCallbackStatData_dir(const void* a_buffer, size_t a_bufLen, void* a_userData);
 static void ZlibWtDecompressCallbackStatData_blob_and_file(const void* a_buffer, size_t a_bufLen, void* a_userData);
 
-#ifdef __INTELLISENSE__
-
-// size=40 B, padding=8 B
-struct ZLIBANDTLS_LL_EXPORT SFileItem {
-	uint64_t fileSize;
-	uint64_t fileSizeNorm;
-	uint32_t fileNameLen;
-	uint32_t fileNameLenNorm;
-	uint32_t mode;
-	uint8_t  contentType;
-	uint8_t  reserved01[3];
-	uint8_t  reserved02[8];
-};
-
-typedef struct SDirIterFileData {
-	uint32_t	deepness;  // in case of non recursive call this field is not used
-	uint32_t	isDir : 1;
-	uint32_t	reserved01 : 31;
-	const char* pFileName;
-	const void* pSystemData;
-}DirIterFileData;
-
-
-
-struct CPPUTILS_DLL_PRIVATE ZlibWtDecompressSession {
-    struct ZlibWtLLDecompressSession        ll;
-    struct SCompressDecompressHeader        header;
-    struct SFileItem                        fileItem;
-    struct SDirIterFileData                 fileData;
-    struct SZlibWtDecompressCallbacks		clbks;
-    void*                                   userData;
-    Bytef*                                  bufferForDecompressedDataTmp;
-
-    char*                                   pcFileName;
-    size_t									stage;  // 0 - reading header, 1 - reading file name, 2 - reding file
-    size_t									offsetInTheSection;
-    size_t                                  sizeOfSection;
-
-    size_t                                  reserved01;
-    size_t                                  reserved02;
-    uInt                                    sizeForBufferForDecompressedDataTmp;
-    uInt                                    isInited : 1;
-    uInt                                    reserved02 : 31;
-};
-
-
-#endif
 
 CPPUTILS_DLL_PRIVATE void ZlibWtDecompressCallbackStatData_version_0000(const void* a_buffer, size_t a_bufLen, void* a_userData)
 {

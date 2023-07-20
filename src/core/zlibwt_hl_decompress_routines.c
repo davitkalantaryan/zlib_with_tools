@@ -35,20 +35,20 @@ static void DecompressDirFileEndCallback(void* a_userData);
 static void DecompressDirDirEndCallback(void* a_userData);
 
 struct CPPUTILS_DLL_PRIVATE SDecompressData {
-	FILE*					fpFileOut;
-	const char*				cpcFileOrFolderNameOut;
-	char*					directoryPath;
-	size_t					directoryPathLen;
-	uint32_t				hasError;
-	uint32_t				reserved01;
-	int						fd;
-	int						reserved02;
-	TypeOfCompressedContent	retValue;
-	TypeOfCompressedContent	reserved03;
+	FILE*							fpFileOut;
+	const char*						cpcFileOrFolderNameOut;
+	char*							directoryPath;
+	size_t							directoryPathLen;
+	uint32_t						hasError;
+	uint32_t						reserved01;
+	int								fd;
+	int								reserved02;
+	enum TypeOfCompressedContent	retValue;
+	enum TypeOfCompressedContent	reserved03;
 };
 
 
-ZLIBANDTLS_EXPORT TypeOfCompressedContent ZlibWtDecompressFileOrDirEx(
+ZLIBANDTLS_EXPORT enum TypeOfCompressedContent ZlibWtDecompressFileOrDirEx(
 	FILE* a_fpInpCompressedFile,
 	const char* a_cpcOutDecompressedFileOrDir)
 {
@@ -131,11 +131,11 @@ ZLIBANDTLS_EXPORT TypeOfCompressedContent ZlibWtDecompressFileOrDirEx(
 }
 
 
-ZLIBANDTLS_EXPORT TypeOfCompressedContent ZlibWtDecompressFileOrDir(
+ZLIBANDTLS_EXPORT enum TypeOfCompressedContent ZlibWtDecompressFileOrDir(
     const char* a_cpcInputCompressedFile,
     const char* a_cpcOutDecompressedFileOrDir)
 {
-	TypeOfCompressedContent retVal;
+	enum TypeOfCompressedContent retVal;
 	FILE* fpFileIn = fopen_zlibandtls(a_cpcInputCompressedFile, "rb");
 	if (!fpFileIn) {
 		ZLIBWT_ERROR_REPORT("Unable to open the file with the name \" %s\"\n", a_cpcInputCompressedFile);
@@ -151,7 +151,7 @@ ZLIBANDTLS_EXPORT TypeOfCompressedContent ZlibWtDecompressFileOrDir(
 
 static void DecompressFileStartCallback(void* a_userData)
 {
-	SDecompressData* pData = (SDecompressData*)a_userData;
+	struct SDecompressData* pData = (struct SDecompressData*)a_userData;
 	pData->fpFileOut = fopen_zlibandtls(pData->cpcFileOrFolderNameOut, "wb");
 	if (!pData->fpFileOut) {
 		pData->hasError = 1;
@@ -163,7 +163,7 @@ static void DecompressFileStartCallback(void* a_userData)
 
 static void DecompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
 {
-	SDecompressData* pData = (SDecompressData*)a_userData;
+	struct SDecompressData* pData = (struct SDecompressData*)a_userData;
 	fwrite(a_buffer, 1, a_bufLen, pData->fpFileOut);
 }
 
@@ -172,7 +172,7 @@ static void DecompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen,
 
 static void DecompressDirStartCallback(void* a_userData)
 {
-	SDecompressData* pData = (SDecompressData*)a_userData;
+	struct SDecompressData* pData = (struct SDecompressData*)a_userData;
 	int nReturn = mkdir_zlibandtls(pData->cpcFileOrFolderNameOut, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 	if (nReturn) {
 		pData->hasError = 1;
@@ -191,7 +191,7 @@ static void DecompressDirStartCallback(void* a_userData)
 
 static void DecompressDirFileOrDirStartCallback(const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData, void* a_userData)
 {
-	SDecompressData* pData = (SDecompressData*)a_userData;
+	struct SDecompressData* pData = (struct SDecompressData*)a_userData;
 
 	if (a_pFileData->isDir) {
 		const size_t newStrLen = pData->directoryPathLen + 1 + ((size_t)a_pExtraData->fileNameLen);
@@ -228,7 +228,7 @@ static void DecompressDirFileOrDirStartCallback(const DirIterFileData* a_pFileDa
 
 static void DecompressDirFileReadCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
 {
-	SDecompressData* pData = (SDecompressData*)a_userData;
+	struct SDecompressData* pData = (struct SDecompressData*)a_userData;
     size_t unRet = (size_t)write_zlibandtls(pData->fd, a_buffer, a_bufLen);
     (void)unRet;
 }
@@ -236,17 +236,18 @@ static void DecompressDirFileReadCallback(const void* a_buffer, size_t a_bufLen,
 
 static void DecompressDirFileEndCallback(void* a_userData)
 {
-	SDecompressData* pData = (SDecompressData*)a_userData;
+	struct SDecompressData* pData = (struct SDecompressData*)a_userData;
 	close_zlibandtls(pData->fd);
 }
 
 
 static void DecompressDirDirEndCallback(void* a_userData)
 {
-	SDecompressData* pData = (SDecompressData*)a_userData;
+	struct SDecompressData* pData = (struct SDecompressData*)a_userData;
+	size_t newStrLen;
 	char* cpcTerm = strrchr(pData->directoryPath, '/');
 	assert(cpcTerm);
-	const size_t newStrLen = (size_t)(cpcTerm - (pData->directoryPath));
+	newStrLen = (size_t)(cpcTerm - (pData->directoryPath));
 	*cpcTerm = 0;
 	pData->directoryPathLen = newStrLen;
 }

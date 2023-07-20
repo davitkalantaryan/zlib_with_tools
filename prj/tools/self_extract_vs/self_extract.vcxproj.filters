@@ -18,25 +18,22 @@
     <ClCompile Include="..\..\..\contrib\directory_iterator\src\core\diriter\directory_iterator_win.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\zlibwt_hl_decompress_routines.cpp">
+    <ClCompile Include="..\..\..\src\core\zlibwt_hl_decompress_routines.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\zlibwt_decompress_routines.cpp">
+    <ClCompile Include="..\..\..\src\core\zlibwt_decompress_routines.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\zlibwt_ll_decompress_routines.cpp">
+    <ClCompile Include="..\..\..\src\core\zlibwt_ll_decompress_routines.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\zlibwt_decompress_routines_version_0000.cpp">
+    <ClCompile Include="..\..\..\src\core\zlibwt_decompress_routines_version_0000.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\zlibwt_compression_routines.cpp">
+    <ClCompile Include="..\..\..\src\core\zlibwt_compression_routines.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\zlibwt_ll_compression_routines.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\tools\self_extract\main_self_extract_common.cpp">
+    <ClCompile Include="..\..\..\src\core\zlibwt_ll_compression_routines.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\system\src\core\system_create_process_windows.c">
@@ -48,5 +45,26 @@
     <ClCompile Include="..\..\..\src\core\resource_handler_windows.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\tools\main_self_extract.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\resources\zlib_with_tools\self_extract\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\resources\zlib_with_tools\self_extract\resource1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\src\resources\zlib_with_tools\self_extract\self_extract.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\src\resources\zlib_with_tools\self_extract\cpputils_icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
