@@ -35,18 +35,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_logger.c" />
-    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_unit_test_checks.c" />
-    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_unit_test_main.c" />
-    <ClCompile Include="..\..\..\src\core\system_create_process_unix.c" />
-    <ClCompile Include="..\..\..\src\core\system_create_process_windows.c" />
-    <ClCompile Include="..\..\..\src\core\system_exe_child.cpp" />
-    <ClCompile Include="..\..\..\src\core\system_exe_parent_unix.cpp" />
-    <ClCompile Include="..\..\..\src\core\system_exe_parent_windows.cpp" />
-    <ClCompile Include="..\..\..\src\core\system_handlelib.cpp" />
-    <ClCompile Include="..\..\..\src\core\system_rw.cpp" />
-    <ClCompile Include="..\..\..\src\core\system_specific_unix.cpp" />
-    <ClCompile Include="..\..\..\src\core\system_specific_windows.cpp" />
+    <ClCompile Include="..\..\..\contrib\directory_iterator\contrib\cinternal\src\core\cinternal_core_logger.c" />
+    <ClCompile Include="..\..\..\contrib\directory_iterator\contrib\cinternal\src\core\cinternal_core_unit_test_checks.c" />
+    <ClCompile Include="..\..\..\contrib\directory_iterator\contrib\cinternal\src\core\cinternal_core_unit_test_main.c" />
+    <ClCompile Include="..\..\..\contrib\directory_iterator\src\core\diriter\directory_iterator_cmn.c" />
+    <ClCompile Include="..\..\..\contrib\directory_iterator\src\core\diriter\directory_iterator_unix.c" />
+    <ClCompile Include="..\..\..\contrib\directory_iterator\src\core\diriter\directory_iterator_win.c" />
+    <ClCompile Include="..\..\..\src\core\resource_handler_unix.c" />
+    <ClCompile Include="..\..\..\src\core\resource_handler_windows.c" />
+    <ClCompile Include="..\..\..\src\core\zlibwt_compression_routines.c" />
+    <ClCompile Include="..\..\..\src\core\zlibwt_decompress_routines.c" />
+    <ClCompile Include="..\..\..\src\core\zlibwt_decompress_routines_version_0000.c" />
+    <ClCompile Include="..\..\..\src\core\zlibwt_hl_decompress_routines.c" />
+    <ClCompile Include="..\..\..\src\core\zlibwt_ll_compression_routines.c" />
+    <ClCompile Include="..\..\..\src\core\zlibwt_ll_decompress_routines.c" />
     <ClCompile Include="..\..\..\src\tests\unit_test\0000_initial.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -60,7 +62,6 @@
     <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_ll_decompress_routines.h" />
     <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_zlib_h_wrapper.h" />
     <ClInclude Include="..\..\..\include\zlib_with_tools\zlib_first_include.h" />
-    <ClInclude Include="..\..\..\src\core\system_include_private.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="zlibwt_unit_test.pro" />
@@ -224,7 +225,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Ws2_32.lib</AdditionalDependencies>
+      <AdditionalDependencies>zlib_st_dl.lib;Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
@@ -236,7 +237,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Ws2_32.lib</AdditionalDependencies>
+      <AdditionalDependencies>zlib_st_dl.lib;Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
@@ -248,7 +249,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Ws2_32.lib</AdditionalDependencies>
+      <AdditionalDependencies>zlib_st_dl.lib;Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -264,7 +265,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Ws2_32.lib</AdditionalDependencies>
+      <AdditionalDependencies>zlib_st_dl.lib;Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
@@ -280,7 +281,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Ws2_32.lib</AdditionalDependencies>
+      <AdditionalDependencies>zlib_st_dl.lib;Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
@@ -296,7 +297,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Ws2_32.lib</AdditionalDependencies>
+      <AdditionalDependencies>zlib_st_dl.lib;Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -308,7 +309,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Ws2_32.lib</AdditionalDependencies>
+      <AdditionalDependencies>zlib_st_dl.lib;Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -324,7 +325,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Ws2_32.lib</AdditionalDependencies>
+      <AdditionalDependencies>zlib_st_dl.lib;Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -21,14 +21,12 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
-    <Import Project="flagsandsys_common_pure.props" />
     <Import Project="..\..\..\contrib\directory_iterator\prj\common\common_vs\flagsandsys_common.props" />
     <Import Project="..\..\..\contrib\qtutils\prj\common\common_vs\flagsandsys_common.props" />
     <Import Project="..\..\..\contrib\system\prj\common\common_vs\flagsandsys_common.props" />
+    <Import Project="flagsandsys_common_pure.props" />
   </ImportGroup>
-  <PropertyGroup Label="UserMacros">
-    <qtutilsRepoRoot>$(MSBuildThisFileDirectory)..\..\..</qtutilsRepoRoot>
-  </PropertyGroup>
+  <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup>
     <PreBuildEvent>
       <Command>
@@ -44,10 +42,5 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
       </AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <BuildMacro Include="qtutilsRepoRoot">
-      <Value>$(qtutilsRepoRoot)</Value>
-      <EnvironmentVariable>true</EnvironmentVariable>
-    </BuildMacro>
-  </ItemGroup>
+  <ItemGroup />
 </Project>

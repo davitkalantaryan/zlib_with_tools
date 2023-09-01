@@ -33,50 +33,53 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_logger.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_unit_test_checks.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_unit_test_main.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\tests\unit_test\0000_initial.cpp">
       <Filter>Source Files\tests\unit_test</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\system_create_process_unix.c">
+    <ClCompile Include="..\..\..\contrib\directory_iterator\contrib\cinternal\src\core\cinternal_core_logger.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\directory_iterator\contrib\cinternal\src\core\cinternal_core_unit_test_checks.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\directory_iterator\contrib\cinternal\src\core\cinternal_core_unit_test_main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\resource_handler_unix.c">
       <Filter>Source Files\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\system_create_process_windows.c">
+    <ClCompile Include="..\..\..\src\core\resource_handler_windows.c">
       <Filter>Source Files\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\system_exe_child.cpp">
+    <ClCompile Include="..\..\..\src\core\zlibwt_compression_routines.c">
       <Filter>Source Files\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\system_exe_parent_unix.cpp">
+    <ClCompile Include="..\..\..\src\core\zlibwt_decompress_routines.c">
       <Filter>Source Files\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\system_exe_parent_windows.cpp">
+    <ClCompile Include="..\..\..\src\core\zlibwt_decompress_routines_version_0000.c">
       <Filter>Source Files\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\system_handlelib.cpp">
+    <ClCompile Include="..\..\..\src\core\zlibwt_hl_decompress_routines.c">
       <Filter>Source Files\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\system_rw.cpp">
+    <ClCompile Include="..\..\..\src\core\zlibwt_ll_compression_routines.c">
       <Filter>Source Files\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\system_specific_unix.cpp">
+    <ClCompile Include="..\..\..\src\core\zlibwt_ll_decompress_routines.c">
       <Filter>Source Files\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\system_specific_windows.cpp">
-      <Filter>Source Files\core</Filter>
+    <ClCompile Include="..\..\..\contrib\directory_iterator\src\core\diriter\directory_iterator_cmn.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\directory_iterator\src\core\diriter\directory_iterator_unix.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\directory_iterator\src\core\diriter\directory_iterator_win.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\core\system_include_private.hpp">
-      <Filter>Source Files\core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\zlib_with_tools\export_symbols.h">
       <Filter>Header Files\incude\zlib_with_tools</Filter>
     </ClInclude>

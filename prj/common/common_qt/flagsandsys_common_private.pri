@@ -1,5 +1,5 @@
 #
-# repo:			qtutils
+# repo:			zlib_with_tool
 # name:			flagsandsys_common_private.pri
 # path:			prj/common/common_qt/flagsandsys_common_private.pri
 # created on:   2023 Jun 21
@@ -10,10 +10,10 @@
 
 message("!!! $${PWD}/flagsandsys_common_private.pri")
 
-isEmpty(qtutilsFlagsAndSysCommonPrivateIncluded){
-    qtutilsFlagsAndSysCommonPrivateIncluded = 1
+isEmpty(zlibWithToolsPrivateFlagsAndSysCommonIncluded){
+    zlibWithToolsPrivateFlagsAndSysCommonIncluded = 1
 
 	include("$${PWD}/flagsandsys_common.pri")
 
-    INCLUDEPATH += $${qtutilsRepoRoot}/src/include
+    INCLUDEPATH += $${zlibWithToolsRepositoryRoot}/src/include
 }

@@ -17,6 +17,12 @@ CONFIG += console
 
 DEFINES += CPPUTILS_DO_NOT_USE_STD_FUNCTION
 
+DEFINES += ZLIB_CONST
+
+
+LIBS += -L$${DESTDIR}/../lib
+LIBS += -lzlib
+
 win32{
 	LIBS += -lWs2_32
 } else {

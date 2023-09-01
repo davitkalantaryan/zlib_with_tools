@@ -193,7 +193,6 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>CPPUTILS_COMPILER_WARNINGS_PUSH_POP;ZLIB_WTOOLS_DISABLE_4244;ZLIB_WTOOLS_DISABLE_4996;WIN32;_DEBUG;_WINDOWS;_USRDLL;ZLIB_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>zlib_with_tools/zlib_first_include.h</ForcedIncludeFiles>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
@@ -213,7 +212,6 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>CPPUTILS_COMPILER_WARNINGS_PUSH_POP;ZLIB_WTOOLS_DISABLE_4244;ZLIB_WTOOLS_DISABLE_4996;_DEBUG;_WINDOWS;_USRDLL;ZLIB_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>zlib_with_tools/zlib_first_include.h</ForcedIncludeFiles>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
@@ -233,7 +231,6 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>CPPUTILS_COMPILER_WARNINGS_PUSH_POP;ZLIB_WTOOLS_DISABLE_4244;ZLIB_WTOOLS_DISABLE_4996;_DEBUG;_WINDOWS;_USRDLL;ZLIB_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>zlib_with_tools/zlib_first_include.h</ForcedIncludeFiles>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
@@ -256,7 +253,6 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>CPPUTILS_COMPILER_WARNINGS_PUSH_POP;ZLIB_WTOOLS_DISABLE_4244;ZLIB_WTOOLS_DISABLE_4996;_DEBUG;_WINDOWS;_USRDLL;ZLIB_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>zlib_with_tools/zlib_first_include.h</ForcedIncludeFiles>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
@@ -281,7 +277,6 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>CPPUTILS_COMPILER_WARNINGS_PUSH_POP;ZLIB_WTOOLS_DISABLE_4244;ZLIB_WTOOLS_DISABLE_4996;WIN32;NDEBUG;_WINDOWS;_USRDLL;ZLIB_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>zlib_with_tools/zlib_first_include.h</ForcedIncludeFiles>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
@@ -305,7 +300,6 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>CPPUTILS_COMPILER_WARNINGS_PUSH_POP;ZLIB_WTOOLS_DISABLE_4244;ZLIB_WTOOLS_DISABLE_4996;NDEBUG;_WINDOWS;_USRDLL;ZLIB_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>zlib_with_tools/zlib_first_include.h</ForcedIncludeFiles>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
@@ -329,7 +323,6 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>CPPUTILS_COMPILER_WARNINGS_PUSH_POP;ZLIB_WTOOLS_DISABLE_4244;ZLIB_WTOOLS_DISABLE_4996;NDEBUG;_WINDOWS;_USRDLL;ZLIB_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>zlib_with_tools/zlib_first_include.h</ForcedIncludeFiles>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
@@ -356,7 +349,6 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>CPPUTILS_COMPILER_WARNINGS_PUSH_POP;ZLIB_WTOOLS_DISABLE_4244;ZLIB_WTOOLS_DISABLE_4996;NDEBUG;_WINDOWS;_USRDLL;ZLIB_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\include</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>zlib_with_tools/zlib_first_include.h</ForcedIncludeFiles>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>

@@ -26,4 +26,5 @@ isEmpty(zlibWithToolsFlagsAndSysCommonIncluded){
     }
 
     INCLUDEPATH += $${zlibWithToolsRepositoryRoot}/include
+    INCLUDEPATH += $${zlibWithToolsRepositoryRoot}/contrib/zlib
 }
