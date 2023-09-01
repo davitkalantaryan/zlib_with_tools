@@ -52,4 +52,6 @@ fi
 
 cd ${repositoryRoot}/sys/${lsbCode}/Debug/test
 
+export LD_LIBRARY_PATH=${repositoryRoot}/sys/${lsbCode}/Debug/lib
+
 ./zlibwt_unit_test
