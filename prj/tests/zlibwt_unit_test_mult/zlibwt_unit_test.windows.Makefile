@@ -33,3 +33,4 @@ default: unittest
 unittest: __preparationForSetObjects __setObjects
 
 !include <$(MakeFileDir)\..\..\common\common_mkfl\flagsandsys_common_private.windows.Makefile>
+!include <$(systemRepositoryRoot)\prj\common\common_mkfl\flagsandsys_common_private.windows.Makefile>

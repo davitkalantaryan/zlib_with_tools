@@ -8,6 +8,7 @@ mkfile_dir		=  $(shell dirname $(mkfile_path))
 firstTarget: all
 
 include $(mkfile_dir)/../../common/common_mkfl/flagsandsys_common_private.unix.Makefile
+include $(systemRepositoryRoot)/prj/common/common_mkfl/flagsandsys_common_private.unix.Makefile
 
 UNIT_TEST_SRCS_DIR=$(zlibWithToolsRepositoryRoot)/src/tests/unit_test
 CORE_SRCS_DIR=$(zlibWithToolsRepositoryRoot)/src/core
