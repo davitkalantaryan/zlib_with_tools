@@ -8,6 +8,8 @@ firstTarget: all
 
 include $(mkfile_dir)/../../common/common_mkfl/flagsandsys_common_private.unix.Makefile
 
+COMMON_FLAGS += -fPIC
+
 SOURCES += $(zlibWithToolsRepositoryRoot)/contrib/zlib/adler32.c	
 SOURCES += $(zlibWithToolsRepositoryRoot)/contrib/zlib/compress.c
 SOURCES += $(zlibWithToolsRepositoryRoot)/contrib/zlib/crc32.c	
