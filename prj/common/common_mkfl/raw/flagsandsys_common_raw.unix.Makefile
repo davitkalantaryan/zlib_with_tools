@@ -22,3 +22,6 @@ include $(zlibWithToolsRepositoryRoot)/contrib/system/prj/common/common_mkfl/fla
 
 COMMON_FLAGS	+= -I$(zlibWithToolsRepositoryRoot)/include
 COMMON_FLAGS	+= -I$(zlibWithToolsRepositoryRoot)/contrib/zlib
+
+LIBS	+= -L$(zlibWithToolsRepositoryRoot)/sys/$(lsbCode)/$(Configuration)/lib
+LIBS	+= -L$(zlibWithToolsRepositoryRoot)/sys/$(lsbCode)/$(Configuration)/tlib

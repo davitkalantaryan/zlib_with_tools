@@ -27,4 +27,9 @@ isEmpty(zlibWithToolsFlagsAndSysCommonIncluded){
 
     INCLUDEPATH += $${zlibWithToolsRepositoryRoot}/include
     INCLUDEPATH += $${zlibWithToolsRepositoryRoot}/contrib/zlib
+
+        LIBS	+= -L$${zlibWithToolsRepositoryRoot}/sys/$${CODENAME}/$$CONFIGURATION/lib
+	LIBS	+= -L$${zlibWithToolsRepositoryRoot}/sys/$${CODENAME}/$$CONFIGURATION/tlib
+
+        OTHER_FILES += $$files($${PWD}/../common_mkfl/*.Makefile,true)
 }

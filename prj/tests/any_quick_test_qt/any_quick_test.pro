@@ -20,7 +20,6 @@ DEFINES += CPPUTILS_DO_NOT_USE_STD_FUNCTION
 DEFINES += ZLIB_CONST
 
 
-LIBS += -L$${DESTDIR}/../lib
 LIBS += -lzlib
 
 win32{
@@ -32,6 +31,7 @@ win32{
 
 SOURCES += $$files($${PWD}/../../../src/core/*.c,true)
 SOURCES += $$files($${PWD}/../../../src/core/*.cpp,true)
+SOURCES += $$files($${directoryIteratorRepoRoot}/src/core/*.c,true)
 
 SOURCES	+=		\
         "$${PWD}/../../../src/tests/main_any_quick_test.c"

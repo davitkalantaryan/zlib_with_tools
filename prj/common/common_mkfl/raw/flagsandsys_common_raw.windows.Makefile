@@ -36,3 +36,6 @@ systemRepositoryRoot	= $(zlibWithToolsRepositoryRoot)\contrib\system
 
 CFLAGS				= $(CFLAGS) /I"$(zlibWithToolsRepositoryRoot)\include"
 CFLAGS				= $(CFLAGS) /I"$(zlibWithToolsRepositoryRoot)\contrib\zlib"
+
+LFLAGS				= $(LFLAGS) /LIBPATH:"$(zlibWithToolsRepositoryRoot)\sys\win_$(Platform)\$(Configuration)\lib"
+LFLAGS				= $(LFLAGS) /LIBPATH:"$(zlibWithToolsRepositoryRoot)\sys\win_$(Platform)\$(Configuration)\tlib"

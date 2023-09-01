@@ -15,6 +15,8 @@ QT -= widgets
 CONFIG -= qt
 CONFIG += console
 
+LIBS += -lzlib
+
 win32{
 	LIBS += -lWs2_32
 } else {
@@ -29,6 +31,7 @@ DEFINES += CINTERNAL_UNIT_TEST_USE_GTEST_LIKE_MACROSES
 SOURCES	+= $$files($${zlibWithToolsRepositoryRoot}/src/core/*.c,true)
 SOURCES	+= $$files($${zlibWithToolsRepositoryRoot}/src/core/*.cpp,true)
 SOURCES += $$files($${zlibWithToolsRepositoryRoot}/src/tests/unit_test/*.cpp)
+SOURCES += $$files($${directoryIteratorRepoRoot}/src/core/*.c,true)
 
 SOURCES +=  \
     "$${cinternalRepoRoot}/src/core/cinternal_core_logger.c"				\
