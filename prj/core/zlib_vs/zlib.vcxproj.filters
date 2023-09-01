@@ -1,3 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\..\contrib\zlib\adler32.c" />
+    <ClCompile Include="..\..\..\contrib\zlib\compress.c" />
+    <ClCompile Include="..\..\..\contrib\zlib\crc32.c" />
+    <ClCompile Include="..\..\..\contrib\zlib\deflate.c" />
+    <ClCompile Include="..\..\..\contrib\zlib\gzclose.c" />
+    <ClCompile Include="..\..\..\contrib\zlib\gzlib.c" />
+    <ClCompile Include="..\..\..\contrib\zlib\gzread.c" />
+    <ClCompile Include="..\..\..\contrib\zlib\gzwrite.c" />
+    <ClCompile Include="..\..\..\contrib\zlib\infback.c" />
+    <ClCompile Include="..\..\..\contrib\zlib\inffast.c" />
+    <ClCompile Include="..\..\..\contrib\zlib\inflate.c" />
+    <ClCompile Include="..\..\..\contrib\zlib\inftrees.c" />
+    <ClCompile Include="..\..\..\contrib\zlib\trees.c" />
+    <ClCompile Include="..\..\..\contrib\zlib\uncompr.c" />
+    <ClCompile Include="..\..\..\contrib\zlib\zutil.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\contrib\zlib\crc32.h" />
+    <ClInclude Include="..\..\..\contrib\zlib\deflate.h" />
+    <ClInclude Include="..\..\..\contrib\zlib\gzguts.h" />
+    <ClInclude Include="..\..\..\contrib\zlib\inffast.h" />
+    <ClInclude Include="..\..\..\contrib\zlib\inffixed.h" />
+    <ClInclude Include="..\..\..\contrib\zlib\inflate.h" />
+    <ClInclude Include="..\..\..\contrib\zlib\inftrees.h" />
+    <ClInclude Include="..\..\..\contrib\zlib\trees.h" />
+    <ClInclude Include="..\..\..\contrib\zlib\zconf.h" />
+    <ClInclude Include="..\..\..\contrib\zlib\zlib.h" />
+    <ClInclude Include="..\..\..\contrib\zlib\zutil.h" />
+    <ClInclude Include="..\..\..\include\zlib_with_tools\zlib_first_include.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\contrib\zlib\win32\zlib.def" />
+    <None Include="..\zlib_qt\zlib.pro">
+      <Filter>files</Filter>
+    </None>
+    <None Include="..\zlib_mkfl\zlib.unix.Makefile">
+      <Filter>files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="files">
+      <UniqueIdentifier>{8fa7f353-fb78-4cdc-8383-83c40ee0d8ad}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
 </Project>

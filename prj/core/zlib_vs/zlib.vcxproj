@@ -376,6 +376,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="..\..\..\contrib\zlib\win32\zlib.def" />
+    <None Include="..\zlib_mkfl\zlib.unix.Makefile" />
+    <None Include="..\zlib_qt\zlib.pro" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
