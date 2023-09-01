@@ -31,6 +31,21 @@
     <Filter Include="files">
       <UniqueIdentifier>{3e2e0c8e-d073-43ae-8fd1-6b9b9fb22131}</UniqueIdentifier>
     </Filter>
+    <Filter Include="repo_files\prj">
+      <UniqueIdentifier>{9aedffe1-ff89-4dc7-8bba-e1d3ca26de48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="repo_files\prj\common">
+      <UniqueIdentifier>{65613ffb-37bb-4ad4-bc04-bb76d3cfe8d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="repo_files\prj\common\common_qt">
+      <UniqueIdentifier>{c43ff65e-cb51-4e3c-9b16-0417160df24c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="repo_files\prj\common\common_mkfl">
+      <UniqueIdentifier>{17f47287-1c4e-45e9-8f47-6bc958317914}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="repo_files\prj\common\common_mkfl\raw">
+      <UniqueIdentifier>{8117b23c-0cdd-4f7d-b5ac-db50600b6ce5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\utils\entry_zlib_overall.cpp">
@@ -91,6 +106,39 @@
     </None>
     <None Include="..\..\LICENSE">
       <Filter>repo_files</Filter>
+    </None>
+    <None Include="..\..\prj\common\common_qt\flagsandsys_common.pri">
+      <Filter>repo_files\prj\common\common_qt</Filter>
+    </None>
+    <None Include="..\..\prj\common\common_qt\flagsandsys_common_private.pri">
+      <Filter>repo_files\prj\common\common_qt</Filter>
+    </None>
+    <None Include="..\..\prj\common\common_qt\zlib.pri">
+      <Filter>repo_files\prj\common\common_qt</Filter>
+    </None>
+    <None Include="..\..\prj\common\common_mkfl\flagsandsys_common.unix.Makefile">
+      <Filter>repo_files\prj\common\common_mkfl</Filter>
+    </None>
+    <None Include="..\..\prj\common\common_mkfl\flagsandsys_common.windows.Makefile">
+      <Filter>repo_files\prj\common\common_mkfl</Filter>
+    </None>
+    <None Include="..\..\prj\common\common_mkfl\flagsandsys_common_private.unix.Makefile">
+      <Filter>repo_files\prj\common\common_mkfl</Filter>
+    </None>
+    <None Include="..\..\prj\common\common_mkfl\flagsandsys_common_private.windows.Makefile">
+      <Filter>repo_files\prj\common\common_mkfl</Filter>
+    </None>
+    <None Include="..\..\prj\common\common_mkfl\raw\flagsandsys_common_private_raw.unix.Makefile">
+      <Filter>repo_files\prj\common\common_mkfl\raw</Filter>
+    </None>
+    <None Include="..\..\prj\common\common_mkfl\raw\flagsandsys_common_private_raw.windows.Makefile">
+      <Filter>repo_files\prj\common\common_mkfl\raw</Filter>
+    </None>
+    <None Include="..\..\prj\common\common_mkfl\raw\flagsandsys_common_raw.unix.Makefile">
+      <Filter>repo_files\prj\common\common_mkfl\raw</Filter>
+    </None>
+    <None Include="..\..\prj\common\common_mkfl\raw\flagsandsys_common_raw.windows.Makefile">
+      <Filter>repo_files\prj\common\common_mkfl\raw</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

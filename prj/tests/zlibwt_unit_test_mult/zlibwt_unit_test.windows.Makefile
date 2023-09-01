@@ -26,7 +26,7 @@ Objects					=	$(Objects) ..\contrib\cinternal\src\core\cinternal_core_logger.$(P
 #DirectoriesToCompile	= $(DirectoriesToCompile) nr-build\gen\cpp\sss\ssslang\antlr
 DirectoriesToCompile	=
 DirectoriesToCompile	= tests\unit_test
-DirectoriesToCompile	= $(DirectoriesToCompile) core
+DirectoriesToCompile	= $(DirectoriesToCompile) core ..\contrib\directory_iterator\src\core
 
 default: unittest
 
