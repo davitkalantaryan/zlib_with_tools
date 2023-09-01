@@ -1,5 +1,5 @@
 
-targetName=zlib
+targetName=libzlib.so
 
 mkfile_path		=  $(abspath $(lastword $(MAKEFILE_LIST)))
 mkfile_dir		=  $(shell dirname $(mkfile_path))
@@ -28,9 +28,9 @@ SOURCES += $(zlibWithToolsRepositoryRoot)/contrib/zlib/zutil.c
 
 
 
-all: $(artifactRoot)/sys/$(lsbCode)/$(Configuration)/test/$(targetName)
+all: $(artifactRoot)/sys/$(lsbCode)/$(Configuration)/lib/$(targetName)
 
-$(artifactRoot)/sys/$(lsbCode)/$(Configuration)/test/$(targetName): \
+$(artifactRoot)/sys/$(lsbCode)/$(Configuration)/lib/$(targetName): \
                 $(SOURCES:%=$(artifactRoot)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)/%.o)	   
 	@mkdir -p $(@D)
 	@$(LINK) $^ -shared -fPIC $(LIBS) $(LFLAGS) -o $@
