@@ -9,6 +9,8 @@ firstTarget: all
 include $(mkfile_dir)/../../common/common_mkfl/flagsandsys_common_private.unix.Makefile
 
 COMMON_FLAGS += -fPIC
+COMMON_FLAGS += -include"zlib_with_tools/zlib_first_include.h"
+COMMON_FLAGS += -Wimplicit-fallthrough=0
 
 SOURCES += $(zlibWithToolsRepositoryRoot)/contrib/zlib/adler32.c	
 SOURCES += $(zlibWithToolsRepositoryRoot)/contrib/zlib/compress.c
