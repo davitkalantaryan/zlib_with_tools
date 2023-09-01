@@ -16,7 +16,6 @@ SrcBaseDir				= $(MakeFileDir)\..\..\..\src
 DEFINES       			= /D "CINTERNAL_UNIT_TEST_USE_GTEST_LIKE_MACROSES"
 LIBS					= $(LIBS) "Ws2_32.lib" "zlib_st_dl.lib"
 LFLAGS					= $(LFLAGS) /SUBSYSTEM:CONSOLE
-LFLAGS					= $(LFLAGS) /LIBPATH:"$(zlibWithToolsRepositoryRoot)\sys\win_$(Platform)\$(Configuration)\lib"
 
 Objects					=	..\contrib\directory_iterator\contrib\cinternal\src\core\cinternal_core_unit_test_checks.$(Platform)_$(ObjectsExtension)_obj
 Objects					=	$(Objects) ..\contrib\directory_iterator\contrib\cinternal\src\core\cinternal_core_unit_test_main.$(Platform)_$(ObjectsExtension)_obj

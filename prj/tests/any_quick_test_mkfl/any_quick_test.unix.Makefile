@@ -20,7 +20,6 @@ SOURCES += $(zlibWithToolsRepositoryRoot)/src/tests/main_any_quick_test.c
 LIBS += -pthread
 LIBS += -ldl
 LIBS += -lzlib
-LIBS += -L$(zlibWithToolsRepositoryRoot)/sys/$(lsbCode)/$(Configuration)/lib
 CPPFLAGS += -std=c++11
 
 all: $(artifactRoot)/sys/$(lsbCode)/$(Configuration)/test/$(targetName)

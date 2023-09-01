@@ -30,7 +30,6 @@ CPPFLAGS += -std=c++11
 LIBS += -pthread
 LIBS += -ldl
 LIBS += -lzlib
-LIBS += -L$(zlibWithToolsRepositoryRoot)/sys/$(lsbCode)/$(Configuration)/lib
 
 all: $(artifactRoot)/sys/$(lsbCode)/$(Configuration)/test/$(targetName)
 
