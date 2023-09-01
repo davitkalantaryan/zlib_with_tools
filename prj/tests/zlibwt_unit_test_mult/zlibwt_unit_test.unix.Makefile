@@ -28,6 +28,7 @@ CPPFLAGS += -std=c++11
 
 LIBS += -pthread
 LIBS += -ldl
+LIBS += -lzlib
 
 all: $(artifactRoot)/sys/$(lsbCode)/$(Configuration)/test/$(targetName)
 

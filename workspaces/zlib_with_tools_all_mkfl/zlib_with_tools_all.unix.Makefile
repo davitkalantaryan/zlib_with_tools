@@ -11,11 +11,13 @@ endif
 
 
 all:
+	$(MAKE) -f $(zlibWithToolsRepositoryRoot)/prj/core/zlib_mkfl/zlib.unix.Makefile										&& \
 	$(MAKE) -f $(zlibWithToolsRepositoryRoot)/prj/tests/zlibwt_unit_test_mult/zlibwt_unit_test.unix.Makefile			&& \
 	$(MAKE) -f $(zlibWithToolsRepositoryRoot)/prj/tests/any_quick_test_mkfl/any_quick_test.unix.Makefile
 
 .PHONY: clean
 clean:
+	$(MAKE) -f $(zlibWithToolsRepositoryRoot)/prj/core/zlib_mkfl/zlib.unix.Makefile clean
 	$(MAKE) -f $(zlibWithToolsRepositoryRoot)/prj/tests/zlibwt_unit_test_mult/zlibwt_unit_test.unix.Makefile clean
 	$(MAKE) -f $(zlibWithToolsRepositoryRoot)/prj/tests/any_quick_test_mkfl/any_quick_test.unix.Makefile clean
 	

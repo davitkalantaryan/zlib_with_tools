@@ -14,7 +14,7 @@ TargetCategory          = test
 SrcBaseDir				= $(MakeFileDir)\..\..\..\src
 
 DEFINES       			= /D "CINTERNAL_UNIT_TEST_USE_GTEST_LIKE_MACROSES"
-LIBS					= $(LIBS) "Ws2_32.lib"
+LIBS					= $(LIBS) "Ws2_32.lib" "zlib_st_dl.lib"
 LFLAGS					= $(LFLAGS) /SUBSYSTEM:CONSOLE
 
 Objects					=	..\contrib\cinternal\src\core\cinternal_core_unit_test_checks.$(Platform)_$(ObjectsExtension)_obj
