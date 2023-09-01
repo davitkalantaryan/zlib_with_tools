@@ -1,6 +1,6 @@
 #
-# file:			system_unit_test.pro
-# path:			prj/tests/system_unit_test_mult/system_unit_test.pro
+# file:			zlibwt_unit_test.pro
+# path:			prj/tests/zlibwt_unit_test_mult/zlibwt_unit_test.pro
 # created on:	2021 Mar 27
 # created by:	Davit Kalantaryan
 #
@@ -26,9 +26,9 @@ win32{
 DEFINES += CINTERNAL_UNIT_TEST_USE_GTEST_LIKE_MACROSES
 
 
-SOURCES	+= $$files($${systemRepositoryRoot}/src/core/*.c,true)
-SOURCES	+= $$files($${systemRepositoryRoot}/src/core/*.cpp,true)
-SOURCES += $$files($${systemRepositoryRoot}/src/tests/unit_test/*.cpp)
+SOURCES	+= $$files($${zlibWithToolsRepositoryRoot}/src/core/*.c,true)
+SOURCES	+= $$files($${zlibWithToolsRepositoryRoot}/src/core/*.cpp,true)
+SOURCES += $$files($${zlibWithToolsRepositoryRoot}/src/tests/unit_test/*.cpp)
 
 SOURCES +=  \
     "$${cinternalRepoRoot}/src/core/cinternal_core_logger.c"				\
@@ -37,7 +37,7 @@ SOURCES +=  \
 
 
 
-HEADERS =  $$files($${systemRepositoryRoot}/include/*.h,true)
-HEADERS += $$files($${systemRepositoryRoot}/include/*.hpp,true)
+HEADERS =  $$files($${zlibWithToolsRepositoryRoot}/include/*.h,true)
+HEADERS += $$files($${zlibWithToolsRepositoryRoot}/include/*.hpp,true)
 
 OTHER_FILES += $$files($${PWD}/*.Makefile)

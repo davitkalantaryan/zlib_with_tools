@@ -6,10 +6,9 @@
 
 TEMPLATE = lib
 
-message("file:  zlib.pro  ")
+message("!!! $${_PRO_FILE_}")
+include ( "$${PWD}/../../common/common_qt/flagsandsys_common_private.pri" )
 include($${PWD}/../../common/common_qt/zlib.pri)
-repositoryRoot = $${PWD}/../../..
-include ($${repositoryRoot}/ENVIRONMENT)
-include($${repositoryRoot}/contrib/qtutils/contrib/cpputils/prj/common/common_qt/sys_common.pri)
+include ($${zlibWithToolsRepositoryRoot}/ENVIRONMENT)
 
 VERSION = $$ZLIB_VERSION

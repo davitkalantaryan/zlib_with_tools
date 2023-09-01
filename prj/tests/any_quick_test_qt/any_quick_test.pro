@@ -30,7 +30,7 @@ SOURCES += $$files($${PWD}/../../../src/core/*.cpp,true)
 SOURCES	+=		\
         "$${PWD}/../../../src/tests/main_any_quick_test.c"
 
-HEADERS += $$files($${systemRepositoryRoot}/include/*.h,true)
-HEADERS += $$files($${systemRepositoryRoot}/include/*.hpp,true)
+HEADERS += $$files($${zlibWithToolsRepositoryRoot}/include/*.h,true)
+HEADERS += $$files($${zlibWithToolsRepositoryRoot}/include/*.hpp,true)
 
 OTHER_FILES += $$files($${PWD}/../any_quick_test_mkfl/*.Makefile,false)

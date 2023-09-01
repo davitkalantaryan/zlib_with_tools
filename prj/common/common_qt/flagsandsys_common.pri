@@ -1,5 +1,5 @@
 #
-# repo:			qtutils
+# repo:			zlib_with_tool
 # name:			flagsandsys_common.pri
 # path:			prj/common/common_qt/flagsandsys_common.pri
 # created on:   2023 Jun 21
@@ -10,18 +10,20 @@
 
 message("!!! $${PWD}/flagsandsys_common.pri")
 
-isEmpty(qtutilsFlagsAndSysCommonIncluded){
-    qtutilsFlagsAndSysCommonIncluded = 1
+isEmpty(zlibWithToolsFlagsAndSysCommonIncluded){
+    zlibWithToolsFlagsAndSysCommonIncluded = 1
 
-    qtutilsRepoRoot = $${PWD}/../../..
-	include("$${qtutilsRepoRoot}/contrib/emsutils/prj/common/common_qt/flagsandsys_common.pri")
+    zlibWithToolsRepositoryRoot = $${PWD}/../../..
+        include("$${zlibWithToolsRepositoryRoot}/contrib/directory_iterator/prj/common/common_qt/flagsandsys_common.pri")
+	include("$${zlibWithToolsRepositoryRoot}/contrib/qtutils/prj/common/common_qt/flagsandsys_common.pri")
+	include("$${zlibWithToolsRepositoryRoot}/contrib/system/prj/common/common_qt/flagsandsys_common.pri")
 
     isEmpty(artifactRoot) {
         artifactRoot = $$(artifactRoot)
 		isEmpty(artifactRoot) {
-			artifactRoot = $${qtutilsRepoRoot}
+		        artifactRoot = $${zlibWithToolsRepositoryRoot}
 		}
     }
 
-    INCLUDEPATH += $${qtutilsRepoRoot}/include
+    INCLUDEPATH += $${zlibWithToolsRepositoryRoot}/include
 }
