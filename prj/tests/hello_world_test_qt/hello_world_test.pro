@@ -15,6 +15,7 @@ TARGET = main.exe
 QT -= core
 QT -= gui
 CONFIG -= qt
+CONFIG += console
 
 
 SOURCES		+=	\

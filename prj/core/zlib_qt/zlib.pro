@@ -13,4 +13,9 @@ include ($${zlibWithToolsRepositoryRoot}/ENVIRONMENT)
 
 OTHER_FILES += $$files($${PWD}/../zlib_mkfl/*.Makefile,false)
 
-VERSION = $$ZLIB_VERSION
+win32 {
+        QMAKE_LFLAGS += /DYNAMICBASE /DEF:"$${PWD}\..\..\..\contrib\zlib\win32\zlib.def"
+} else {
+}
+
+#VERSION = $$ZLIB_VERSION

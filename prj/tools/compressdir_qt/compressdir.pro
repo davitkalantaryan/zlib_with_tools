@@ -12,11 +12,10 @@ include ( "$${PWD}/../../common/common_qt/flagsandsys_common_private.pri" )
 QT -= core
 QT -= gui
 CONFIG -= qt
+CONFIG += console
 
 DEFINES += ZLIB_CONST
 
-
-LIBS += -L$${DESTDIR}/../lib
 LIBS += -lzlib
 
 SOURCES		+=	\
@@ -25,7 +24,8 @@ SOURCES		+=	\
 	$${PWD}/../../../src/core/zlibwt_ll_compression_routines.c				\
 	$${PWD}/../../../src/core/zlibwt_compression_routines.c                                 \
         $${PWD}/../../../src/utils/common_argument_parser.cpp                                   \
-        $${PWD}/../../../contrib/directory_iterator/src/core/diriter/directory_iterator_unix.c
+	$${PWD}/../../../contrib/directory_iterator/src/core/diriter/directory_iterator_unix.c	\
+	$${PWD}/../../../contrib/directory_iterator/src/core/diriter/directory_iterator_win.c
 
 HEADERS += $$files($${zlibWithToolsRepositoryRoot}/include/*.hpp,true)
 HEADERS += $$files($${zlibWithToolsRepositoryRoot}/include/*.h,true)

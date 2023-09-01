@@ -19,6 +19,8 @@ QT -= core
 QT -= gui
 CONFIG -= qt
 
+DEFINES += ZLIB_WTOOLS_DISABLE_4996
+
 SOURCES		+=	\
 	$${PWD}/../../../contrib/zlib/adler32.c			\
 	$${PWD}/../../../contrib/zlib/compress.c		\

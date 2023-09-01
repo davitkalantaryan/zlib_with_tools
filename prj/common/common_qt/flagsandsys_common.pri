@@ -14,16 +14,17 @@ isEmpty(zlibWithToolsFlagsAndSysCommonIncluded){
     zlibWithToolsFlagsAndSysCommonIncluded = 1
 
     zlibWithToolsRepositoryRoot = $${PWD}/../../..
+
+        isEmpty(artifactRoot) {
+	    artifactRoot = $$(artifactRoot)
+	            isEmpty(artifactRoot) {
+		            artifactRoot = $${zlibWithToolsRepositoryRoot}
+		    }
+	}
+
         include("$${zlibWithToolsRepositoryRoot}/contrib/directory_iterator/prj/common/common_qt/flagsandsys_common.pri")
 	include("$${zlibWithToolsRepositoryRoot}/contrib/qtutils/prj/common/common_qt/flagsandsys_common.pri")
 	include("$${zlibWithToolsRepositoryRoot}/contrib/system/prj/common/common_qt/flagsandsys_common.pri")
-
-    isEmpty(artifactRoot) {
-        artifactRoot = $$(artifactRoot)
-		isEmpty(artifactRoot) {
-		        artifactRoot = $${zlibWithToolsRepositoryRoot}
-		}
-    }
 
     INCLUDEPATH += $${zlibWithToolsRepositoryRoot}/include
     INCLUDEPATH += $${zlibWithToolsRepositoryRoot}/contrib/zlib
