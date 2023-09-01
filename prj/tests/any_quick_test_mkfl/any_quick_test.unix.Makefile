@@ -8,11 +8,11 @@ firstTarget: all
 
 include $(mkfile_dir)/../../common/common_mkfl/flagsandsys_common_private.unix.Makefile
 
-CORE_SRCS_DIR=$(systemRepositoryRoot)/src/core
+CORE_SRCS_DIR=$(zlibWithToolsRepositoryRoot)/src/core
 CORE_SRCS_CPP	= $(shell find $(CORE_SRCS_DIR) -name "*.cpp")
 CORE_SRCS_C	= $(shell find $(CORE_SRCS_DIR) -name "*.c")
 
-SOURCES += $(systemRepositoryRoot)/src/tests/main_any_quick_test.c
+SOURCES += $(zlibWithToolsRepositoryRoot)/src/tests/main_any_quick_test.c
 
 LIBS += -pthread
 LIBS += -ldl
