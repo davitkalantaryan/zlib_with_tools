@@ -22,7 +22,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
-    <qtutilsRepoRoot>$(MSBuildThisFileDirectory)..\..\..</qtutilsRepoRoot>
+    <zlibWithToolsRepositoryRoot>$(MSBuildThisFileDirectory)..\..\..</zlibWithToolsRepositoryRoot>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <PreBuildEvent>
@@ -41,8 +41,8 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <BuildMacro Include="qtutilsRepoRoot">
-      <Value>$(qtutilsRepoRoot)</Value>
+    <BuildMacro Include="zlibWithToolsRepositoryRoot">
+      <Value>$(zlibWithToolsRepositoryRoot)</Value>
       <EnvironmentVariable>true</EnvironmentVariable>
     </BuildMacro>
   </ItemGroup>

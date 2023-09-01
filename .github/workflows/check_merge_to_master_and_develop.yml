@@ -1,87 +1,59 @@
 #
-# file:			check_merge_to_master.yml  
-# created on:	2023 Feb 03  
-#
-# usefull urls:
-#				1. https://docs.github.com/en/actions
-#				2. https://github.com/actions/starter-workflows
-#				3. https://github.com/actions/download-artifact
+# file:		check_merge_to_master_and_develop.yml
 #
 
-name: check-merge-to-master-and-develop
+name: test_pull_to_master_and_develop
 on:
     pull_request:
         branches: [ master, develop ]
 
-env:
-  deployUser: kalantar
-  #deployRoot: /home/${{env.deployUser}}/build/3rd-party
-  #deployHost: mtcapitzcpu7.ifh.de
-  #deployHostAndUser: ${{env.deployUser}}@${{env.deployHost}}
-
-
 jobs:
 
     # matrix for debian linuxes (for now ubuntu-18.04 and ubuntu-20.04)
-    debian-linuxes:
+    unixes:
         runs-on: ${{ matrix.os }}
         strategy:
           matrix:
-            #os: [ubuntu-20.04 ubuntu-22.04]
-            include:
-              # for all linuxes we should specify lC (lsbCode)
-              # lC=$lsbCode=`lsb_release -c | cut -f 2` # for ubuntu18
-              #- os: ubuntu-18.04
-              #  lC: bionic
-              - os: ubuntu-20.04
-                lC: focal
-              - os: ubuntu-22.04
-                lC: jammy
-              - os: macos-latest
-                lC: mac
-              #- os: LinuxMint-19.3
-              #  lC: trica
+            os: [ubuntu-20.04, ubuntu-22.04, macos-latest]
         steps:
-            - name: Checking out repository
-              uses: actions/checkout@v3
+            - uses: actions/checkout@v3
+           
+            - name: Preparing host for ${{ matrix.os }}
+              run: ./scripts/unix_prepare_host.sh
 
-            #- name: Install SSH key
-            #  uses: shimataro/ssh-key-action@v2
-            #  with:
-            #   key: ${{ secrets.SSH_KEY }}
-            #   #known_hosts: ${{ secrets.KNOWN_HOSTS }}
+            - name: Preparing repository for ${{ matrix.os }}
+              run: ./scripts/unix_prepare_repository.sh
 
-            - name: Building
-              run: echo "will be implemented"
+            - name: Compiling for ${{ matrix.os }}
+              run: ./scripts/unix_build_all.sh
+              #working-directory: blabla
 
-
+            - name: running unittest for ${{ matrix.os }}
+              run: ./scripts/unix_run_tests.sh
+            
     # This is for windows
     windows:
         runs-on: windows-latest
         steps:
-            - name: Checking out repository
-              uses: actions/checkout@v3
+            - uses: actions/checkout@v3
 
             - name: Setup MSBuild.exe
               uses: microsoft/setup-msbuild@v1.1
 
             - name: Setup developer command prompt
               uses: ilammy/msvc-dev-cmd@v1
+              #with:
+              #    toolset: v142
 
-            - name: Developer host preparation
-              run: cmd /C .\scripts\windows_prepare_host.bat
-              #working-directory: core
+            - name: Preparing windows host
+              run: cmd /C "call .\scripts\windows_prepare_host.bat"
 
-            - name: Repository preparation
-              run: cmd /C .\scripts\windows_prepare_repository.bat
+            - name: Preparing windows repository
+              run: cmd /C "call .\scripts\windows_prepare_repository.bat"
 
-            - name: Compiling ZLIB and tools
-              run: cmd /C .\scripts\windows_build_all.bat
+            - name: Compiling for windows
+              run: cmd /C "call .\scripts\windows_build_all.bat"
+              #working-directory: blabla
 
-    mac:
-        #needs: prepare-ubuntu18-host
-        runs-on: macos-latest
-        steps:
-            #- uses: actions/checkout@v2
-            - run: >
-                echo "Macos tests to be done"
+            - name: running tests for windows
+              run: cmd /C "call .\scripts\windows_run_tests.bat"

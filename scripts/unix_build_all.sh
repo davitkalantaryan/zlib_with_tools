@@ -24,5 +24,9 @@ done
 cd ..
 repositoryRoot=`pwd`
 echo repositoryRoot=$repositoryRoot
-git submodule sync --recursive
-git submodule update --init --recursive
+
+cd workspaces/system_all_mkfl
+unset CPPUTILS_DEBUG
+make -f system_all.unix.Makefile CPPUTILS_RELEASE=1
+unset CPPUTILS_RELEASE
+make -f system_all.unix.Makefile CPPUTILS_DEBUG=1

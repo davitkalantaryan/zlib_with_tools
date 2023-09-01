@@ -1,0 +1,12 @@
+
+
+   zlibWithToolsRepositoryRoot
+   
+   $(MSBuildThisFileDirectory)..\..\..
+   
+   ZlibWTVirtWorkspaceDir
+   
+   ZlibWTVirtProjectDir
+   
+   $(PlatformToolsetVar)
+
