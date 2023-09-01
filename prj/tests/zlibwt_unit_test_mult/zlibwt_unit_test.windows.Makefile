@@ -1,14 +1,14 @@
 #
-# repo:				system
-# file:				system_unit_test.windows.Makefile
+# repo:				zlib_with_tools
+# file:				zlibwt_unit_test.windows.Makefile
 # created on:	    2020 Dec 02
 # created by:		Davit Kalantaryan (davit.kalantaryan@desy.de)
 #
 
 
-MakeFileName            = system_unit_test.windows.Makefile
+MakeFileName            = zlibwt_unit_test.windows.Makefile
 MakeFileDir				= $(MAKEDIR)
-TargetName				= system_unit_test_mkfl
+TargetName				= zlibwt_unit_test_mkfl
 TargetExtension			= exe
 TargetCategory          = test
 SrcBaseDir				= $(MakeFileDir)\..\..\..\src

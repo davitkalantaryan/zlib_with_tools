@@ -1,5 +1,5 @@
 #
-# repo:		qtutils
+# repo:		zlib_with_tools
 # file:		flagsandsys_common_pure.windows.Makefile
 # created on:	2020 Dec 14
 # created by:	Davit Kalantaryan (davit.kalantaryan@desy.de)
@@ -10,17 +10,29 @@
 MakeFileDir			= $(MAKEDIR)\..
 !ENDIF
 
-!IFNDEF qtutilsRepoRoot
-qtutilsRepoRoot	= $(MakeFileDir)\..\..\..
+!IFNDEF zlibWithToolsRepositoryRoot
+zlibWithToolsRepositoryRoot	= $(MakeFileDir)\..\..\..
 !ENDIF
 
 !IFNDEF artifactRoot
-artifactRoot	= $(qtutilsRepoRoot)
+artifactRoot	= $(zlibWithToolsRepositoryRoot)
 !ENDIF
 
-!IFNDEF emsutilsRepoRoot
-emsutilsRepoRoot	= $(qtutilsRepoRoot)\contrib\emsutils
+!IFNDEF directoryIteratorRepoRoot
+directoryIteratorRepoRoot	= $(zlibWithToolsRepositoryRoot)\contrib\directory_iterator
 !ENDIF
 
-!include <$(emsutilsRepoRoot)\prj\common\common_mkfl\flagsandsys_common.windows.Makefile>
-CFLAGS				= $(CFLAGS) /I"$(qtutilsRepoRoot)\include"
+!IFNDEF qtutilsRepoRoot
+qtutilsRepoRoot	= $(zlibWithToolsRepositoryRoot)\contrib\qtutils
+!ENDIF
+
+!IFNDEF systemRepositoryRoot
+systemRepositoryRoot	= $(zlibWithToolsRepositoryRoot)\contrib\system
+!ENDIF
+
+!include <$(directoryIteratorRepoRoot)\prj\common\common_mkfl\flagsandsys_common.windows.Makefile>
+!include <$(qtutilsRepoRoot)\prj\common\common_mkfl\flagsandsys_common.windows.Makefile>
+!include <$(systemRepositoryRoot)\prj\common\common_mkfl\flagsandsys_common.windows.Makefile>
+
+CFLAGS				= $(CFLAGS) /I"$(zlibWithToolsRepositoryRoot)\include"
+CFLAGS				= $(CFLAGS) /I"$(zlibWithToolsRepositoryRoot)\contrib\zlib"

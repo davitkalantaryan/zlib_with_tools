@@ -51,16 +51,16 @@ for %%x in (%*) do (
 )
 
 echo action=%ActionConfirm%,PlatformTarget=!PlatformTarget!,configuration=%Configuration%
-cd "%repositoryRoot%prj\tests\system_unit_test_mult"
+cd "%repositoryRoot%prj\tests\zlibwt_unit_test_mult"
 if not "!ERRORLEVEL!"=="0" (exit /b !ERRORLEVEL!)
 
 for %%p in (%PlatformTarget%) do (
 	echo "!!!!!!!!!!!! platform %%p"
 	for %%c in (%Configuration%) do (
 		echo "!!!!!!!!!!!! !!!!!!!!!!!! compiling for configuration %%c"
-		call msbuild "%repositoryRoot%workspaces\system_all_vs\system_all.sln" /t:!ActionConfirm! /p:Configuration=%%c /p:Platform=%%p
+		call msbuild "%repositoryRoot%workspaces\zlib_with_tools_all_vs\zlib_with_tools_all.sln" /t:!ActionConfirm! /p:Configuration=%%c /p:Platform=%%p
 		if not "!ERRORLEVEL!"=="0" (exit /b !ERRORLEVEL!)
-		call nmake -f system_unit_test.windows.Makefile /e Platform=%%p /e Configuration=%%c
+		call nmake -f zlibwt_unit_test.windows.Makefile /e Platform=%%p /e Configuration=%%c
 		if not "!ERRORLEVEL!"=="0" (exit /b !ERRORLEVEL!)
 	)
 )

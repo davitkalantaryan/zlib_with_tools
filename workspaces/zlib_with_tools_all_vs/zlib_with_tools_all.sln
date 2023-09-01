@@ -13,17 +13,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{01F34C07
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "apt-get", "..\..\prj\tools\apt-get_vs\apt-get.vcxproj", "{F9B3E9A8-2386-492B-9AEA-24A941CD1091}"
 	ProjectSection(ProjectDependencies) = postProject
+		{7E5B0B44-348D-4935-926C-DA0FE9455A68} = {7E5B0B44-348D-4935-926C-DA0FE9455A68}
 		{6C874983-5D00-44D3-9B65-F0A975574DAD} = {6C874983-5D00-44D3-9B65-F0A975574DAD}
+		{1FA92FD9-761B-44A1-8DB4-3ABE2C2935C0} = {1FA92FD9-761B-44A1-8DB4-3ABE2C2935C0}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "compressdir", "..\..\prj\tools\compressdir_vs\compressdir.vcxproj", "{84101244-7634-4FFB-B755-18BF3D5C7B1E}"
 	ProjectSection(ProjectDependencies) = postProject
+		{7E5B0B44-348D-4935-926C-DA0FE9455A68} = {7E5B0B44-348D-4935-926C-DA0FE9455A68}
 		{6C874983-5D00-44D3-9B65-F0A975574DAD} = {6C874983-5D00-44D3-9B65-F0A975574DAD}
+		{1FA92FD9-761B-44A1-8DB4-3ABE2C2935C0} = {1FA92FD9-761B-44A1-8DB4-3ABE2C2935C0}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "unzip_from_net", "..\..\prj\tools\unzip_from_net_vs\unzip_from_net.vcxproj", "{0EBBE3F6-7032-47EC-B605-B86C4A6F27D5}"
 	ProjectSection(ProjectDependencies) = postProject
+		{7E5B0B44-348D-4935-926C-DA0FE9455A68} = {7E5B0B44-348D-4935-926C-DA0FE9455A68}
 		{6C874983-5D00-44D3-9B65-F0A975574DAD} = {6C874983-5D00-44D3-9B65-F0A975574DAD}
+		{1FA92FD9-761B-44A1-8DB4-3ABE2C2935C0} = {1FA92FD9-761B-44A1-8DB4-3ABE2C2935C0}
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{288D2A2E-9D3A-45EF-B2FB-86735463EDF8}"
@@ -50,12 +56,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib_st_dl", "..\..\prj\cor
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlibwt_hl_test", "..\..\prj\tests\zlibwt_hl_test_vs\zlibwt_hl_test.vcxproj", "{686D2D4B-1062-4E5B-9A94-EE44A9EC7D67}"
 	ProjectSection(ProjectDependencies) = postProject
+		{7E5B0B44-348D-4935-926C-DA0FE9455A68} = {7E5B0B44-348D-4935-926C-DA0FE9455A68}
 		{6C874983-5D00-44D3-9B65-F0A975574DAD} = {6C874983-5D00-44D3-9B65-F0A975574DAD}
+		{1FA92FD9-761B-44A1-8DB4-3ABE2C2935C0} = {1FA92FD9-761B-44A1-8DB4-3ABE2C2935C0}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlibwt_ll_test", "..\..\prj\tests\zlibwt_ll_test_vs\zlibwt_ll_test.vcxproj", "{77CA2816-8ADF-4850-BE46-6A0AA9EF9F3B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6C874983-5D00-44D3-9B65-F0A975574DAD} = {6C874983-5D00-44D3-9B65-F0A975574DAD}
+		{1FA92FD9-761B-44A1-8DB4-3ABE2C2935C0} = {1FA92FD9-761B-44A1-8DB4-3ABE2C2935C0}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hello_world_test", "..\..\prj\tests\hello_world_test_vs\hello_world_test.vcxproj", "{B78A6AAB-876D-4AF7-A440-EC924F30C492}"
@@ -65,7 +74,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hello_world_test", "..\..\p
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "change_or_add_icon_test", "..\..\prj\tests\change_or_add_icon_test_vs\change_or_add_icon_test.vcxproj", "{CF63AC47-B2B5-48FF-A456-D138A0572540}"
 	ProjectSection(ProjectDependencies) = postProject
+		{7E5B0B44-348D-4935-926C-DA0FE9455A68} = {7E5B0B44-348D-4935-926C-DA0FE9455A68}
+		{6C874983-5D00-44D3-9B65-F0A975574DAD} = {6C874983-5D00-44D3-9B65-F0A975574DAD}
 		{B78A6AAB-876D-4AF7-A440-EC924F30C492} = {B78A6AAB-876D-4AF7-A440-EC924F30C492}
+		{1FA92FD9-761B-44A1-8DB4-3ABE2C2935C0} = {1FA92FD9-761B-44A1-8DB4-3ABE2C2935C0}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "self_extract", "..\..\prj\tools\self_extract_vs\self_extract.vcxproj", "{104D81AE-5E95-4B5F-BF0E-5E8696B59E97}"
@@ -74,8 +86,16 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "self_extract", "..\..\prj\t
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "any_quick_test", "..\..\prj\tests\any_quick_test_vs\any_quick_test.vcxproj", "{CB1D8706-FBD9-4919-A4FC-A29019AC56F9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7E5B0B44-348D-4935-926C-DA0FE9455A68} = {7E5B0B44-348D-4935-926C-DA0FE9455A68}
+		{6C874983-5D00-44D3-9B65-F0A975574DAD} = {6C874983-5D00-44D3-9B65-F0A975574DAD}
+		{1FA92FD9-761B-44A1-8DB4-3ABE2C2935C0} = {1FA92FD9-761B-44A1-8DB4-3ABE2C2935C0}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlibwt_unit_test", "..\..\prj\tests\zlibwt_unit_test_mult\zlibwt_unit_test.vcxproj", "{E6F8B6C2-4CA9-4B3A-9A00-83D011DE88FA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1FA92FD9-761B-44A1-8DB4-3ABE2C2935C0} = {1FA92FD9-761B-44A1-8DB4-3ABE2C2935C0}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
