@@ -25,10 +25,6 @@ zlibwt_hl_test          = $${zlibWithToolsRepositoryRoot}/prj/tests/zlibwt_hl_te
 zlibwt_ll_test          = $${zlibWithToolsRepositoryRoot}/prj/tests/zlibwt_ll_test_qt/zlibwt_ll_test.pro
 
 
-SUBDIRS		+=	"$${zlibWithToolsRepositoryRoot}/prj/tests/any_quick_test_qt/any_quick_test.pro"
-SUBDIRS		+=	"$${zlibWithToolsRepositoryRoot}/prj/tests/zlibwt_unit_test_mult/zlibwt_unit_test.pro"
-
-
 SUBDIRS +=  \
     $$zlib                \
     $$zlib_st             \
@@ -38,11 +34,26 @@ SUBDIRS +=  \
     $$zlibwt_hl_test      \
     $$zlibwt_ll_test
 
+SUBDIRS		+=	"$${zlibWithToolsRepositoryRoot}/prj/tests/any_quick_test_qt/any_quick_test.pro"
+SUBDIRS		+=	"$${zlibWithToolsRepositoryRoot}/prj/tests/zlibwt_unit_test_mult/zlibwt_unit_test.pro"
+
 
 $${self_extract}.depends = $${zlib_st}
 $${compressdir}.depends = $${zlib}
 $${zlibwt_hl_test}.depends = $${zlib}
 $${zlibwt_ll_test}.depends = $${zlib}
+
+directoryIteratorFromHere{
+        SUBDIRS	+= "$${directoryIteratorRepoRoot}/workspaces/directory_iterator_all_qt/directory_iterator_all.pro"
+}
+
+qtutilsFromHere{
+        SUBDIRS	+= "$${qtutilsRepoRoot}/workspaces/qtutils_all_qt/qtutils_all.pro"
+}
+
+systemFromHere{
+        SUBDIRS	+= "$${systemRepositoryRoot}/workspaces/system_all_qt/system_all.pro"
+}
 
 
 OTHER_FILES += $$files($${zlibWithToolsRepositoryRoot}/docs/*.md,true)
