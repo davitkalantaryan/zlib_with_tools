@@ -13,20 +13,38 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="files">
+    <Filter Include="repo_files">
       <UniqueIdentifier>{17ea9714-5f10-4d93-8a59-67cbc8e01d4c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="files\scripts">
+    <Filter Include="repo_files\scripts">
       <UniqueIdentifier>{f18af43d-66d6-4c52-82a9-4f8573478ea3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="files\.github">
+    <Filter Include="repo_files\.github">
       <UniqueIdentifier>{1c7fc06b-86ac-4fbc-a394-6cf0df8ed45b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="files\.github\workflows">
+    <Filter Include="repo_files\.github\workflows">
       <UniqueIdentifier>{1af8a5f4-1011-4120-b883-c686963f7734}</UniqueIdentifier>
     </Filter>
-    <Filter Include="files\docs">
+    <Filter Include="repo_files\docs">
       <UniqueIdentifier>{d798cec5-a6f5-4c37-9742-aca2ec0367a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="files">
+      <UniqueIdentifier>{3e2e0c8e-d073-43ae-8fd1-6b9b9fb22131}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="repo_files\prj">
+      <UniqueIdentifier>{9aedffe1-ff89-4dc7-8bba-e1d3ca26de48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="repo_files\prj\common">
+      <UniqueIdentifier>{65613ffb-37bb-4ad4-bc04-bb76d3cfe8d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="repo_files\prj\common\common_qt">
+      <UniqueIdentifier>{c43ff65e-cb51-4e3c-9b16-0417160df24c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="repo_files\prj\common\common_mkfl">
+      <UniqueIdentifier>{17f47287-1c4e-45e9-8f47-6bc958317914}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="repo_files\prj\common\common_mkfl\raw">
+      <UniqueIdentifier>{8117b23c-0cdd-4f7d-b5ac-db50600b6ce5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -36,30 +54,96 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\.gitignore">
-      <Filter>files</Filter>
+      <Filter>repo_files</Filter>
     </None>
     <None Include="..\..\.gitattributes">
-      <Filter>files</Filter>
+      <Filter>repo_files</Filter>
     </None>
     <None Include="..\..\README.md">
-      <Filter>files</Filter>
+      <Filter>repo_files</Filter>
     </None>
     <None Include="..\..\scripts\windows_prepare_host.bat">
-      <Filter>files\scripts</Filter>
+      <Filter>repo_files\scripts</Filter>
     </None>
     <None Include="..\..\scripts\windows_prepare_repository.bat">
-      <Filter>files\scripts</Filter>
+      <Filter>repo_files\scripts</Filter>
     </None>
     <None Include="..\..\scripts\windows_build_all.bat">
-      <Filter>files\scripts</Filter>
+      <Filter>repo_files\scripts</Filter>
     </None>
     <None Include="..\..\.github\workflows\check_merge_to_master_and_develop.yml">
-      <Filter>files\.github\workflows</Filter>
+      <Filter>repo_files\.github\workflows</Filter>
+    </None>
+    <None Include="..\zlib_with_tools_all_mkfl\zlib_with_tools_all.unix.Makefile">
+      <Filter>files</Filter>
+    </None>
+    <None Include="..\zlib_with_tools_all_qt\zlib_with_tools_all.pro">
+      <Filter>files</Filter>
+    </None>
+    <None Include="..\..\scripts\unix_build_all.sh">
+      <Filter>repo_files\scripts</Filter>
+    </None>
+    <None Include="..\..\scripts\unix_prepare_host.sh">
+      <Filter>repo_files\scripts</Filter>
+    </None>
+    <None Include="..\..\scripts\unix_prepare_repository.sh">
+      <Filter>repo_files\scripts</Filter>
+    </None>
+    <None Include="..\..\scripts\unix_run_tests.sh">
+      <Filter>repo_files\scripts</Filter>
+    </None>
+    <None Include="..\..\scripts\windows_run_tests.bat">
+      <Filter>repo_files\scripts</Filter>
+    </None>
+    <None Include="..\..\scripts\windows_set_vs_toolset_and_run.bat">
+      <Filter>repo_files\scripts</Filter>
+    </None>
+    <None Include="..\..\.gitmodules">
+      <Filter>repo_files</Filter>
+    </None>
+    <None Include="..\..\ENVIRONMENT">
+      <Filter>repo_files</Filter>
+    </None>
+    <None Include="..\..\LICENSE">
+      <Filter>repo_files</Filter>
+    </None>
+    <None Include="..\..\prj\common\common_qt\flagsandsys_common.pri">
+      <Filter>repo_files\prj\common\common_qt</Filter>
+    </None>
+    <None Include="..\..\prj\common\common_qt\flagsandsys_common_private.pri">
+      <Filter>repo_files\prj\common\common_qt</Filter>
+    </None>
+    <None Include="..\..\prj\common\common_qt\zlib.pri">
+      <Filter>repo_files\prj\common\common_qt</Filter>
+    </None>
+    <None Include="..\..\prj\common\common_mkfl\flagsandsys_common.unix.Makefile">
+      <Filter>repo_files\prj\common\common_mkfl</Filter>
+    </None>
+    <None Include="..\..\prj\common\common_mkfl\flagsandsys_common.windows.Makefile">
+      <Filter>repo_files\prj\common\common_mkfl</Filter>
+    </None>
+    <None Include="..\..\prj\common\common_mkfl\flagsandsys_common_private.unix.Makefile">
+      <Filter>repo_files\prj\common\common_mkfl</Filter>
+    </None>
+    <None Include="..\..\prj\common\common_mkfl\flagsandsys_common_private.windows.Makefile">
+      <Filter>repo_files\prj\common\common_mkfl</Filter>
+    </None>
+    <None Include="..\..\prj\common\common_mkfl\raw\flagsandsys_common_private_raw.unix.Makefile">
+      <Filter>repo_files\prj\common\common_mkfl\raw</Filter>
+    </None>
+    <None Include="..\..\prj\common\common_mkfl\raw\flagsandsys_common_private_raw.windows.Makefile">
+      <Filter>repo_files\prj\common\common_mkfl\raw</Filter>
+    </None>
+    <None Include="..\..\prj\common\common_mkfl\raw\flagsandsys_common_raw.unix.Makefile">
+      <Filter>repo_files\prj\common\common_mkfl\raw</Filter>
+    </None>
+    <None Include="..\..\prj\common\common_mkfl\raw\flagsandsys_common_raw.windows.Makefile">
+      <Filter>repo_files\prj\common\common_mkfl\raw</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\docs\notes_2023.02.12.txt">
-      <Filter>files\docs</Filter>
+      <Filter>repo_files\docs</Filter>
     </Text>
   </ItemGroup>
 </Project>

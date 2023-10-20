@@ -5,20 +5,17 @@
 #  
 
 
-message("file:  zlibwt_hl_test.pro  ")
+message("!!! $${_PRO_FILE_}")
+include ( "$${PWD}/../../common/common_qt/flagsandsys_common_private.pri" )
+DESTDIR     = "$${artifactRoot}/sys/$${CODENAME}/$$CONFIGURATION/test"
 
-repositoryRoot = $${PWD}/../../..
-include($${repositoryRoot}/contrib/qtutils/contrib/cpputils/contrib/cinternal/prj/common/common_qt/sys_common.pri)
-include($${repositoryRoot}/contrib/qtutils/contrib/cpputils/contrib/cinternal/prj/common/common_qt/flags_common.pri)
-
-DESTDIR     = $${artifactRoot}/$${SYSTEM_PATH}/$$CONFIGURATION/test
-message(DESTDIR is $$DESTDIR)
 
 TARGET = main.exe
 
 QT -= core
 QT -= gui
 CONFIG -= qt
+CONFIG += console
 
 
 SOURCES		+=	\
