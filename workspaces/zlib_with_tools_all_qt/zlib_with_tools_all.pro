@@ -15,7 +15,6 @@ include ( "$${PWD}/../../prj/common/common_qt/flagsandsys_common.pri" )
 
 greaterThan(QT_MAJOR_VERSION, 4):QT += widgets
 
-
 zlib                    = $${zlibWithToolsRepositoryRoot}/prj/core/zlib_qt/zlib.pro
 zlib_st                 = $${zlibWithToolsRepositoryRoot}/prj/core/zlib_st_qt/zlib_st.pro
 self_extract            = $${zlibWithToolsRepositoryRoot}/prj/tools/self_extract_qt/self_extract.pro

@@ -21,11 +21,11 @@ do
 	cd "${scriptDirectory}"
 	fileOrigin=`readlink "${scriptFileName}"`  || :
 done
-cd ..
-repositoryRoot=`pwd`
-echo repositoryRoot=$repositoryRoot
+scriptDirectory=`pwd`
 
-cd workspaces/zlib_with_tools_all_mkfl
+source ${scriptDirectory}/unix_source_per_session.sh ${scriptDirectory}/unix_source_per_session.sh ${scriptDirectory}/unix_source_per_session.sh
+
+cd ${zlibWithToolsRepositoryRoot}/workspaces/zlib_with_tools_all_mkfl
 unset CPPUTILS_DEBUG
 make -f zlib_with_tools_all.unix.Makefile CPPUTILS_RELEASE=1
 unset CPPUTILS_RELEASE
