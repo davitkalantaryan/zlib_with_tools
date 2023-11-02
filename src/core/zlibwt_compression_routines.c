@@ -56,13 +56,13 @@ static inline int CompressArbitraryBufferAsFileInline(
 	const char* CPPUTILS_ARG_NN a_fileName,
 	FILE* CPPUTILS_ARG_NN a_pFile, void* a_pBuffer,
 	TypeCompressSingleFile CPPUTILS_ARG_NN a_compressFnc,
-	uint32_t a_fileNameLen, uint32_t a_fileNameLenNorm, int a_mode, size_t a_size)
+	uint32_t a_fileNameLen, uint32_t a_fileNameLenNorm, int a_mode, size_t a_fileSize, size_t a_bufferSize)
 {
 	size_t dummyLen;
 	uint64_t fileSize, fileSizeNorm;
 	a_pItem->contentType = ZLIBWT_DIR_CONTENT_FILE;
 	a_pItem->mode = htole32(CPPUTILS_STATIC_CAST(uint64_t, a_mode));
-	fileSize = CPPUTILS_STATIC_CAST(uint64_t, a_size);
+	fileSize = CPPUTILS_STATIC_CAST(uint64_t, a_fileSize);
 	fileSizeNorm = ZLIBWT_NORM_LEN(fileSize);
 	a_pItem->fileSize = htole64(fileSize);
 	a_pItem->fileSizeNorm = htole64(fileSizeNorm);
@@ -74,7 +74,7 @@ static inline int CompressArbitraryBufferAsFileInline(
 	assert(dummyLen < 9);
 	ZlibWtCompressBufferToCallback(a_pUserData->pSession, 0, s_vcDummyBuffer, dummyLen);
 
-	if ((*a_compressFnc)(a_pFile, a_pUserData->pSession, a_pBuffer, ZLIBWT_DEF_CHUNK_SIZE)) {
+	if ((*a_compressFnc)(a_pFile, a_pUserData->pSession, a_pBuffer, a_bufferSize)) {
 		a_pUserData->fl.b.hasError = 1;
 		return DIRITER_EXIT_ALL;
 	}
@@ -99,7 +99,7 @@ static inline int ZlibWtFolderCompressBufferAsDirRootFileInline(struct SDirector
 
 	nFileCompressReturn = CompressArbitraryBufferAsFileInline(
 		&aItem, a_pUserData, a_extraBuffer->ffileName, CPPUTILS_NULL, CPPUTILS_CONST_CAST(char*, a_extraBuffer->buffer),
-		&CompressSingleFileFromBuffer, fileNameLen, fileNameLenNorm, 0, a_extraBuffer->bufferSize);
+		&CompressSingleFileFromBuffer, fileNameLen, fileNameLenNorm, 0, a_extraBuffer->bufferSize, a_extraBuffer->bufferSize);
 	return nFileCompressReturn;
 }
 
@@ -158,6 +158,7 @@ ZLIBANDTLS_EXPORT int ZlibWtCompressDirectoryWithBufferEx(
 			free(pcBufferOut);
 			return 2;
 		}
+		aUserData.hasNotAnyFile = 0;
 	}
 
 	IterateOverDirectoryFilesNoRecurse(a_directoryPath, &ZlibWtFolderCompressDirIterCallbackStatic, &aUserData);
@@ -310,7 +311,7 @@ static int ZlibWtFolderCompressDirIterCallbackStatic(const char* a_sourceDirecto
 
 		nFileCompressReturn = CompressArbitraryBufferAsFileInline(
 			&aItem, pUserData, a_pFileData->pFileName, pFile, pUserData->pcBufferIn,
-			&CompressSingleFileFromFile, fileNameLen, fileNameLenNorm, (int)fStat.st_mode, (size_t)fStat.st_size);
+			&CompressSingleFileFromFile, fileNameLen, fileNameLenNorm, (int)fStat.st_mode, (size_t)fStat.st_size, ZLIBWT_DEF_CHUNK_SIZE);
 		fclose(pFile);
 		return nFileCompressReturn;
 	}
