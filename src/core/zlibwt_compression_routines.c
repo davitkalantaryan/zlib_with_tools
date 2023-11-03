@@ -91,17 +91,64 @@ static inline int ZlibWtFolderCompressBufferAsDirRootFileInline(struct SDirector
 	uint32_t fileNameLen, fileNameLenNorm;
 	struct SFileItem aItem;
 
-	fileNameLen = CPPUTILS_STATIC_CAST(uint32_t, strlen(a_extraBuffer->ffileName));
+	fileNameLen = CPPUTILS_STATIC_CAST(uint32_t, strlen(a_extraBuffer->ffilePath));
 	fileNameLenNorm = ZLIBWT_NORM_LEN(fileNameLen);
 
 	aItem.fileNameLen = htole32(fileNameLen);
 	aItem.fileNameLenNorm = htole32(fileNameLenNorm);
 
 	nFileCompressReturn = CompressArbitraryBufferAsFileInline(
-		&aItem, a_pUserData, a_extraBuffer->ffileName, CPPUTILS_NULL, CPPUTILS_CONST_CAST(char*, a_extraBuffer->buffer),
+		&aItem, a_pUserData, a_extraBuffer->ffilePath, CPPUTILS_NULL, CPPUTILS_CONST_CAST(char*, a_extraBuffer->buffer),
 		&CompressSingleFileFromBuffer, fileNameLen, fileNameLenNorm, 0, a_extraBuffer->bufferSize, a_extraBuffer->bufferSize);
 	return nFileCompressReturn;
 }
+
+
+static inline int ZlibWtFolderCompressBufferAsFileInlineRaw(struct SDirectoryCompressData* CPPUTILS_ARG_NN a_pUserData, const char* CPPUTILS_ARG_NN a_ffilePath, const char* CPPUTILS_ARG_NN a_buffer, size_t a_bufferSize)
+{
+	const char* cpcTmp = strchr(a_ffilePath, '/');
+
+	if (cpcTmp) {
+		uint32_t fileNameLen, fileNameLenNorm;
+		struct SFileItem aItem;
+		size_t dummyLen;
+
+		fileNameLen = CPPUTILS_STATIC_CAST(uint32_t, (cpcTmp - a_ffilePath));
+		fileNameLenNorm = ZLIBWT_NORM_LEN(fileNameLen);
+
+		aItem.fileNameLen = htole32(fileNameLen);
+		aItem.fileNameLenNorm = htole32(fileNameLenNorm);
+
+		aItem.contentType = ZLIBWT_DIR_CONTENT_DIR_START;
+		aItem.mode = 0;
+		ZlibWtCompressBufferToCallback(a_pUserData->pSession, 0, &aItem, sizeof(struct SFileItem));
+
+		// write file name
+		ZlibWtCompressBufferToCallback(a_pUserData->pSession, 0, a_ffilePath, CPPUTILS_STATIC_CAST(size_t, fileNameLen));
+		dummyLen = CPPUTILS_STATIC_CAST(size_t, fileNameLenNorm - fileNameLen);
+		assert(dummyLen < 9);
+		ZlibWtCompressBufferToCallback(a_pUserData->pSession, 0, s_vcDummyBuffer, dummyLen);
+
+		//IterateOverDirectoryFilesNoRecurse(vcStrFilePath, &ZlibWtFolderCompressDirIterCallbackStatic, a_userData);
+		ZlibWtFolderCompressBufferAsFileInlineRaw(a_pUserData, cpcTmp + 1, a_buffer, a_bufferSize);
+
+		aItem.contentType = ZLIBWT_DIR_CONTENT_DIR_END;
+		ZlibWtCompressBufferToCallback(a_pUserData->pSession, 1, &aItem, sizeof(struct SFileItem));
+	}
+	else {
+		const struct SZlibWtExtraCompressionBuffer extraBuffer = { a_ffilePath,a_buffer,a_bufferSize };
+		return ZlibWtFolderCompressBufferAsDirRootFileInline(a_pUserData, &extraBuffer);
+	}
+
+	return 0;
+}
+
+
+static inline int ZlibWtFolderCompressBufferAsFileInline(struct SDirectoryCompressData* CPPUTILS_ARG_NN a_pUserData, const struct SZlibWtExtraCompressionBuffer* CPPUTILS_ARG_NN a_extraBuffer) {
+	return ZlibWtFolderCompressBufferAsFileInlineRaw(a_pUserData, a_extraBuffer->ffilePath, a_extraBuffer->buffer, a_extraBuffer->bufferSize);
+}
+
+//
 
 
 ZLIBANDTLS_EXPORT int ZlibWtCompressFileEx(
@@ -127,7 +174,7 @@ ZLIBANDTLS_EXPORT int ZlibWtCompressFileEx(
 
 
 // if a_filter returns non zero, then file is skipped, if returns DIRITER_EXIT_ALL(=387), then compression stopped
-ZLIBANDTLS_EXPORT int ZlibWtCompressDirectoryWithBufferEx(
+ZLIBANDTLS_EXPORT int ZlibWtCompressDirectoryWithBufferExRoot(
 	const char* a_directoryPath,
 	size_t a_extraBuffersCount, const struct SZlibWtExtraCompressionBuffer* CPPUTILS_ARG_NN a_extraBuffers,
 	int a_compressionLevel,
@@ -158,8 +205,57 @@ ZLIBANDTLS_EXPORT int ZlibWtCompressDirectoryWithBufferEx(
 			free(pcBufferOut);
 			return 2;
 		}
-		aUserData.hasNotAnyFile = 0;
 	}
+
+	aUserData.hasNotAnyFile = 0;
+
+	IterateOverDirectoryFilesNoRecurse(a_directoryPath, &ZlibWtFolderCompressDirIterCallbackStatic, &aUserData);
+	ZlibWtDestroyCompressSession(aUserData.pSession);
+	if (aUserData.hasNotAnyFile) {
+		// ZLIBWT_MAKE_WARNING("Unable to ");
+	}
+
+	free(aUserData.pcBufferIn);
+	free(pcBufferOut);
+	return aUserData.fl.b.hasError ? 2 : 0;
+}
+
+
+// if a_filter returns non zero, then file is skipped, if returns DIRITER_EXIT_ALL(=387), then compression stopped
+ZLIBANDTLS_EXPORT int ZlibWtCompressDirectoryWithBufferEx(
+	const char* a_directoryPath,
+	size_t a_extraBuffersCount, const struct SZlibWtExtraCompressionBuffer* CPPUTILS_ARG_NN a_extraBuffers,
+	int a_compressionLevel,
+	ZlibWtTypeCompressCallback a_clbk, TypeDirIterFunc a_filter,
+	void* a_userData)
+{
+	size_t i;
+	struct SDirectoryCompressData aUserData;
+	char* pcBufferOut = (char*)malloc(ZLIBWT_DEF_CHUNK_SIZE);
+	if (!pcBufferOut) { return 1; }
+
+	aUserData.pcBufferIn = (char*)malloc(ZLIBWT_DEF_CHUNK_SIZE);
+	if (!(aUserData.pcBufferIn)) { free(pcBufferOut); return 1; }
+
+	aUserData.hasNotAnyFile = 1;
+	aUserData.fl.all = 0;
+	aUserData.userData = a_userData;
+	aUserData.clbk = a_clbk;
+	aUserData.filter = a_filter;
+	aUserData.pSession = ZlibWtCreateTypedCompressSession(CompressedContentDirectory, a_compressionLevel,
+		&ZlibWtFolderCompressCallbackStatic, &aUserData, pcBufferOut, ZLIBWT_DEF_CHUNK_SIZE);
+	if (!(aUserData.pSession)) { return 1; }
+
+	for (i = 0; i < a_extraBuffersCount; ++i) {
+		if (ZlibWtFolderCompressBufferAsFileInline(&aUserData, &a_extraBuffers[i])) {
+			ZlibWtDestroyCompressSession(aUserData.pSession);
+			free(aUserData.pcBufferIn);
+			free(pcBufferOut);
+			return 2;
+		}
+	}
+
+	aUserData.hasNotAnyFile = 0;
 
 	IterateOverDirectoryFilesNoRecurse(a_directoryPath, &ZlibWtFolderCompressDirIterCallbackStatic, &aUserData);
 	ZlibWtDestroyCompressSession(aUserData.pSession);
