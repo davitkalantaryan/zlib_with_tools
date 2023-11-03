@@ -66,9 +66,6 @@
     <ClCompile Include="..\..\..\src\core\zlibwt_hl_decompress_routines.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\zlibwt_dir_compression_with_bytestream_routine.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\zlib_with_tools\zlib_first_include.h">

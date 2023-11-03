@@ -39,12 +39,6 @@
     <ClCompile Include="..\..\..\src\core\zlibwt_compression_routines.c" />
     <ClCompile Include="..\..\..\src\core\zlibwt_decompress_routines.c" />
     <ClCompile Include="..\..\..\src\core\zlibwt_decompress_routines_version_0000.c" />
-    <ClCompile Include="..\..\..\src\core\zlibwt_dir_compression_with_bytestream_routine.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\core\zlibwt_hl_decompress_routines.c" />
     <ClCompile Include="..\..\..\src\core\zlibwt_ll_compression_routines.c" />
     <ClCompile Include="..\..\..\src\core\zlibwt_ll_decompress_routines.c" />

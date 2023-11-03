@@ -3,7 +3,6 @@
 
 
 #include <zlib_with_tools/zlibwt_compression_routines.h>
-#include <zlib_with_tools/zlibwt_dir_compression_with_bytestream_routine.h>
 #include <zlib_with_tools/zlibwt_decompress_routines.h>
 #include <zlib_with_tools/utils/stdio_zlibandtls.h>
 #include <zlib_with_tools/zlibwt_zlib_h_wrapper.h>
