@@ -3,10 +3,12 @@
 
 
 #include <zlib_with_tools/zlibwt_compression_routines.h>
+#include <zlib_with_tools/zlibwt_dir_compression_with_bytestream_routine.h>
 #include <zlib_with_tools/zlibwt_decompress_routines.h>
 #include <zlib_with_tools/utils/stdio_zlibandtls.h>
 #include <zlib_with_tools/zlibwt_zlib_h_wrapper.h>
 #include <stdio.h>
+#include <string.h>
 
 #ifdef _MSC_VER
 #pragma comment (lib,"zlib.lib")
@@ -64,6 +66,38 @@ int main(int a_argc, char* a_argv[])
 			return 1;
 		}
 		nReturn = ZlibWtCompressDirectoryEx(cpcFileNameIn, Z_BEST_COMPRESSION, &CompressFileAndBlobCallback, &DirCompressFilterFunction,fpFileOut);
+		fclose(fpFileOut);
+	}break;
+	case 'd': {
+		FILE* fpFileOut = fopen_zlibandtls(cpcFileNameOut, "wb");
+		if (!fpFileOut) {
+			fprintf(stderr, "Unable to open the file with the name \"%s\"\n", cpcFileNameOut);
+			return 1;
+		}
+		struct SZlibWtExtraCompressionBuffer aExtraBufs;
+		aExtraBufs.buffer = "mconfig.bconf";  // provide list with separated ';'
+		aExtraBufs.bufferSize = strlen(aExtraBufs.buffer) + 1;
+		aExtraBufs.ffilePath = "__not_updateabe_files";
+		nReturn = ZlibWtCompressDirectoryWithBufferExRoot(cpcFileNameIn, 1, &aExtraBufs,Z_BEST_COMPRESSION, &CompressFileAndBlobCallback, &DirCompressFilterFunction, fpFileOut);
+		fclose(fpFileOut);
+	}break;
+	case 'e': {
+		FILE* fpFileOut = fopen_zlibandtls(cpcFileNameOut, "wb");
+		if (!fpFileOut) {
+			fprintf(stderr, "Unable to open the file with the name \"%s\"\n", cpcFileNameOut);
+			return 1;
+		}
+		struct SZlibWtExtraCompressionBuffer vExtraBufs[3];
+		vExtraBufs[0].buffer = "mconfig.bconf";  // provide list with separated ';'
+		vExtraBufs[0].bufferSize = strlen(vExtraBufs[0].buffer) + 1;
+		vExtraBufs[0].ffilePath = "a/b/__not_updateabe_files";
+		vExtraBufs[1].buffer = "mconfig.bconf";  // provide list with separated ';'
+		vExtraBufs[1].bufferSize = strlen(vExtraBufs[1].buffer) + 1;
+		vExtraBufs[1].ffilePath = "plugins/a/b/__not_updateabe_files2";
+		vExtraBufs[2].buffer = "mconfig.bconf";  // provide list with separated ';'
+		vExtraBufs[2].bufferSize = strlen(vExtraBufs[2].buffer) + 1;
+		vExtraBufs[2].ffilePath = "plugins/a/b/c/__not_updateabe_files3";
+		nReturn = ZlibWtCompressDirectoryWithBufferEx(cpcFileNameIn, 3, vExtraBufs, Z_BEST_COMPRESSION, &CompressFileAndBlobCallback, &DirCompressFilterFunction, fpFileOut);
 		fclose(fpFileOut);
 	}break;
 	default:
