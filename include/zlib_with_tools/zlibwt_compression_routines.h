@@ -15,9 +15,29 @@
 
 CPPUTILS_BEGIN_C
 
+struct SZlibWtExtraCompressionBuffer {
+	const char* ffilePath;
+	const char* buffer;
+	size_t		bufferSize;
+};
+
 // if a_filter returns non zero, then file is skipped, if returns DIRITER_EXIT_ALL(=387), then compression stopped
 ZLIBANDTLS_EXPORT int ZlibWtCompressDirectoryEx(
 	const char* a_directoryPath,
+	int a_compressionLevel,
+	ZlibWtTypeCompressCallback a_clbk, TypeDirIterFunc a_filter,
+	void* a_userData);
+
+ZLIBANDTLS_EXPORT int ZlibWtCompressDirectoryWithBufferExRoot(
+	const char* a_directoryPath,
+	size_t a_extraBuffersCount, const struct SZlibWtExtraCompressionBuffer* CPPUTILS_ARG_NN a_extraBuffers,
+	int a_compressionLevel,
+	ZlibWtTypeCompressCallback a_clbk, TypeDirIterFunc a_filter,
+	void* a_userData);
+
+ZLIBANDTLS_EXPORT int ZlibWtCompressDirectoryWithBufferEx(
+	const char* a_directoryPath,
+	size_t a_extraBuffersCount, const struct SZlibWtExtraCompressionBuffer* CPPUTILS_ARG_NN a_extraBuffers,
 	int a_compressionLevel,
 	ZlibWtTypeCompressCallback a_clbk, TypeDirIterFunc a_filter,
 	void* a_userData);

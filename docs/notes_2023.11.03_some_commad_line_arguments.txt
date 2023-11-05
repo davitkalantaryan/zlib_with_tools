@@ -1,0 +1,5 @@
+
+
+   b D:\davit\dev\.private\focust\p01\monitor\deploy\win_x64\Release\windows_7.0.2.r.wftu
+   e D:\davit\dev\.private\focust\p01\monitor\deploy\win_x64\Release\focus_team_apps_windows
+   b D:\davit\dev\.private\focust\p01\monitor\common_api\contrib\zlib_with_tools\prj\tests\zlibwt_hl_test_vs\out_01.zlib
