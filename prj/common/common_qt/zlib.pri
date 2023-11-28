@@ -12,7 +12,9 @@ message("file:  zlib.pri  ")
 win32:  QMAKE_CFLAGS += /FI"zlib_with_tools/zlib_first_include.h"
 else {
         QMAKE_CFLAGS += -include"zlib_with_tools/zlib_first_include.h"
-	QMAKE_CFLAGS += -Wimplicit-fallthrough=0
+        linux {
+            QMAKE_CFLAGS += -Wimplicit-fallthrough=0
+        }
 }
 
 QT -= core
