@@ -10,7 +10,9 @@
 #include <private/zlib_with_tools/zlibwt_compress_decompress_common.h>
 #include <zlib_with_tools/zlibwt_zlib_h_wrapper.h>
 #include <cinternal/endian.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <stdlib.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 CPPUTILS_BEGIN_C

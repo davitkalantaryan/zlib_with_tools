@@ -8,7 +8,9 @@
 
 #include <zlib_with_tools/zlibwt_ll_decompress_routines.h>
 #include <private/zlib_with_tools/zlibwt_decompress_data.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <stdlib.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 CPPUTILS_BEGIN_C

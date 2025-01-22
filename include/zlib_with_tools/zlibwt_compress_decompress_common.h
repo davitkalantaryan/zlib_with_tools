@@ -9,7 +9,9 @@
 #define ZLIB_WITH_TOOLS_INCLUDE_ZLIB_WITH_TOOLS_ZLIBWT_COMPRESS_DECOMPRESS_COMMON_H
 
 #include <zlib_with_tools/export_symbols.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <stdint.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 CPPUTILS_BEGIN_C

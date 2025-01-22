@@ -12,11 +12,13 @@
 #include <zlib_with_tools/utils/stdio_zlibandtls.h>
 #include <private/zlib_with_tools/zlibwt_compress_decompress_common.h>
 #include <cinternal/endian.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 CPPUTILS_BEGIN_C

@@ -31,6 +31,15 @@
     <Filter Include="Header Files\incude\zlib_with_tools">
       <UniqueIdentifier>{aae06d29-254d-45b0-99d3-2622ee1e4f6a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\incude\zlib_with_tools\common">
+      <UniqueIdentifier>{79f01925-bf53-4c4c-a94c-de1a3a800e2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\incude\zlib_with_tools\common\util">
+      <UniqueIdentifier>{ba7d356b-7efd-4d1e-886a-0db08f726c2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\incude\zlib_with_tools\utils">
+      <UniqueIdentifier>{adf2974e-1fcf-4cd9-8af5-d5e08a87f1ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\tests\unit_test\0000_initial.cpp">
@@ -109,6 +118,24 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_zlib_h_wrapper.h">
       <Filter>Header Files\incude\zlib_with_tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\common\util\common_argument_parser.impl.hpp">
+      <Filter>Header Files\incude\zlib_with_tools\common\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\common\util\common_argument_parser.hpp">
+      <Filter>Header Files\incude\zlib_with_tools\common\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\utils\io_zlibandtls.h">
+      <Filter>Header Files\incude\zlib_with_tools\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\utils\memory_zlibandtls.h">
+      <Filter>Header Files\incude\zlib_with_tools\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\utils\stdio_zlibandtls.h">
+      <Filter>Header Files\incude\zlib_with_tools\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\utils\string_zlibandtls.h">
+      <Filter>Header Files\incude\zlib_with_tools\utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -9,6 +9,7 @@
 #define ZLIB_WITH_TOOLS_INCLUDE_ZLIB_WITH_TOOLS_UTILS_IO_ZLIBANDTLS_H
 
 #include <zlib_with_tools/export_symbols.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #ifdef _MSC_VER
@@ -17,6 +18,7 @@
 #else
 #include <unistd.h>
 #endif
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 #ifdef _MSC_VER

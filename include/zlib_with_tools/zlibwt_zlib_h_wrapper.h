@@ -10,15 +10,9 @@
 
 #include <zlib_with_tools/export_symbols.h>
 
-#ifdef _MSC_VER
-#pragma warning (push)
-#pragma warning (disable:4820)
-#endif
+#include <cinternal/disable_compiler_warnings.h>
 #include <zlib.h>
-#ifdef _MSC_VER
-#pragma warning (pop)
-#endif
-
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 #endif  // #ifndef ZLIB_WITH_TOOLS_INCLUDE_ZLIB_WITH_TOOLS_ZLIBWT_ZLIB_H_WRAPPER_H

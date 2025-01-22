@@ -9,7 +9,9 @@
 #define ZLIB_WITH_TOOLS_INCLUDE_ZLIB_WITH_TOOLS_UTILS_STRING_ZLIBANDTLS_H
 
 #include <zlib_with_tools/export_symbols.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <string.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 #ifdef _MSC_VER
 #define strcpy_zlibandtls(_dest,_src)			strcpy_s(_dest,1024,_src)
