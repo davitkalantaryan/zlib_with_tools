@@ -6,6 +6,7 @@
 #ifndef zlib_first_include_h
 #define zlib_first_include_h
 
+#include <cinternal/disable_compiler_warnings.h>
 #ifdef _WIN32
 #include <io.h>
 #define write _write
@@ -13,6 +14,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #endif
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 #if defined(_MSC_VER)

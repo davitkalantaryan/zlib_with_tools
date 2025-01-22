@@ -12,10 +12,12 @@
 #include <zlib_with_tools/utils/string_zlibandtls.h>
 #include <zlib_with_tools/utils/memory_zlibandtls.h>
 #include <private/zlib_with_tools/zlibwt_decompress_data.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <stdlib.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <assert.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 CPPUTILS_BEGIN_C

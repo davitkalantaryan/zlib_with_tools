@@ -13,7 +13,9 @@
 
 //#include "stdafx.h"
 #include <zlib_with_tools/export_symbols.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <string.h>
+#include <cinternal/undisable_compiler_warnings.h>
 #ifdef __cplusplus
 #include <zlib_with_tools/common/util/common_argument_parser.hpp>
 

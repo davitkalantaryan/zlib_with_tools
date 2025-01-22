@@ -9,12 +9,14 @@
 #include <zlib_with_tools/utils/stdio_zlibandtls.h>
 #include <zlib_with_tools/utils/memory_zlibandtls.h>
 #include <resource_handler/resource_handler.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <stdio.h>
 #include <string.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 #define ZLIBWT_EXE_NM_TO_SET_ICON               "hello_world_test.exe"
 #define ZLIBWT_EXE_NM_TO_SET_ICON_LEN_PLUS1     21

@@ -6,8 +6,10 @@
 #include <zlib_with_tools/zlibwt_decompress_routines.h>
 #include <zlib_with_tools/utils/stdio_zlibandtls.h>
 #include <zlib_with_tools/zlibwt_zlib_h_wrapper.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <stdio.h>
 #include <string.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 #ifdef _MSC_VER
 #pragma comment (lib,"zlib.lib")

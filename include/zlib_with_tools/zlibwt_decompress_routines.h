@@ -15,8 +15,10 @@
 
 #include <zlib_with_tools/export_symbols.h>
 #include <zlib_with_tools/zlibwt_decompress_data.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 CPPUTILS_BEGIN_C

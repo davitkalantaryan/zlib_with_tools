@@ -7,22 +7,15 @@
 #include <zlib_with_tools/utils/string_zlibandtls.h>
 #include <zlib_with_tools/common/util/common_argument_parser.hpp>
 #include <zlib_with_tools/zlibwt_zlib_h_wrapper.h>
-
-#ifdef _MSC_VER
-#pragma warning (push)
-#pragma warning (disable:4365)
-#endif
+#include <cinternal/disable_compiler_warnings.h>
 #include <iostream>
-#ifdef _MSC_VER
-#pragma warning (pop)
-#endif
-
 #ifdef _MSC_VER
 #pragma comment (lib,"zlib.lib")
 #if defined(_WIN32) && !defined(_M_ARM)
 #include <conio.h>
 #endif
 #endif
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 static void PrintHelp(void);

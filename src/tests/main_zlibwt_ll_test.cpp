@@ -8,9 +8,11 @@
 #include <zlib_with_tools/utils/io_zlibandtls.h>
 #include <zlib_with_tools/utils/string_zlibandtls.h>
 #include <zlib_with_tools/zlibwt_zlib_h_wrapper.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 #ifdef _MSC_VER
 #pragma comment (lib,"zlib.lib")

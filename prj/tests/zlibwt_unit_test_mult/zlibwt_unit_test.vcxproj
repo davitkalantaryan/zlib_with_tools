@@ -52,7 +52,13 @@
     <ClCompile Include="..\..\..\src\tests\unit_test\0000_initial.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\include\zlib_with_tools\common\util\common_argument_parser.hpp" />
+    <ClInclude Include="..\..\..\include\zlib_with_tools\common\util\common_argument_parser.impl.hpp" />
     <ClInclude Include="..\..\..\include\zlib_with_tools\export_symbols.h" />
+    <ClInclude Include="..\..\..\include\zlib_with_tools\utils\io_zlibandtls.h" />
+    <ClInclude Include="..\..\..\include\zlib_with_tools\utils\memory_zlibandtls.h" />
+    <ClInclude Include="..\..\..\include\zlib_with_tools\utils\stdio_zlibandtls.h" />
+    <ClInclude Include="..\..\..\include\zlib_with_tools\utils\string_zlibandtls.h" />
     <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_compression_data.h" />
     <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_compression_routines.h" />
     <ClInclude Include="..\..\..\include\zlib_with_tools\zlibwt_compress_decompress_common.h" />

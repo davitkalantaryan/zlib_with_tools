@@ -3,7 +3,9 @@
 #include <string.h>
 #include <zlib_with_tools/zlib_decompress_routines.h>
 #include <zlib_with_tools/common/util/installer_common.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <malloc.h>
+#include <cinternal/undisable_compiler_warnings.h>
 //#include "create_process_functionalities.h"
 
 #define REMOTE_URI_MIN1		1023

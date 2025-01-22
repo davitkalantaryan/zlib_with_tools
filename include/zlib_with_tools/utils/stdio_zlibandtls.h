@@ -9,6 +9,8 @@
 #define ZLIB_WITH_TOOLS_INCLUDE_ZLIB_WITH_TOOLS_UTILS_STDIO_ZLIBANDTLS_H
 
 #include <zlib_with_tools/export_symbols.h>
+#include <cinternal/disable_compiler_warnings.h>
+
 #include <stdio.h>
 
 #define ZLIBWT_MAX_PATH_MIN1		4095
@@ -37,6 +39,8 @@
 //#else
 //#  define ZLIBANDTLS_SET_BINARY_MODE(file)
 //#endif
+
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 #endif  // #ifndef ZLIB_WITH_TOOLS_INCLUDE_ZLIB_WITH_TOOLS_UTILS_STDIO_ZLIBANDTLS_H

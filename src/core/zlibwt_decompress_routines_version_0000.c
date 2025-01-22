@@ -13,9 +13,11 @@
 #include <zlib_with_tools/zlibwt_ll_decompress_routines.h>
 #include <private/zlib_with_tools/zlibwt_decompress_data.h>
 #include <cinternal/endian.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 CPPUTILS_BEGIN_C
 

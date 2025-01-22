@@ -10,6 +10,7 @@
 
 #include <zlib_with_tools/export_symbols.h>
 
+#include <cinternal/disable_compiler_warnings.h>
 #ifdef _WIN32
 #include <malloc.h>
 #define alloca_zlibandtls	_alloca
@@ -17,6 +18,7 @@
 #include <alloca.h>
 #define alloca_zlibandtls	alloca
 #endif
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 #endif  // #ifndef ZLIB_WITH_TOOLS_INCLUDE_ZLIB_WITH_TOOLS_UTILS_MEMORY_ZLIBANDTLS_H
