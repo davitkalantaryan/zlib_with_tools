@@ -15,22 +15,26 @@ isEmpty(zlibWithToolsFlagsAndSysCommonIncluded){
 
     zlibWithToolsRepositoryRoot = $${PWD}/../../..
 
+    isEmpty(artifactRoot) {
+        artifactRoot = $$(artifactRoot)
         isEmpty(artifactRoot) {
-	    artifactRoot = $$(artifactRoot)
-	            isEmpty(artifactRoot) {
-		            artifactRoot = $${zlibWithToolsRepositoryRoot}
-		    }
-	}
+            artifactRoot = $${zlibWithToolsRepositoryRoot}
+        }
+    }
 
-        include("$${zlibWithToolsRepositoryRoot}/contrib/directory_iterator/prj/common/common_qt/flagsandsys_common.pri")
-	include("$${zlibWithToolsRepositoryRoot}/contrib/qtutils/prj/common/common_qt/flagsandsys_common.pri")
-	include("$${zlibWithToolsRepositoryRoot}/contrib/system/prj/common/common_qt/flagsandsys_common.pri")
+    include("$${zlibWithToolsRepositoryRoot}/contrib/directory_iterator/prj/common/common_qt/flagsandsys_common.pri")
+    include("$${zlibWithToolsRepositoryRoot}/contrib/qtutils/prj/common/common_qt/flagsandsys_common.pri")
+    include("$${zlibWithToolsRepositoryRoot}/contrib/system/prj/common/common_qt/flagsandsys_common.pri")
 
     INCLUDEPATH += $${zlibWithToolsRepositoryRoot}/include
     INCLUDEPATH += $${zlibWithToolsRepositoryRoot}/contrib/zlib
 
-        LIBS	+= -L$${zlibWithToolsRepositoryRoot}/sys/$${CODENAME}/$$CONFIGURATION/lib
-	LIBS	+= -L$${zlibWithToolsRepositoryRoot}/sys/$${CODENAME}/$$CONFIGURATION/tlib
+    exists($${zlibWithToolsRepositoryRoot}/sys/$${CODENAME}/$$CONFIGURATION/lib) {
+        LIBS += -L$${zlibWithToolsRepositoryRoot}/sys/$${CODENAME}/$$CONFIGURATION/lib
+    }
+    exists($${zlibWithToolsRepositoryRoot}/sys/$${CODENAME}/$$CONFIGURATION/tlib) {
+        LIBS += -L$${zlibWithToolsRepositoryRoot}/sys/$${CODENAME}/$$CONFIGURATION/tlib
+    }
 
-        OTHER_FILES += $$files($${PWD}/../common_mkfl/*.Makefile,true)
+    OTHER_FILES += $$files($${PWD}/../common_mkfl/*.Makefile,true)
 }
