@@ -56,7 +56,7 @@ int main(int a_argc, char* a_argv[])
 		fclose(fpFileIn);
 	}break;
 	case 'b': {
-		const TypeOfCompressedContent dcmprsRet = ZlibWtDecompressFileOrDir(cpcFileNameIn, cpcFileNameOut);
+		const TypeOfCompressedContent dcmprsRet = ZlibWtDecompressFileOrDir(cpcFileNameIn, cpcFileNameOut,0);
 		nReturn = (dcmprsRet == CompressedContentNone) ? 1 : 0;
 		fprintf(stdout, "dcmprsRet:%d\n",(int)dcmprsRet);
 	}break;

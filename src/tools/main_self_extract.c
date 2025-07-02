@@ -140,7 +140,7 @@ int main(int a_argc, char* a_argv[])
 
 		fseek(fpExe, MAX_EXE_SIZE, SEEK_SET);
         RemoveNonEmptyDirectory(OUT_FOLDER_NAME_01);
-		dcmprsRet = ZlibWtDecompressFileOrDirEx(fpExe, OUT_FOLDER_NAME_01);
+		dcmprsRet = ZlibWtDecompressFileOrDirEx(fpExe, OUT_FOLDER_NAME_01,0); // todo: track archive size
 		nReturn = (dcmprsRet == CompressedContentDirectory) ? 0 : 1;
 
 		if (nReturn) { goto returnPoint; }
