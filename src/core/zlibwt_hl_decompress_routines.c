@@ -36,6 +36,21 @@ static void DecompressDirFileReadCallback(const void* a_buffer, size_t a_bufLen,
 static void DecompressDirFileEndCallback(void* a_userData);
 static void DecompressDirDirEndCallback(void* a_userData);
 
+
+static inline size_t NextSizeToReadInline(size_t a_archiveSize, size_t a_fReadRetTotal) CPPUTILS_NOEXCEPT{
+    if (a_archiveSize > 0) {
+        if (a_archiveSize > a_fReadRetTotal) {
+            const size_t unRemainingBytes = a_archiveSize - a_fReadRetTotal;
+            return (unRemainingBytes < ZLIBWT_DEF_CHUNK_SIZE) ? unRemainingBytes : ZLIBWT_DEF_CHUNK_SIZE;
+        }  //  if (a_archiveSize > a_fReadRetTotal) {
+        else {
+            return 0;
+        }
+    }  //  if (a_archiveSize > 0) {
+    return ZLIBWT_DEF_CHUNK_SIZE;
+}
+
+
 struct CPPUTILS_DLL_PRIVATE SDecompressData {
 	FILE*							fpFileOut;
 	const char*						cpcFileOrFolderNameOut;
@@ -52,13 +67,15 @@ struct CPPUTILS_DLL_PRIVATE SDecompressData {
 
 ZLIBANDTLS_EXPORT enum TypeOfCompressedContent ZlibWtDecompressFileOrDirEx(
 	FILE* a_fpInpCompressedFile,
-	const char* a_cpcOutDecompressedFileOrDir)
+	const char* a_cpcOutDecompressedFileOrDir,
+    size_t a_archiveSize)
 {
 	ZlibWtDecompressSessionPtr pSession;
 	char* pcBufferIn;
 	int isFileof;
 	int nIndex = 0;
-	size_t freadRet;
+	size_t fReadRet, unSizeToRead;
+    size_t fReadRetTotal=0;
 
 	const struct SZlibWtDecompressCallbacks clbks = {
 			{
@@ -110,7 +127,11 @@ ZLIBANDTLS_EXPORT enum TypeOfCompressedContent ZlibWtDecompressFileOrDirEx(
 	}
 
 	do {
-		freadRet = fread(pcBufferIn, 1, ZLIBWT_DEF_CHUNK_SIZE, a_fpInpCompressedFile);
+        unSizeToRead = NextSizeToReadInline(a_archiveSize, fReadRetTotal);
+        if (unSizeToRead < 1) {
+            break;
+        }
+		fReadRet = fread(pcBufferIn, 1, unSizeToRead, a_fpInpCompressedFile);
 		if (ferror(a_fpInpCompressedFile)) {
 			if (aData.fpFileOut) { fclose(aData.fpFileOut); }
 			ZlibWtDestroyDecompressSession(pSession);
@@ -118,7 +139,8 @@ ZLIBANDTLS_EXPORT enum TypeOfCompressedContent ZlibWtDecompressFileOrDirEx(
 			free(pcBufferOut);
 			return CompressedContentNone;
 		}
-		ZlibWtDecompressBufferToCallback(pSession, ((++nIndex) & 0x10) >> 4, pcBufferIn, freadRet);
+        fReadRetTotal += fReadRet;
+		ZlibWtDecompressBufferToCallback(pSession, ((++nIndex) & 0x10) >> 4, pcBufferIn, fReadRet);
 		isFileof = feof(a_fpInpCompressedFile);
 	} while ((!isFileof) && (!aData.hasError));
 
@@ -135,7 +157,8 @@ ZLIBANDTLS_EXPORT enum TypeOfCompressedContent ZlibWtDecompressFileOrDirEx(
 
 ZLIBANDTLS_EXPORT enum TypeOfCompressedContent ZlibWtDecompressFileOrDir(
     const char* a_cpcInputCompressedFile,
-    const char* a_cpcOutDecompressedFileOrDir)
+    const char* a_cpcOutDecompressedFileOrDir,
+    size_t a_archiveSize)
 {
 	enum TypeOfCompressedContent retVal;
 	FILE* fpFileIn = fopen_zlibandtls(a_cpcInputCompressedFile, "rb");
@@ -144,7 +167,7 @@ ZLIBANDTLS_EXPORT enum TypeOfCompressedContent ZlibWtDecompressFileOrDir(
 		return CompressedContentNone;
 	}
 
-	retVal = ZlibWtDecompressFileOrDirEx(fpFileIn, a_cpcOutDecompressedFileOrDir);
+	retVal = ZlibWtDecompressFileOrDirEx(fpFileIn, a_cpcOutDecompressedFileOrDir, a_archiveSize);
 	fclose(fpFileIn);
 	return retVal;
 }
