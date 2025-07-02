@@ -28,12 +28,14 @@ typedef struct ZlibWtDecompressSession* ZlibWtDecompressSessionPtr;
 
 ZLIBANDTLS_EXPORT enum TypeOfCompressedContent ZlibWtDecompressFileOrDir(
 	const char* a_cpcInputCompressedFile,
-	const char* a_cpcOutDecompressedFileOrDir);
+	const char* a_cpcOutDecompressedFileOrDir,
+    size_t a_archiveSize);  // a_archiveSize=0 means read all file, otherwise read only a_archiveSize bytes from the file
 
 
 ZLIBANDTLS_EXPORT enum TypeOfCompressedContent ZlibWtDecompressFileOrDirEx(
 	FILE* a_fpInpCompressedFile,
-	const char* a_cpcOutDecompressedFileOrDir);
+	const char* a_cpcOutDecompressedFileOrDir,
+    size_t a_archiveSize);  // a_archiveSize=0 means read all file, otherwise read only a_archiveSize bytes from the file
 
 
 ZLIBANDTLS_EXPORT ZlibWtDecompressSessionPtr ZlibWtCreateDecompressSession(
