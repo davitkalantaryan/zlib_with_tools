@@ -13,7 +13,7 @@ if [ -z "$QT_ROOT_DIR" ]; then
     exit 1
 fi
 
-targetNameBase=libzlib_st
+targetNameBase=zlib_st
 ConfigurationIn=Debug
 
 currentDirectory=`pwd`
@@ -32,6 +32,6 @@ scriptDirectory=`pwd`
 cd ..
 repositoryRoot=`pwd`
 echo repositoryRoot=$repositoryRoot
-proFileDir="${repositoryRoot}/prj/core/prj/core/zlib_st_qt"
+proFileDir="${repositoryRoot}/prj/core/zlib_st_qt"
 
 ${scriptDirectory}/.raw/_unix_compile_all.sh "${targetNameBase}" "${proFileDir}" "${ConfigurationIn}"

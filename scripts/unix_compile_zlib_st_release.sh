@@ -13,7 +13,7 @@ if [ -z "$QT_ROOT_DIR" ]; then
     exit 1
 fi
 
-targetNameBase=focust_p01_llbackend
+targetNameBase=zlib_st
 ConfigurationIn=Release
 
 currentDirectory=`pwd`
@@ -32,6 +32,6 @@ scriptDirectory=`pwd`
 cd ..
 repositoryRoot=`pwd`
 echo repositoryRoot=$repositoryRoot
-proFileDir="${repositoryRoot}/prj/core/llbackend_qt"
+proFileDir="${repositoryRoot}/prj/core/zlib_st_qt"
 
 ${scriptDirectory}/.raw/_unix_compile_all.sh "${targetNameBase}" "${proFileDir}" "${ConfigurationIn}"
