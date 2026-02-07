@@ -21,6 +21,8 @@ struct SZlibWtExtraCompressionBuffer {
 	const char* ffilePath;
 	const char* buffer;
 	size_t		bufferSize;
+    int         mode;
+    int         reserved01;
 };
 
 // if a_filter returns non zero, then file is skipped, if returns DIRITER_EXIT_ALL(=387), then compression stopped

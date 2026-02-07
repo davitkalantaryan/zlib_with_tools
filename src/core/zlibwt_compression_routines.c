@@ -101,7 +101,7 @@ static inline int ZlibWtFolderCompressBufferAsDirRootFileInline(struct SDirector
 
 	nFileCompressReturn = CompressArbitraryBufferAsFileInline(
 		&aItem, a_pUserData, a_extraBuffer->ffilePath, CPPUTILS_NULL, CPPUTILS_CONST_CAST(char*, a_extraBuffer->buffer),
-		&CompressSingleFileFromBuffer, fileNameLen, fileNameLenNorm, 0, a_extraBuffer->bufferSize, a_extraBuffer->bufferSize);
+                &CompressSingleFileFromBuffer, fileNameLen, fileNameLenNorm, a_extraBuffer->mode, a_extraBuffer->bufferSize, a_extraBuffer->bufferSize);
 	return nFileCompressReturn;
 }
 
@@ -138,7 +138,11 @@ static inline int ZlibWtFolderCompressBufferAsFileInlineRaw(struct SDirectoryCom
 		ZlibWtCompressBufferToCallback(a_pUserData->pSession, 1, &aItem, sizeof(struct SFileItem));
 	}
 	else {
-		const struct SZlibWtExtraCompressionBuffer extraBuffer = { a_ffilePath,a_buffer,a_bufferSize };
+#ifdef _WIN32
+                const struct SZlibWtExtraCompressionBuffer extraBuffer = { a_ffilePath,a_buffer,a_bufferSize,_S_IREAD | _S_IWRITE,0 };
+#else
+                const struct SZlibWtExtraCompressionBuffer extraBuffer = { a_ffilePath,a_buffer,a_bufferSize,S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH,0 };
+#endif
 		return ZlibWtFolderCompressBufferAsDirRootFileInline(a_pUserData, &extraBuffer);
 	}
 
