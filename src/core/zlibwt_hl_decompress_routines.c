@@ -216,38 +216,45 @@ static void DecompressDirStartCallback(void* a_userData)
 
 static void DecompressDirFileOrDirStartCallback(const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData, void* a_userData)
 {
-	struct SDecompressData* pData = (struct SDecompressData*)a_userData;
+    struct SDecompressData* pData = (struct SDecompressData*)a_userData;
+    const enum ZlibWithToolsFileType fileType = (enum ZlibWithToolsFileType)a_pFileData->fileType;
 
-	if (a_pFileData->isDir) {
-		const size_t newStrLen = pData->directoryPathLen + 1 + ((size_t)a_pExtraData->fileNameLen);
-		char* directoryPathTmp = (char*)realloc(pData->directoryPath, newStrLen + 1);
-		if (!directoryPathTmp) {
-			pData->hasError = 1;
-			return;
-		}
-		pData->directoryPath = directoryPathTmp;
-		pData->directoryPath[pData->directoryPathLen] = '/';
-		memcpy(pData->directoryPath + pData->directoryPathLen + 1, a_pFileData->pFileName, (size_t)a_pExtraData->fileNameLen);
-		pData->directoryPath[newStrLen] = 0;
-		pData->directoryPathLen = newStrLen;
-		int nReturn = mkdir_zlibandtls(pData->directoryPath, a_pExtraData->mode);
-		if (nReturn) {
-			pData->hasError = 1;
-			return;
-		}
-	}
-	else {
-		char* pcFileNameBuffer = (char*)alloca_zlibandtls(pData->directoryPathLen + 4 + ((size_t)a_pExtraData->fileNameLen));
-		memcpy(pcFileNameBuffer, pData->directoryPath, pData->directoryPathLen);
-		pcFileNameBuffer[pData->directoryPathLen] = '/';
-		memcpy(pcFileNameBuffer + pData->directoryPathLen + 1, a_pFileData->pFileName, (size_t)a_pExtraData->fileNameLen);
-		pcFileNameBuffer[pData->directoryPathLen+1+ ((size_t)a_pExtraData->fileNameLen)] = 0;
-		sopen_zlibandtls(&(pData->fd), pcFileNameBuffer, ZLIBWT_O_WRONLY | ZLIBWT_O_CREAT | ZLIBWT_O_BINARY, mode_fo_zlibandtls(a_pExtraData->mode));
-		if (pData->fd < 0) {
-			pData->hasError = 1;
-			return;
-		}
-	}
+    switch(fileType){
+    case ZlibWithToolsFileTypeDir:{
+        const size_t newStrLen = pData->directoryPathLen + 1 + ((size_t)a_pExtraData->fileNameLen);
+        char* directoryPathTmp = (char*)realloc(pData->directoryPath, newStrLen + 1);
+        if (!directoryPathTmp) {
+            pData->hasError = 1;
+            return;
+        }
+        pData->directoryPath = directoryPathTmp;
+        pData->directoryPath[pData->directoryPathLen] = '/';
+        memcpy(pData->directoryPath + pData->directoryPathLen + 1, a_pFileData->pFileName, (size_t)a_pExtraData->fileNameLen);
+        pData->directoryPath[newStrLen] = 0;
+        pData->directoryPathLen = newStrLen;
+        int nReturn = mkdir_zlibandtls(pData->directoryPath, a_pExtraData->mode);
+        if (nReturn) {
+            pData->hasError = 1;
+            return;
+        }
+    }break;
+    case ZlibWithToolsFileTypeSymLink:{
+        // todo:
+    }break;
+    default:{
+        char* pcFileNameBuffer = (char*)alloca_zlibandtls(pData->directoryPathLen + 4 + ((size_t)a_pExtraData->fileNameLen));
+        memcpy(pcFileNameBuffer, pData->directoryPath, pData->directoryPathLen);
+        pcFileNameBuffer[pData->directoryPathLen] = '/';
+        memcpy(pcFileNameBuffer + pData->directoryPathLen + 1, a_pFileData->pFileName, (size_t)a_pExtraData->fileNameLen);
+        pcFileNameBuffer[pData->directoryPathLen+1+ ((size_t)a_pExtraData->fileNameLen)] = 0;
+        sopen_zlibandtls(&(pData->fd), pcFileNameBuffer, ZLIBWT_O_WRONLY | ZLIBWT_O_CREAT | ZLIBWT_O_BINARY, mode_fo_zlibandtls(a_pExtraData->mode));
+        if (pData->fd < 0) {
+            pData->hasError = 1;
+            return;
+        }
+    }break;
+    }  //  switch(a_pFileData->fileType){
+
 }
 
 

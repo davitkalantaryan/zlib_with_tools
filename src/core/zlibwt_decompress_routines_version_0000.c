@@ -38,7 +38,8 @@ CPPUTILS_DLL_PRIVATE void ZlibWtDecompressCallbackStatData_version_0000(const vo
 	pSession->fileItem.mode = 0;
 	pSession->fileItem.contentType = ZLIBWT_DIR_CONTENT_SINGLE_BLOB;
 	pSession->fileData.deepness = 0;
-	pSession->fileData.isDir = 0;
+    pSession->fileData.fileType = 0;
+    pSession->fileData.reserved01 = 0;
 	pSession->fileData.pSystemData = CPPUTILS_NULL;
 
 	switch (pSession->header.used.typeOfCompressedContent) {
@@ -96,15 +97,18 @@ static void ZlibWtDecompressCallbackStatData_dir(const void* a_buffer, size_t a_
 			switch (pSession->fileItem.contentType) {
 			case ZLIBWT_DIR_CONTENT_DIR_START:
 				FileHeaderClosingStat(pSession);
-				pSession->fileData.isDir = 1;
+                //pSession->fileData.isDir = 1;
+                pSession->fileData.fileType = (uint32_t)ZlibWithToolsFileTypeDir;
 				//(*(pSession->clbks.dirFileStart))(&(pSession->fileData), &(pSession->fileItem), pSession->userData);
 				break;
 			case ZLIBWT_DIR_CONTENT_FILE:
 				FileHeaderClosingStat(pSession);
-				pSession->fileData.isDir = 0;
+                //pSession->fileData.isDir = 0;
+                pSession->fileData.fileType = (uint32_t)ZlibWithToolsFileTypeFile;
 				break;
 			case ZLIBWT_DIR_CONTENT_DIR_END:
-				pSession->fileData.isDir = 1;
+                //pSession->fileData.isDir = 1;
+                pSession->fileData.fileType = (uint32_t)ZlibWithToolsFileTypeDir;
 				(*(pSession->clbks.dr.dirEnd))(pSession->userData);
 				break;
 			default:
