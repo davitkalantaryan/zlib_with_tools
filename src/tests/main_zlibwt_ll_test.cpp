@@ -206,7 +206,7 @@ static void DecompressDirFileOrDirStartCallback(const DirIterFileData* a_pFileDa
 {
 	SDecompressData* pData = (SDecompressData*)a_userData;
 
-	if (a_pFileData->isDir) {
+	if ((enum ZlibWithToolsFileType)(a_pFileData->fileType) == ZlibWithToolsFileTypeDir) {
 		const size_t newStrLen = pData->directoryPathLen + 1 + ((size_t)a_pExtraData->fileNameLen);
 		char* directoryPathTmp = (char*)realloc(pData->directoryPath, newStrLen + 1);
 		if (!directoryPathTmp) {

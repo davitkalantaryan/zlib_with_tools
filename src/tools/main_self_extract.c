@@ -256,24 +256,24 @@ static int DirCompressFilterFunction(const char* a_dirFilePath, void* a_userData
 	CPPUTILS_STATIC_CAST(void, a_dirFilePath);
 
 	if (pCmprsData->ownFileNotFound) {
-		//if (!(a_data->isDir)) 
+		if ((enum ZlibWithToolsFileType)(a_data->fileType)!= ZlibWithToolsFileTypeDir)
 		{
 			if (strcmp(s_cpcExeName, a_data->pFileName) == 0) {
 				pCmprsData->ownFileNotFound = 0;
 				return 1;
 			}  //  if (strcmp(s_cpcExeName, a_data->pFileName) == 0) {
-		}  //  if (!(a_data->isDir)) {
+		}  //  if ((enum ZlibWithToolsFileType)(a_data->fileType) != ZlibWithToolsFileTypeDir)
 	}  //  if (pCmprsData->ownFileNotFound) {
 
 
 	if (pCmprsData->outFileNotFound) {
-		//if (!(a_data->isDir)) 
+        if ((enum ZlibWithToolsFileType)(a_data->fileType) != ZlibWithToolsFileTypeDir)
 		{
 			if (strcmp(pCmprsData->outFileName, a_data->pFileName) == 0) {
 				pCmprsData->outFileNotFound = 0;
 				return 1;
 			}  //  if (strcmp(pCmprsData->outFileName, a_data->pFileName) == 0) {
-		}  //  if (!(a_data->isDir)) {
+		}  //  if ((enum ZlibWithToolsFileType)(a_data->fileType) != ZlibWithToolsFileTypeDir)
 	}  //  if (pCmprsData->outFileNotFound) {
 
 	ZLIBWT_SE_DEBUG("filename: %s", a_data->pFileName);
@@ -292,7 +292,7 @@ static int DirIterFuncForRemovinDirectory(const char* a_sourceDirectory,void* a_
 {
     struct SDirIterData* pDt = (struct SDirIterData*)a_pUd;
 
-    if (a_pData->isDir) {
+    if ((enum ZlibWithToolsFileType)(a_data->fileType) == ZlibWithToolsFileTypeDir)
         struct SDirIterData aDt = {0};
         char  vcStrFilePath[4096];
         if (a_pData->pFileName[0] == '.') {
