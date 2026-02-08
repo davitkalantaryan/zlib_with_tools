@@ -238,10 +238,7 @@ static void DecompressDirFileOrDirStartCallback(const DirIterFileData* a_pFileDa
             return;
         }
     }break;
-    case ZlibWithToolsFileTypeSymLink:{
-        // todo:
-    }break;
-    default:{
+    case ZlibWithToolsFileTypeFile:{
         char* pcFileNameBuffer = (char*)alloca_zlibandtls(pData->directoryPathLen + 4 + ((size_t)a_pExtraData->fileNameLen));
         memcpy(pcFileNameBuffer, pData->directoryPath, pData->directoryPathLen);
         pcFileNameBuffer[pData->directoryPathLen] = '/';
@@ -253,6 +250,11 @@ static void DecompressDirFileOrDirStartCallback(const DirIterFileData* a_pFileDa
             return;
         }
     }break;
+    case ZlibWithToolsFileTypeSymLink:{
+        // todo:
+    }break;
+    default:
+        break;
     }  //  switch(a_pFileData->fileType){
 
 }

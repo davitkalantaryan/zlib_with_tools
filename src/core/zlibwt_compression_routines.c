@@ -400,6 +400,25 @@ static int ZlibWtFolderCompressDirIterCallbackStatic(const char* a_sourceDirecto
         aItem.contentType = ZLIBWT_DIR_CONTENT_DIR_END;
         ZlibWtCompressBufferToCallback(pUserData->pSession, 1, &aItem, sizeof(struct SFileItem));
     }break;
+    case ZlibWithToolsFileTypeFile:{
+        int nFileCompressReturn;
+        FILE* pFile = fopen_zlibandtls(vcStrFilePath, "rb");
+        if(!pFile){
+            pUserData->fl.b.hasError = 1;
+            return DIRITER_EXIT_ALL;
+        }
+        if (fstat(fileno_zlibandtls(pFile), &fStat)) {
+            fclose(pFile);
+            pUserData->fl.b.hasError = 1;
+            return DIRITER_EXIT_ALL;
+        }
+
+        nFileCompressReturn = CompressArbitraryBufferAsFileInline(
+            &aItem, pUserData, a_pFileData->pFileName, pFile, pUserData->pcBufferIn,
+            &CompressSingleFileFromFile, fileNameLen, fileNameLenNorm, (int)fStat.st_mode, (size_t)fStat.st_size, ZLIBWT_DEF_CHUNK_SIZE);
+        fclose(pFile);
+        return nFileCompressReturn;
+    }break;
     case ZlibWithToolsFileTypeSymLink:{
 
 #ifdef _WIN32
@@ -407,25 +426,8 @@ static int ZlibWtFolderCompressDirIterCallbackStatic(const char* a_sourceDirecto
 #endif
 
     }break;
-    default:{
-        int nFileCompressReturn;
-        FILE* pFile = fopen_zlibandtls(vcStrFilePath, "rb");
-        if(!pFile){
-                pUserData->fl.b.hasError = 1;
-                return DIRITER_EXIT_ALL;
-        }
-        if (fstat(fileno_zlibandtls(pFile), &fStat)) {
-                fclose(pFile);
-                pUserData->fl.b.hasError = 1;
-                return DIRITER_EXIT_ALL;
-        }
-
-        nFileCompressReturn = CompressArbitraryBufferAsFileInline(
-                &aItem, pUserData, a_pFileData->pFileName, pFile, pUserData->pcBufferIn,
-                &CompressSingleFileFromFile, fileNameLen, fileNameLenNorm, (int)fStat.st_mode, (size_t)fStat.st_size, ZLIBWT_DEF_CHUNK_SIZE);
-        fclose(pFile);
-        return nFileCompressReturn;
-    }break;
+    default:
+        break;
     }  //  switch(fileType){
 
     return 0;
