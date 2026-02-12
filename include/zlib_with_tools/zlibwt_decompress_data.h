@@ -41,7 +41,8 @@ struct SZlibWtDecompressDirCallbacks {
 	ZlibWtTypeDecompressDirFileAndBlobReadCallback	fileRead;
 	ZlibWtTypeDecompressDirFileOrDirEndCallback		fileEnd;
 	ZlibWtTypeDecompressDirFileOrDirEndCallback		dirEnd;
-	size_t											reserved01[3];
+    ZlibWtTypeDecompressDirFileAndBlobReadCallback	symLinkCreate;
+    size_t											reserved01[2];
 };
 
 

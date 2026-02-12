@@ -17,6 +17,10 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <assert.h>
+#ifdef _WIN32
+#else
+#include <unistd.h>
+#endif
 #include <cinternal/undisable_compiler_warnings.h>
 
 
@@ -35,6 +39,7 @@ static void DecompressDirFileOrDirStartCallback(const DirIterFileData* a_pFileDa
 static void DecompressDirFileReadCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
 static void DecompressDirFileEndCallback(void* a_userData);
 static void DecompressDirDirEndCallback(void* a_userData);
+static void SymLinkCreateCallback(const void* a_buffer, size_t a_bufLen, void* a_userData) CPPUTILS_NOEXCEPT;
 
 
 static inline size_t NextSizeToReadInline(size_t a_archiveSize, size_t a_fReadRetTotal) CPPUTILS_NOEXCEPT{
@@ -52,6 +57,7 @@ static inline size_t NextSizeToReadInline(size_t a_archiveSize, size_t a_fReadRe
 
 
 struct CPPUTILS_DLL_PRIVATE SDecompressData {
+    const struct SDirIterFileData*  pFileData;
 	FILE*							fpFileOut;
 	const char*						cpcFileOrFolderNameOut;
 	char*							directoryPath;
@@ -89,11 +95,13 @@ ZLIBANDTLS_EXPORT enum TypeOfCompressedContent ZlibWtDecompressFileOrDirEx(
 				&DecompressDirFileReadCallback,
 				&DecompressDirFileEndCallback,
 				&DecompressDirDirEndCallback,
-				{0,0,0}
+                &SymLinkCreateCallback,
+                {0,0}
 			}
 	};
 	struct SDecompressData aData = {
 		CPPUTILS_NULL,
+        CPPUTILS_NULL,
 		a_cpcOutDecompressedFileOrDir,
 		CPPUTILS_NULL,
 		0,
@@ -125,6 +133,8 @@ ZLIBANDTLS_EXPORT enum TypeOfCompressedContent ZlibWtDecompressFileOrDirEx(
 		ZLIBWT_ERROR_REPORT("Unable to create decompress session \n");
 		return CompressedContentNone;
 	}
+
+    aData.pFileData = &(pSession->fileData);
 
 	do {
         unSizeToRead = NextSizeToReadInline(a_archiveSize, fReadRetTotal);
@@ -250,9 +260,6 @@ static void DecompressDirFileOrDirStartCallback(const DirIterFileData* a_pFileDa
             return;
         }
     }break;
-    case ZlibWithToolsFileTypeSymLink:{
-        // todo:
-    }break;
     default:
         break;
     }  //  switch(a_pFileData->fileType){
@@ -260,9 +267,37 @@ static void DecompressDirFileOrDirStartCallback(const DirIterFileData* a_pFileDa
 }
 
 
+static void SymLinkCreateCallback(const void* a_buffer, size_t a_bufLen, void* a_userData) CPPUTILS_NOEXCEPT
+{
+
+#ifdef _WIN32
+
+    (void)a_buffer;
+    (void)a_bufLen;
+    (void)a_userData;
+
+#else
+
+    char vcCurDirBuff[1024];
+    struct SDecompressData* const pUserData = (struct SDecompressData*)a_userData;
+    const struct SDirIterFileData* const pFileData = pUserData->pFileData;
+    const char* const oldPath = (const char*)a_buffer;
+    (void)a_bufLen;
+    if(!getcwd(vcCurDirBuff,1023)){
+        return;
+    }
+    chdir(pUserData->directoryPath);
+    symlink(oldPath,pFileData->pFileName);
+    chdir(vcCurDirBuff);
+
+#endif
+
+}
+
+
 static void DecompressDirFileReadCallback(const void* a_buffer, size_t a_bufLen, void* a_userData)
 {
-	struct SDecompressData* pData = (struct SDecompressData*)a_userData;
+    struct SDecompressData* const pData = (struct SDecompressData*)a_userData;
     size_t unRet = (size_t)write_zlibandtls(pData->fd, a_buffer, a_bufLen);
     (void)unRet;
 }

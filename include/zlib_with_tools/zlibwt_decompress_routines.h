@@ -56,7 +56,10 @@ ZLIBANDTLS_EXPORT int ZlibWtDecompressBufferToCallback(
 ZLIBANDTLS_EXPORT void ZlibWtSetBufferForDecompressSession(
 	ZlibWtDecompressSessionPtr a_session,
 	void* a_bufferForDecompressedData,
-	size_t a_sizeForBufferForDecompressedData);
+    size_t a_sizeForBufferForDecompressedData);
+
+
+ZLIBANDTLS_EXPORT const struct SDirIterFileData* ZlibWtGetCurFileDataForSession(ZlibWtDecompressSessionPtr a_session) CPPUTILS_NOEXCEPT;
 
 
 CPPUTILS_END_C

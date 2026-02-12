@@ -64,27 +64,11 @@ static void ZlibWtDecompressCallbackStatHeader(const void* a_buffer, size_t a_bu
 }
 
 
-#ifdef __INTELLISENSE__
 
-typedef void (*ZlibWtTypeLLDecompressCallback)(const void* buffer, size_t bufLen, void* userData);
-
-typedef ZlibWtTypeLLDecompressCallback ZlibWtTypeDecompressFileAndBlobCallback;
-
-typedef ZlibWtTypeLLDecompressCallback ZlibWtTypeDecompressDirFileAndBlobReadCallback;
-typedef void (*ZlibWtTypeDecompressDirFileOrDirStartCallback)(const DirIterFileData* a_pFileData, const struct SFileItem* a_pExtraData, void* userData);
-typedef void (*ZlibWtTypeDecompressDirFileOrDirEndCallback)(void* userData);
-
-
-struct SZlibWtDecompressDirCallbacks {
-    ZlibWtTypeDecompressFileAndBlobCallback			singleBlobRead;
-    ZlibWtTypeDecompressDirFileOrDirStartCallback	dirDirOrFileStart;
-    ZlibWtTypeDecompressDirFileAndBlobReadCallback	dirFileRead;
-    ZlibWtTypeDecompressDirFileOrDirEndCallback		dirFileEnd;
-    ZlibWtTypeDecompressDirFileOrDirEndCallback		dirDirEnd;
-    size_t											reserved01[3];
-};
-
-#endif
+ZLIBANDTLS_EXPORT const struct SDirIterFileData* ZlibWtGetCurFileDataForSession(ZlibWtDecompressSessionPtr a_session) CPPUTILS_NOEXCEPT
+{
+    return &(a_session->fileData);
+}
 
 
 ZLIBANDTLS_EXPORT ZlibWtDecompressSessionPtr ZlibWtCreateDecompressSession(
