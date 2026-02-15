@@ -12,6 +12,7 @@
 #include <zlib_with_tools/utils/string_zlibandtls.h>
 #include <zlib_with_tools/utils/memory_zlibandtls.h>
 #include <private/zlib_with_tools/zlibwt_decompress_data.h>
+#include <cinternal/logger.h>
 #include <cinternal/disable_compiler_warnings.h>
 #include <stdlib.h>
 #include <stddef.h>
@@ -286,9 +287,15 @@ static void SymLinkCreateCallback(const void* a_buffer, size_t a_bufLen, void* a
     if(!getcwd(vcCurDirBuff,1023)){
         return;
     }
-    chdir(pUserData->directoryPath);
-    symlink(oldPath,pFileData->pFileName);
-    chdir(vcCurDirBuff);
+    if(chdir(pUserData->directoryPath)<0){
+        return;
+    }
+    if(symlink(oldPath,pFileData->pFileName)<0){
+        CInternalLogCritical("Unable to create symlink");
+    }
+    if(chdir(vcCurDirBuff)<0){
+        CInternalLogCritical("chdir failed");
+    }
 
 #endif
 
