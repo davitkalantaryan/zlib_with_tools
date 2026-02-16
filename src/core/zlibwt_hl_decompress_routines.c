@@ -166,6 +166,8 @@ static int OsCreateStatic(const char* a_path, int a_mode) CPPUTILS_NOEXCEPT
         break;
     }  //  switch(dwLastError){
 
+    (void)a_mode;
+
     return -1;
 }
 
