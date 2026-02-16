@@ -348,7 +348,7 @@ static void DecompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen,
 static void DecompressDirStartCallback(void* a_userData)
 {
 	struct SDecompressData* pData = (struct SDecompressData*)a_userData;
-	int nReturn = mkdir_zlibandtls(pData->cpcFileOrFolderNameOut, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+        int nReturn = mkdir_zlibandtls(pData->cpcFileOrFolderNameOut, mode_base_dir_zlibandtls);
 	if (nReturn) {
 		pData->hasError = 1;
 		return;

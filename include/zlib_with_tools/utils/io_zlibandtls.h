@@ -34,6 +34,7 @@
 #define close_zlibandtls								_close
 #define lseek_zlibandtls(_fd,_off,_org)                 _lseek(_fd,CPPUTILS_STATIC_CAST(long,_off),_org)
 #define mode_fo_zlibandtls(_mode)						((int)((_S_IREAD | _S_IWRITE)& (_mode)))
+#define mode_base_dir_zlibandtls                        (_S_IREAD | _S_IWRITE)
 #else
 #define ZLIBWT_O_WRONLY									O_WRONLY
 #define ZLIBWT_O_CREAT									O_CREAT
@@ -47,6 +48,7 @@
 #define close_zlibandtls								close
 #define lseek_zlibandtls(_fd,_off,_org)                 lseek(_fd,CPPUTILS_STATIC_CAST(off_t,_off),_org)
 #define mode_fo_zlibandtls(_mode)						((S_IRWXU | S_IRWXG | S_IRWXO)&(_mode))
+#define mode_base_dir_zlibandtls                        (S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH)
 #endif
 
 
