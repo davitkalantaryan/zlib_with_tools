@@ -18,7 +18,11 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <assert.h>
+#include <errno.h>
 #ifdef _WIN32
+#include <WinSock2.h>
+#include <Ws2tcpip.h>
+#include <Windows.h>
 #else
 #include <unistd.h>
 #endif
@@ -55,6 +59,138 @@ static inline size_t NextSizeToReadInline(size_t a_archiveSize, size_t a_fReadRe
     }  //  if (a_archiveSize > 0) {
     return ZLIBWT_DEF_CHUNK_SIZE;
 }
+
+
+#ifdef mkdir_zlibandtls
+#undef mkdir_zlibandtls
+#endif
+
+/*
+ * ret
+ *  0  -> ok (created)
+ *  1  -> directory exists
+ *  2  -> continue search
+ *  -1 -> error accured
+ */
+static int OsCreateStatic(const char* a_path, int a_mode) CPPUTILS_NOEXCEPT;
+
+
+static inline char* GetFileDelimeterInline(char* a_path) CPPUTILS_NOEXCEPT {
+    char* const pcTmp = strrchr(a_path,'/');
+    if(pcTmp){
+        return pcTmp;
+    }
+    return strrchr(a_path,'\\');
+}
+
+
+static inline int MkdirRecurseInlineRaw(char* a_path, int a_mode) CPPUTILS_NOEXCEPT {
+    char* pcTmp;
+    char* vIndexes[64];
+    int osCreate, makeLoop=1;
+    ptrdiff_t indexInIndexes;
+
+    osCreate = OsCreateStatic(a_path,a_mode);
+    switch(osCreate){
+    case -1: case 0: case 1:
+        return osCreate;
+    default:
+        break;
+    }  //  switch(osCreate){
+
+    indexInIndexes = 0;
+    pcTmp = GetFileDelimeterInline(a_path);
+    while(pcTmp && (indexInIndexes<62) && makeLoop){
+        vIndexes[indexInIndexes++] = pcTmp;
+        *pcTmp = 0;
+        osCreate = OsCreateStatic(a_path,a_mode);
+        switch(osCreate){
+        case -1:
+            return osCreate;
+        case 0: case 1:
+            makeLoop = 0;
+            break;
+        default:
+            pcTmp = GetFileDelimeterInline(a_path);
+            break;
+        }  //  switch(osCreate){
+    }  //  while(pcTmp){
+
+    if((makeLoop==0) && (indexInIndexes>0) && (indexInIndexes<62)){
+        ptrdiff_t i = indexInIndexes-1;
+        for(;i>=0;--i){
+            *(vIndexes[i])='/';
+            if (mkdir(a_path, a_mode) != 0){
+                // todo: maybe deleting directories created as parents?
+                return -1;
+            }  //  if (mkdir(a_path, a_mode) == 0){
+        }  //  for(;i>=0;--i){
+        return 0;
+    }  //  if(pcTmp && (indexInIndexes>0)){
+
+    return -1;
+
+}
+
+
+static inline int MkdirRecurseInline(const char* a_path, int a_mode) CPPUTILS_NOEXCEPT {
+    char* const pcPath = strdup(a_path);
+    if(pcPath){
+        const int cnRet = MkdirRecurseInlineRaw(pcPath,a_mode);
+        free(pcPath);
+        return cnRet;
+    }
+    errno = ENOMEM;
+    return -1;
+}
+
+
+#ifdef _WIN32
+
+
+static int OsCreateStatic(const char* a_path, int a_mode) CPPUTILS_NOEXCEPT
+{
+    DWORD dwLastError;
+    const BOOL bCrtRet = CreateDirectory(a_path,CPPUTILS_NULL);
+    if(bCrtRet){
+        return 0;
+    }
+
+    dwLastError = GetLastError();
+    switch(dwLastError){
+    case ERROR_ALREADY_EXISTS:
+        return 1;
+    case ERROR_PATH_NOT_FOUND:
+        return 2;
+    default:
+        break;
+    }  //  switch(dwLastError){
+
+    return -1;
+}
+
+
+#else   //  #ifdef _WIN32
+
+static int OsCreateStatic(const char* a_path, int a_mode) CPPUTILS_NOEXCEPT
+{
+    if (mkdir(a_path, a_mode) == 0){
+        return 0;
+    }  //  if (mkdir(a_path, a_mode) == 0){
+    else if (errno == EEXIST) {
+        struct stat st;
+        if (stat(a_path, &st) == 0 && S_ISDIR(st.st_mode)){
+            return 1;
+        }
+        errno = ENOTDIR;
+        return -1;
+    }
+    return 2;
+}
+
+#endif  //  #else   //  #ifdef _WIN32
+
+#define mkdir_zlibandtls    MkdirRecurseInline
 
 
 struct CPPUTILS_DLL_PRIVATE SDecompressData {
@@ -206,6 +342,7 @@ static void DecompressFileAndBlobCallback(const void* a_buffer, size_t a_bufLen,
 
 /*///////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
+
 static void DecompressDirStartCallback(void* a_userData)
 {
 	struct SDecompressData* pData = (struct SDecompressData*)a_userData;
@@ -321,7 +458,7 @@ static void DecompressDirDirEndCallback(void* a_userData)
 {
 	struct SDecompressData* pData = (struct SDecompressData*)a_userData;
 	size_t newStrLen;
-	char* cpcTerm = strrchr(pData->directoryPath, '/');
+    char* const cpcTerm = strrchr(pData->directoryPath, '/');
 	assert(cpcTerm);
 	newStrLen = (size_t)(cpcTerm - (pData->directoryPath));
 	*cpcTerm = 0;
