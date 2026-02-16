@@ -151,7 +151,7 @@ static inline int MkdirRecurseInline(const char* a_path, int a_mode) CPPUTILS_NO
 static int OsCreateStatic(const char* a_path, int a_mode) CPPUTILS_NOEXCEPT
 {
     DWORD dwLastError;
-    const BOOL bCrtRet = CreateDirectory(a_path,CPPUTILS_NULL);
+    const BOOL bCrtRet = CreateDirectoryA(a_path,CPPUTILS_NULL);
     if(bCrtRet){
         return 0;
     }
