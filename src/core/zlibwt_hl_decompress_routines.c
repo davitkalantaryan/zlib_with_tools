@@ -120,7 +120,7 @@ static inline int MkdirRecurseInlineRaw(char* a_path, int a_mode) CPPUTILS_NOEXC
         ptrdiff_t i = indexInIndexes-1;
         for(;i>=0;--i){
             *(vIndexes[i])='/';
-            if (mkdir(a_path, a_mode) != 0){
+            if (OsCreateStatic(a_path, a_mode) != 0){
                 // todo: maybe deleting directories created as parents?
                 return -1;
             }  //  if (mkdir(a_path, a_mode) == 0){
