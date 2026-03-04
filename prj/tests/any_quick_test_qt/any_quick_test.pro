@@ -34,7 +34,8 @@ SOURCES += $$files($${PWD}/../../../src/core/*.cpp,true)
 SOURCES += $$files($${directoryIteratorRepoRoot}/src/core/*.c,true)
 
 SOURCES	+=		\
-        "$${PWD}/../../../src/tests/main_any_quick_test.c"
+        "$${PWD}/../../../src/tests/main_any_quick_test.c" \
+	"$${cinternalRepoRoot}/src/core/cinternal_core_logger.c"
 
 HEADERS += $$files($${zlibWithToolsRepositoryRoot}/include/*.h,true)
 HEADERS += $$files($${zlibWithToolsRepositoryRoot}/include/*.hpp,true)

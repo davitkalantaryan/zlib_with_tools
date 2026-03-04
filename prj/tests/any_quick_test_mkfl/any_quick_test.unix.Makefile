@@ -16,6 +16,7 @@ CORE_SRCS_C	= $(shell find $(CORE_SRCS_DIR) -name "*.c")
 DIR_ITER_CORE_SRCS	= $(shell find $(DIR_ITER_CORE_SRCS_DIR) -name "*.c")
 
 SOURCES += $(zlibWithToolsRepositoryRoot)/src/tests/main_any_quick_test.c
+SOURCES += $(zlibWithToolsRepositoryRoot)/contrib/directory_iterator/contrib/cinternal/src/core/cinternal_core_logger.c
 
 LIBS += -pthread
 LIBS += -ldl
