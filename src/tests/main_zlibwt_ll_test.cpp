@@ -29,6 +29,7 @@ static void DecompressDirFileOrDirStartCallback(const DirIterFileData* a_pFileDa
 static void DecompressDirFileReadCallback(const void* a_buffer, size_t a_bufLen, void* a_userData);
 static void DecompressDirFileEndCallback(void* a_userData);
 static void DecompressDirDirEndCallback(void* a_userData);
+static void DecompressCallbackForSymLinksStatic(const void* a_buffer, size_t a_bufLen, void* a_userData) CPPUTILS_NOEXCEPT;
 
 struct SDecompressData {
 	FILE*		fpFileOut;
@@ -100,7 +101,8 @@ int main(int a_argc, char* a_argv[])
 				& DecompressDirFileReadCallback,
 				& DecompressDirFileEndCallback,
 				& DecompressDirDirEndCallback,
-				{0,0,0}
+                & DecompressCallbackForSymLinksStatic,
+				{0,0}
 			}
 		};
 		ZlibWtDecompressSessionPtr pSession = ZlibWtCreateDecompressSession(&clbks, &aData, vcBufferOut, 4096);
@@ -206,7 +208,7 @@ static void DecompressDirFileOrDirStartCallback(const DirIterFileData* a_pFileDa
 {
 	SDecompressData* pData = (SDecompressData*)a_userData;
 
-	if (a_pFileData->isDir) {
+	if ((enum ZlibWithToolsFileType)(a_pFileData->fileType) == ZlibWithToolsFileTypeDir) {
 		const size_t newStrLen = pData->directoryPathLen + 1 + ((size_t)a_pExtraData->fileNameLen);
 		char* directoryPathTmp = (char*)realloc(pData->directoryPath, newStrLen + 1);
 		if (!directoryPathTmp) {
@@ -261,4 +263,12 @@ static void DecompressDirDirEndCallback(void* a_userData)
 	const size_t newStrLen = (size_t)(cpcTerm-(pData->directoryPath));
 	*cpcTerm = 0;
 	pData->directoryPathLen = newStrLen;
+}
+
+
+static void DecompressCallbackForSymLinksStatic(const void* a_buffer, size_t a_bufLen, void* a_userData) CPPUTILS_NOEXCEPT
+{
+    CPPUTILS_STATIC_CAST(void, a_buffer);
+    CPPUTILS_STATIC_CAST(void, a_bufLen);
+    CPPUTILS_STATIC_CAST(void, a_userData);
 }

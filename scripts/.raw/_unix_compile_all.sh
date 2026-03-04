@@ -46,20 +46,8 @@ fi
 
 #source ${repositoryRoot}/ENVIRONMENT
 
-if [[ "$(uname)" == "Darwin" ]]; then
-    lsbCode=mac
-    qtTarget=macos
-elif [[ "$(uname -s)" == Linux* ]]; then
-    source /etc/os-release
-    if [ -n "$VERSION_CODENAME" ]; then
-        lsbCode="$VERSION_CODENAME"
-    elif echo "$ID_LIKE" | grep -qE 'rhel|fedora|centos'; then
-        lsbCode="el$(echo "$VERSION_ID" | cut -d. -f1)"
-    else
-        lsbCode="$(echo "$ID-$VERSION_ID" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')"
-    fi
-    qtTarget=gcc_64
-fi
+source ${repositoryRoot}/contrib/directory_iterator/contrib/cinternal/scripts/unix_source_per_session.sh \
+  ${repositoryRoot}/contrib/directory_iterator/contrib/cinternal/scripts/unix_source_per_session.sh 1
 
 echo "lsbCode=${lsbCode}"
 echo "qtTarget=${qtTarget}"

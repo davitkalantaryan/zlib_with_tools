@@ -13,3 +13,15 @@ include ($${zlibWithToolsRepositoryRoot}/ENVIRONMENT)
 
 CONFIG -= dll
 CONFIG += staticlib
+
+win32{
+    QMAKE_CXXFLAGS_RELEASE -= -MD
+    QMAKE_CFLAGS_RELEASE   -= -MD
+    QMAKE_CXXFLAGS_RELEASE += -MT
+    QMAKE_CFLAGS_RELEASE   += -MT
+
+    QMAKE_CXXFLAGS_DEBUG -= -MDd
+    QMAKE_CFLAGS_DEBUG   -= -MDd
+    QMAKE_CXXFLAGS_DEBUG += -MTd
+    QMAKE_CFLAGS_DEBUG   += -MTd
+}

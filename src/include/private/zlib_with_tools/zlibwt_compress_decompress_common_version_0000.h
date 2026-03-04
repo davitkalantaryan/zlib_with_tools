@@ -11,10 +11,11 @@
 #include <zlib_with_tools/export_symbols.h>
 
 
-#define ZLIBWT_DIR_CONTENT_FILE         0 
+#define ZLIBWT_DIR_CONTENT_FILE         0
 #define ZLIBWT_DIR_CONTENT_DIR_START    1
 #define ZLIBWT_DIR_CONTENT_DIR_END      2
 #define ZLIBWT_DIR_CONTENT_SINGLE_BLOB  3
+#define ZLIBWT_DIR_CONTENT_SYM_LINK     4
 
 CPPUTILS_BEGIN_C
 
