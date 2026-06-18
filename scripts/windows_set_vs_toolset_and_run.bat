@@ -17,12 +17,10 @@ set "repositoryRoot=%cd%\"
 
 echo "repositoryRoot is %repositoryRoot%"
 
-set "PlatformToolsetVarMid=%VCToolsVersion:~0,2%"
-set "PlatformToolsetVarEnd=%VCToolsVersion:~3,1%"
-set "PlatformToolsetVar=v%PlatformToolsetVarMid%%PlatformToolsetVarEnd%"
+call "%scriptDirectory%windows_source_per_session.bat"
 echo PlatformToolsetVar=%PlatformToolsetVar%
 
 
-devenv workspaces\system_all_vs\system_all.sln
+devenv workspaces\zlib_with_tools_all_vs\zlib_with_tools_all.sln
 
 endlocal
